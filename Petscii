@@ -1,5 +1,14 @@
 PETSCII for Horizontal LINE #96/$60
-PETSCII for Vertical Line #98/$62
+PETSCII for Vertical Line #125/$7D
+PETSCII for MidInter  #123/$7B
+PETSCII for LefInter #171/$AB
+PETSCII for BotInter #177/$B1
+PETSCII for RigInter #179/$B3
+PETSCII for TopInter #178/$B2
+PETSCII for TLcorn #176/$B0
+PETSCII for TRcorn #174/$AE
+PETSCII for BLcorn #173/$AD
+PETSCII for BRcorn #189/$BD
 
 12 columns on each side
 7 Rows top/bottom
