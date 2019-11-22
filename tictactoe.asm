@@ -102,41 +102,235 @@ BRcorner=189
 ;Initialise gameboard
 	
 	lda	#$01
-	sta	COLPORT
+	sta	COLPORT					;Change color to black background
 	
 	ldx	#8
 	ldy	#13
 	jsr	GoXY					;Place cursor top left corner
 	
 	lda	#TLcorner				;Call PETSCII char
-	ldx	#1						;Number of times to print char
-	jsr	HLine					;Print
+	jsr	CHROUT					;Print
 	
 	lda	#GHLine
 	ldx	#3
 	jsr	HLine
 	
 	lda	#TopInter
-	ldx	#1
-	jsr	HLine
+	jsr	CHROUT
 	
 	lda	#GHLine
 	ldx	#3
 	jsr	HLine
 	
 	lda	#TopInter
-	ldx	#1
-	jsr	HLine
+	jsr	CHROUT
 	
 	lda	#GHLine
 	ldx	#3
 	jsr	HLine
 	
 	lda	#TRcorner
-	ldx	#1
-	jsr	HLine					;Done make top line of Gameboard
+	jsr	CHROUT					;Done make top line of Gameboard
 	
-	rts						;Main program should always return nicely to BASIC with rts
+	ldx	#9
+	ldy	#13
+	jsr	GoXY					;Next line for first vertical line snippet
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#LefInter
+	jsr	CHROUT
+	
+	ldx	#13
+	ldy	#13
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#LefInter
+	jsr	CHROUT
+	
+	ldx	#17
+	ldy	#13
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#BLcorner
+	jsr	CHROUT
+	
+	ldx	#9
+	ldy	#17
+	jsr	GoXY					;Next line for first vertical line snippet
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#MidInter
+	jsr	CHROUT
+	
+	ldx	#13
+	ldy	#17
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#MidInter
+	jsr	CHROUT
+	
+	ldx	#17
+	ldy	#17
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#BotInter
+	jsr	CHROUT
+	
+	ldx	#9
+	ldy	#21
+	jsr	GoXY					;Next line for first vertical line snippet
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#MidInter
+	jsr	CHROUT
+	
+	ldx	#13
+	ldy	#21
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#MidInter
+	jsr	CHROUT
+	
+	ldx	#17
+	ldy	#21
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#BotInter
+	jsr	CHROUT
+	
+	ldx	#9
+	ldy	#25
+	jsr	GoXY					;Next line for first vertical line snippet
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#RigInter
+	jsr	CHROUT
+	
+	ldx	#13
+	ldy	#25
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#RigInter
+	jsr	CHROUT
+	
+	ldx	#17
+	ldy	#25
+	jsr	GoXY
+	
+	lda	#GVLine
+	ldx	#3
+	jsr	VLine
+	
+	lda	#BRcorner
+	jsr	CHROUT
+	
+	ldx	#12
+	ldy	#14
+	jsr	GoXY					;make ready for 2nd horizontal line
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	#29
+	jsr	CHROUT					;move cursor right
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	#29
+	jsr	CHROUT					;move cursor right
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	ldx	#16
+	ldy	#14
+	jsr	GoXY					;make ready for 3rd horizontal line
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	#29
+	jsr	CHROUT					;move cursor right
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	#29
+	jsr	CHROUT					;move cursor right
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	ldx	#20
+	ldy	#14
+	jsr	GoXY					;make ready for bottom horizontal line
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	#29
+	jsr	CHROUT					;move cursor right
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	#29
+	jsr	CHROUT					;move cursor right
+	
+	lda	#GHLine
+	ldx	#3
+	jsr	HLine
+	
+	rts							;Main program should always return nicely to BASIC with rts
 	
 ;Make cursor placement sub
 GoXY:
