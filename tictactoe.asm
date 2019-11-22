@@ -24,7 +24,19 @@ COLPORT=$0286
 TMP0=$00
 TMP1=$01
 TMP2=$02
+;PETDraw Chars
 Space=" "
+GHLine=#96
+GVLine=#125
+MidInter=#123
+LefInter=#171
+BotInter=#177
+RigInter=#179
+TopInter=#178
+TLcorner=#176
+TRcorner=#174
+BLcorner=#173
+BRcorner=#189
 
 ;Initialise screen
 	lda $02AE
@@ -87,6 +99,39 @@ Space=" "
 	ldx	#26
 	jsr	VLine					;Draw vertical
 	
+;Initialise gameboard
+	
+	ldx	#12
+	ldy	#7
+	jsr	GoXY					;Place cursor top left corner
+	
+	lda	TLcorner				;Call PETSCII char
+	ldx	#1					;Number of times to print char
+	jsr	HLine					;Print
+	
+	lda	GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	TopInter
+	ldx	#1
+	jsr	HLine
+	
+	lda	GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	TopInter
+	ldx	#1
+	jsr	HLine
+	
+	lda	GHLine
+	ldx	#3
+	jsr	HLine
+	
+	lda	TRcorner
+	ldx	#1
+	jsr	HLine					;Done make top line of Gameboard
 	rts						;Main program should always return nicely to BASIC with rts
 	
 ;Make cursor placement sub
