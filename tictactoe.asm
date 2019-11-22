@@ -87,6 +87,7 @@ Space=" "
 	ldx	#26
 	jsr	VLine					;Draw vertical
 	
+	rts						;Main program should always return nicely to BASIC with rts
 	
 ;Make cursor placement sub
 GoXY:
