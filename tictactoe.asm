@@ -109,7 +109,7 @@ BRcorner=189
 	jsr	GoXY					;Place cursor top left corner
 	
 	lda	#TLcorner				;Call PETSCII char
-	ldx	#1					;Number of times to print char
+	ldx	#1						;Number of times to print char
 	jsr	HLine					;Print
 	
 	lda	#GHLine
