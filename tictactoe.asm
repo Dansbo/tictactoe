@@ -26,17 +26,17 @@ TMP1=$01
 TMP2=$02
 ;PETDraw Chars
 Space=" "
-GHLine=#96
-GVLine=#125
-MidInter=#123
-LefInter=#171
-BotInter=#177
-RigInter=#179
-TopInter=#178
-TLcorner=#176
-TRcorner=#174
-BLcorner=#173
-BRcorner=#189
+GHLine=96
+GVLine=125
+MidInter=123
+LefInter=171
+BotInter=177
+RigInter=179
+TopInter=178
+TLcorner=176
+TRcorner=174
+BLcorner=173
+BRcorner=189
 
 ;Initialise screen
 	lda $02AE
@@ -101,37 +101,41 @@ BRcorner=#189
 	
 ;Initialise gameboard
 	
-	ldx	#12
-	ldy	#7
+	lda	#$01
+	sta	COLPORT
+	
+	ldx	#8
+	ldy	#13
 	jsr	GoXY					;Place cursor top left corner
 	
-	lda	TLcorner				;Call PETSCII char
+	lda	#TLcorner				;Call PETSCII char
 	ldx	#1					;Number of times to print char
 	jsr	HLine					;Print
 	
-	lda	GHLine
+	lda	#GHLine
 	ldx	#3
 	jsr	HLine
 	
-	lda	TopInter
+	lda	#TopInter
 	ldx	#1
 	jsr	HLine
 	
-	lda	GHLine
+	lda	#GHLine
 	ldx	#3
 	jsr	HLine
 	
-	lda	TopInter
+	lda	#TopInter
 	ldx	#1
 	jsr	HLine
 	
-	lda	GHLine
+	lda	#GHLine
 	ldx	#3
 	jsr	HLine
 	
-	lda	TRcorner
+	lda	#TRcorner
 	ldx	#1
 	jsr	HLine					;Done make top line of Gameboard
+	
 	rts						;Main program should always return nicely to BASIC with rts
 	
 ;Make cursor placement sub
