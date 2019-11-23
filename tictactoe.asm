@@ -1,17 +1,17 @@
-*=$0801								; Assembled code should start at $0801
-											; (where BASIC programs start)
-											; The real program starts at $0810 = 2064
+*=$0801					; Assembled code should start at $0801
+					; (where BASIC programs start)
+					; The real program starts at $0810 = 2064
 	!byte 	$0C,$08			; $080C - pointer to next line of BASIC code
 	!byte 	$0A,$00			; 2-byte line number ($000A = 10)
-	!byte 	$9E					; SYS BASIC token
-	!byte 	$20					; [space]
+	!byte 	$9E			; SYS BASIC token
+	!byte 	$20			; [space]
 	!byte 	$32,$30,$36,$34	; $32="2",$30="0",$36="6",$34="4"
-											; (ASCII encoded nums for dec starting addr)
-	!byte 	$00					; End of Line
+					; (ASCII encoded nums for dec starting addr)
+	!byte 	$00			; End of Line
 	!byte 	$00,$00			; This is address $080C containing
-											; 2-byte pointer to next line of BASIC code
-											; ($0000 = end of program)
-*=$0810								; Here starts the real program
+					; 2-byte pointer to next line of BASIC code
+					; ($0000 = end of program)
+*=$0810					; Here starts the real program
 
 ;Define constants
 
@@ -310,7 +310,7 @@ BRcorner=189
 
 	ldx	#20
 	ldy	#14
-	jsr	GoXY						;make ready for bottom horizontal line
+	jsr	GoXY					;make ready for bottom horizontal line
 
 	lda	#GHLine
 	ldx	#3
@@ -330,7 +330,7 @@ BRcorner=189
 	ldx	#3
 	jsr	HLine
 
-	rts									;Main program should always return nicely to BASIC with rts
+	rts						;Main program should always return nicely to BASIC with rts
 
 ;Make cursor placement sub
 GoXY:
