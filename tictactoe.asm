@@ -99,236 +99,95 @@ BRcorner=189
 	ldx	#26
 	jsr	VLine					;Draw vertical
 
-;Initialise gameboard
+	;Initialise gameboard
 
-	lda	#$01
-	sta	COLPORT					;Change color to black background
+		lda	#$01
+		sta	COLPORT					;Change color to black background
 
-	ldx	#8
-	ldy	#13
-	jsr	GoXY					;Place cursor top left corner
+		ldx	#8
+		ldy	#13
+		jsr	GoXY					;Place cursor top left corner
+		ldx	#<.maze1				;Print top line of game board
+		ldy	#>.maze1
+		jsr	PrintStr
 
-	lda	#TLcorner				;Call PETSCII char
-	jsr	CHROUT					;Print
+		ldx	#9					;Print the next 3 lines of gameboard
+		ldy	#13					; |   |   |   |
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
+		ldx	#10
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
+		ldx	#11
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
 
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
+		ldx	#12					;Print 1st middle intersection
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze3
+		ldy	#>.maze3
+		jsr	PrintStr
 
-	lda	#TopInter
-	jsr	CHROUT
+		ldx	#13					;Print the next 3 lines of gameboard
+		ldy	#13					; |   |   |   |
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
+		ldx	#14
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
+		ldx	#15
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
 
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
+		ldx	#16					;Print 2nd middle intersection
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze3
+		ldy	#>.maze3
+		jsr	PrintStr
 
-	lda	#TopInter
-	jsr	CHROUT
+		ldx	#17					;Print the next 3 lines of gameboard
+		ldy	#13					; |   |   |   |
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
+		ldx	#18
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
+		ldx	#19
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze2
+		ldy	#>.maze2
+		jsr	PrintStr
 
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#TRcorner
-	jsr	CHROUT					;Done make top line of Gameboard
-
-	ldx	#9
-	ldy	#13
-	jsr	GoXY					;Next line for first vertical line snippet
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#LefInter
-	jsr	CHROUT
-
-	ldx	#13
-	ldy	#13
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#LefInter
-	jsr	CHROUT
-
-	ldx	#17
-	ldy	#13
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#BLcorner
-	jsr	CHROUT
-
-	ldx	#9
-	ldy	#17
-	jsr	GoXY					;Next line for first vertical line snippet
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#MidInter
-	jsr	CHROUT
-
-	ldx	#13
-	ldy	#17
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#MidInter
-	jsr	CHROUT
-
-	ldx	#17
-	ldy	#17
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#BotInter
-	jsr	CHROUT
-
-	ldx	#9
-	ldy	#21
-	jsr	GoXY					;Next line for first vertical line snippet
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#MidInter
-	jsr	CHROUT
-
-	ldx	#13
-	ldy	#21
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#MidInter
-	jsr	CHROUT
-
-	ldx	#17
-	ldy	#21
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#BotInter
-	jsr	CHROUT
-
-	ldx	#9
-	ldy	#25
-	jsr	GoXY					;Next line for first vertical line snippet
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#RigInter
-	jsr	CHROUT
-
-	ldx	#13
-	ldy	#25
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#RigInter
-	jsr	CHROUT
-
-	ldx	#17
-	ldy	#25
-	jsr	GoXY
-
-	lda	#GVLine
-	ldx	#3
-	jsr	VLine
-
-	lda	#BRcorner
-	jsr	CHROUT
-
-	ldx	#12
-	ldy	#14
-	jsr	GoXY					;make ready for 2nd horizontal line
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#29
-	jsr	CHROUT					;move cursor right
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#29
-	jsr	CHROUT					;move cursor right
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	ldx	#16
-	ldy	#14
-	jsr	GoXY					;make ready for 3rd horizontal line
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#29
-	jsr	CHROUT					;move cursor right
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#29
-	jsr	CHROUT					;move cursor right
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	ldx	#20
-	ldy	#14
-	jsr	GoXY					;make ready for bottom horizontal line
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#29
-	jsr	CHROUT					;move cursor right
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
-
-	lda	#29
-	jsr	CHROUT					;move cursor right
-
-	lda	#GHLine
-	ldx	#3
-	jsr	HLine
+		ldx	#20					;Print bottom line of gameboard
+		ldy	#13
+		jsr	GoXY
+		ldx	#<.maze4
+		ldy	#>.maze4
+		jsr	PrintStr
 
 	rts						;Main program should always return nicely to BASIC with rts
 
@@ -381,3 +240,19 @@ PrintStr:
 
 
 .title !pet "tictactoe",0
+
+; Top line of the game board
+
+.maze1	!pet	176,96,96,96,178,96,96,96,178,96,96,96,174,0
+
+; A line on gameboard with vertical lines and spaces    |   |   |   |
+
+.maze2	!pet	125,"   ",125,"   ",125,"   ",125,0
+
+; A line in gameboard with horizontal lines and crosses |---|---|---|
+
+.maze3	!pet	171,96,96,96,123,96,96,96,123,96,96,96,179,0
+
+; Bottom line of the game board
+
+.maze4	!pet	173,96,96,96,177,96,96,96,177,96,96,96,189,0
