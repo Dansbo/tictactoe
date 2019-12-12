@@ -198,8 +198,8 @@ Oses=119
 	stx TMP3
 
 Gameloop:
-		ldx #TMP3
-		cpx #0
+		ldx TMP3
+		cmp #0
 		beq .endgl
 		jsr GETIN								;Wait for user to press key
 
@@ -340,7 +340,7 @@ tile9:
 		rts
 
 cnt:
-		ldx #TMP3
+		ldx TMP3
 		dex
 		stx TMP3
 		rts
