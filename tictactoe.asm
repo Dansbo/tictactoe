@@ -99,98 +99,97 @@ BRcorner=189
 	lda	#Space
 	ldx	#26
 	jsr	VLine					;Draw vertical
+;Initialise gameboard
 
-	;Initialise gameboard
+	lda	#$01
+	sta	COLPORT					;Change color to black background
 
-		lda	#$01
-		sta	COLPORT					;Change color to black background
+	ldx	#8
+	ldy	#13
+	jsr	GoXY					;Place cursor top left corner
+	ldx	#<.maze1				;Print top line of game board
+	ldy	#>.maze1
+	jsr	PrintStr
+	
+	ldx	#9					;Print the next 3 lines of gameboard
+	ldy	#13					; |   |   |   |
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
+	ldx	#10
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
+	ldx	#11
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
 
-		ldx	#8
-		ldy	#13
-		jsr	GoXY					;Place cursor top left corner
-		ldx	#<.maze1				;Print top line of game board
-		ldy	#>.maze1
-		jsr	PrintStr
+	ldx	#12					;Print 1st middle intersection
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze3
+	ldy	#>.maze3
+	jsr	PrintStr
 
-		ldx	#9					;Print the next 3 lines of gameboard
-		ldy	#13					; |   |   |   |
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-		ldx	#10
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-		ldx	#11
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
+	ldx	#13					;Print the next 3 lines of gameboard
+	ldy	#13					; |   |   |   |
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
+	ldx	#14
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
+	ldx	#15
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
 
-		ldx	#12					;Print 1st middle intersection
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze3
-		ldy	#>.maze3
-		jsr	PrintStr
+	ldx	#16					;Print 2nd middle intersection
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze3
+	ldy	#>.maze3
+	jsr	PrintStr
 
-		ldx	#13					;Print the next 3 lines of gameboard
-		ldy	#13					; |   |   |   |
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-		ldx	#14
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-		ldx	#15
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
+	ldx	#17					;Print the next 3 lines of gameboard
+	ldy	#13					; |   |   |   |
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
+	ldx	#18
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
+	ldx	#19
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze2
+	ldy	#>.maze2
+	jsr	PrintStr
 
-		ldx	#16					;Print 2nd middle intersection
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze3
-		ldy	#>.maze3
-		jsr	PrintStr
+	ldx	#20					;Print bottom line of gameboard
+	ldy	#13
+	jsr	GoXY
+	ldx	#<.maze4
+	ldy	#>.maze4
+	jsr	PrintStr
 
-		ldx	#17					;Print the next 3 lines of gameboard
-		ldy	#13					; |   |   |   |
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-		ldx	#18
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-		ldx	#19
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze2
-		ldy	#>.maze2
-		jsr	PrintStr
-
-		ldx	#20					;Print bottom line of gameboard
-		ldy	#13
-		jsr	GoXY
-		ldx	#<.maze4
-		ldy	#>.maze4
-		jsr	PrintStr
-
-	rts						;Main program should always return nicely to BASIC with rts
+rts						;Main program should always return nicely to BASIC with rts
 
 ;Make cursor placement sub
 GoXY:
