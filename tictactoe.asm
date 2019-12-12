@@ -419,4 +419,4 @@ PrintStr:
 .maze4	!pet	173,96,96,96,177,96,96,96,177,96,96,96,189,0
 
 ;Nine possible moves
-.count !byte 8
+.count !byte 9
