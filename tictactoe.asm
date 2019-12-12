@@ -206,6 +206,9 @@ Gameloop:
 		jsr tile5
 		lda #Xses
 		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
 
 .is1:
 		cmp #49
@@ -213,6 +216,9 @@ Gameloop:
 		jsr tile1
 		lda #Xses
 		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
 
 .is3:
 		cmp #51
@@ -220,41 +226,9 @@ Gameloop:
 		jsr tile3
 		lda #Xses
 		jsr CHROUT
-
-.is9:
-		cmp #57
-		bne .is7
-		jsr tile9
-		lda #Xses
-		jsr CHROUT
-
-.is7:
-		cmp #55
-		bne .is4
-		jsr tile7
-		lda #Xses
-		jsr CHROUT
-
-.is4:
-		cmp #52
-		bne .is2
-		jsr tile4
-		lda #Xses
-		jsr CHROUT
-
-.is2:
-		cmp #50
-		bne .is6
-		jsr tile2
-		lda #Xses
-		jsr CHROUT
-
-.is6:
-		cmp #54
-		bne .is8
-		jsr tile6
-		lda #Xses
-		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
 
 .is8:
 		cmp #56
@@ -262,10 +236,63 @@ Gameloop:
 		jsr tile8
 		lda #Xses
 		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
 		jsr Gameloop
+
+.is9:
+		cmp #57
+		bne .is7
+		jsr tile9
+		lda #Xses
+		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
+
+.is7:
+		cmp #55
+		bne .is4
+		jsr tile7
+		lda #Xses
+		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
 
 .endgl:
 		rts
+
+.is4:
+		cmp #52
+		bne .is2
+		jsr tile4
+		lda #Xses
+		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
+
+.is2:
+		cmp #50
+		bne .is6
+		jsr tile2
+		lda #Xses
+		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
+
+.is6:
+		cmp #54
+		bne .is8
+		jsr tile6
+		lda #Xses
+		jsr CHROUT
+		dec .count
+		bne +
+		jmp .endgl
 
 	rts												;End of program
 
@@ -388,3 +415,6 @@ PrintStr:
 ; Bottom line of the game board
 
 .maze4	!pet	173,96,96,96,177,96,96,96,177,96,96,96,189,0
+
+;Nine possible moves
+.count !byte 8
