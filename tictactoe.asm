@@ -434,4 +434,13 @@ PrintStr:
 
 ;Nine possible moves
 .count !byte 9
+
+;Where are X pieces placed?
+.X_places !byte 0.0.0.0.0.0.0.0.0
+
+;Where are Y pieces placed?
+.Y_places !byte 0,0,0,0,0,0,0,0,0
+
+;Empty placeholders?
+.Empty_places !byte 0,0,0,0,0,0,0,0,0
 }
