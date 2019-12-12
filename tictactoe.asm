@@ -262,6 +262,7 @@ Gameloop:
 		jsr tile8
 		lda #Xses
 		jsr CHROUT
+		jsr Gameloop
 
 .endgl:
 		rts
@@ -387,4 +388,3 @@ PrintStr:
 ; Bottom line of the game board
 
 .maze4	!pet	173,96,96,96,177,96,96,96,177,96,96,96,189,0
->>>>>>> Stashed changes
