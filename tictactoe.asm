@@ -24,6 +24,7 @@ COLPORT=$0286
 TMP0=$00
 TMP1=$01
 TMP2=$02
+TMP3=$03
 ;PETDraw Chars
 Space=" "
 GHLine=96
@@ -193,7 +194,13 @@ Oses=119
 	ldy	#>.maze4
 	jsr	PrintStr
 
+	ldx #$08
+	stx TMP3
+
 Gameloop:
+		ldx TMP3
+		cmp #$1
+		beq .endgl
 		jsr GETIN								;Wait for user to press key
 
 		cmp #'Q'								;Q for quit
@@ -206,6 +213,7 @@ Gameloop:
 		jsr tile5
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is1:
 		cmp #49
@@ -213,6 +221,7 @@ Gameloop:
 		jsr tile1
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is3:
 		cmp #51
@@ -220,6 +229,7 @@ Gameloop:
 		jsr tile3
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is9:
 		cmp #57
@@ -227,6 +237,7 @@ Gameloop:
 		jsr tile9
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is7:
 		cmp #55
@@ -234,6 +245,7 @@ Gameloop:
 		jsr tile7
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is4:
 		cmp #52
@@ -241,6 +253,7 @@ Gameloop:
 		jsr tile4
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is2:
 		cmp #50
@@ -248,6 +261,7 @@ Gameloop:
 		jsr tile2
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is6:
 		cmp #54
@@ -255,13 +269,15 @@ Gameloop:
 		jsr tile6
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
 
 .is8:
 		cmp #56
-		bne Gameloop						;if not 8 goto gameloop
-		jsr tile8
+		beq tile8						;if not 8 goto gameloop
 		lda #Xses
 		jsr CHROUT
+		jsr cnt
+		jmp Gameloop
 
 .endgl:
 		rts
@@ -320,6 +336,12 @@ tile9:
 		ldx #18
 		ldy #23
 		jsr GoXY
+		rts
+
+cnt:
+		ldx TMP3
+		dex
+		stx TMP3
 		rts
 
 														;Make cursor placement sub
@@ -387,4 +409,18 @@ PrintStr:
 ; Bottom line of the game board
 
 .maze4	!pet	173,96,96,96,177,96,96,96,177,96,96,96,189,0
->>>>>>> Stashed changes
+
+; Store X placement
+
+.boardx !byte	0,0,0,0,0,0,0,0,0
+
+; Store O placement
+.boardo !byte 0,0,0,0,0,0,0,0,0
+
+; Tile occupied?
+
+.tile_taken !byte 0,0,0,0,0,0,0,0,0
+
+; move number decrements
+
+.move !byte 9
