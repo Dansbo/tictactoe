@@ -207,31 +207,36 @@ resetcounter:
 	sta .count
 	rts
 
+turn:
+	lda .count
+	and #1
+	bne
+
 Gameloop:
 
 		jsr GETIN 							;Wait for user to press key
 
 		cmp #'Q'								;Q for quit
-		bne .is5
+		bne .is5								;If Q is not pressed check 5
 		jmp .endgl
 
 .is5:
-		cmp #53									;if 5 is pressed place piece
-		bne .is1
-		jsr tile5
+		cmp #53									;Is number 5 pressed
+		bne .is1								;if not check for 1
+		jsr tile5								;place cursor
 		lda #Xses
-		jsr CHROUT
-		dec .count
-		bne .is1
+		jsr CHROUT							;Place piece
+		dec .count							;decrease number of possible turns
+		bne .is1								;if not 0 then check for 1
 		jmp .endgl
 
 .is1:
-		cmp #49
-		bne .is3
-		jsr tile1
+		cmp #49									;Is number 1 pressed?
+		bne .is3								;If not check for 3
+		jsr tile1								;place cursor
 		lda #Xses
-		jsr CHROUT
-		dec .count
+		jsr CHROUT							;place piece
+		dec .count							;decrease number of possible turns
 		bne .is3
 		jmp .endgl
 
@@ -303,9 +308,9 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
-		jmp .endgl
-+		jmp Gameloop
+		bne +										;if number of possible turns is 0
+		jmp .endgl							;end game
++		jmp Gameloop						;else re do loop
 
 
 .endgl:
