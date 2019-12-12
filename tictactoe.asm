@@ -194,12 +194,12 @@ Oses=119
 	ldy	#>.maze4
 	jsr	PrintStr
 
-	ldx #$08
+	ldx #8
 	stx TMP3
 
 Gameloop:
 		ldx TMP3
-		cmp #$1
+		cmp #0
 		beq .endgl
 		jsr GETIN								;Wait for user to press key
 
@@ -215,6 +215,8 @@ Gameloop:
 		jsr CHROUT
 		jsr cnt
 
+.endgl:
+		rts
 .is1:
 		cmp #49
 		bne .is3
@@ -279,8 +281,7 @@ Gameloop:
 		jsr cnt
 		jmp Gameloop
 
-.endgl:
-		rts
+
 
 	rts												;End of program
 
