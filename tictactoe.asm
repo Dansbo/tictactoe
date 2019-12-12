@@ -237,7 +237,7 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is7
 		jmp .endgl
 
 .is7:
@@ -249,9 +249,6 @@ Gameloop:
 		dec .count
 		bne .is4
 		jmp .endgl
-
-.endgl:
-		rts
 
 .is4:
 		cmp #52
@@ -285,14 +282,19 @@ Gameloop:
 
 .is8:
 		cmp #56
-		bne Gameloop						;if not 8 goto gameloop
-		jsr tile8
+		beq +
+		jmp Gameloop						;if not 8 goto gameloop
++		jsr tile8
 		lda #Xses
 		jsr CHROUT
 		dec .count
 		bne +
 		jmp .endgl
-		jmp Gameloop
++		jmp Gameloop
+
+
+.endgl:
+		rts
 
 	rts												;End of program
 
