@@ -207,7 +207,7 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is1
 		jmp .endgl
 
 .is1:
@@ -217,7 +217,7 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is3
 		jmp .endgl
 
 .is3:
@@ -227,19 +227,8 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is9
 		jmp .endgl
-
-.is8:
-		cmp #56
-		bne Gameloop						;if not 8 goto gameloop
-		jsr tile8
-		lda #Xses
-		jsr CHROUT
-		dec .count
-		bne +
-		jmp .endgl
-		jsr Gameloop
 
 .is9:
 		cmp #57
@@ -258,7 +247,7 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is4
 		jmp .endgl
 
 .endgl:
@@ -271,7 +260,7 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is2
 		jmp .endgl
 
 .is2:
@@ -281,7 +270,7 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
-		bne +
+		bne .is6
 		jmp .endgl
 
 .is6:
@@ -291,8 +280,19 @@ Gameloop:
 		lda #Xses
 		jsr CHROUT
 		dec .count
+		bne .is8
+		jmp .endgl
+
+.is8:
+		cmp #56
+		bne Gameloop						;if not 8 goto gameloop
+		jsr tile8
+		lda #Xses
+		jsr CHROUT
+		dec .count
 		bne +
 		jmp .endgl
+		jmp Gameloop
 
 	rts												;End of program
 
