@@ -1,3 +1,4 @@
+!zone main{
 *=$0801										;Assembled code should start at $0801
 													; (where BASIC programs start)
 													; The real program starts at $0810 = 2064
@@ -40,9 +41,15 @@ BRcorner=189
 Xses=118
 Oses=119
 
+		jsr initscr
+		jsr gboard
+		jsr resetcounter
+		jsr Gameloop
+
+		rts												;End of program
 
 
-;Initialise screen
+initscr:
 	lda $02AE
 	cmp	#80
 	beq	.Switch
@@ -102,8 +109,9 @@ Oses=119
 	lda	#Space
 	ldx	#26
 	jsr	VLine								;Draw vertical
+	rts
 
-;Initialise gameboard
+gboard:
 
 	lda	#$01
 	sta	COLPORT						;Change color to black background
@@ -192,10 +200,12 @@ Oses=119
 	ldx	#<.maze4
 	ldy	#>.maze4
 	jsr	PrintStr
+	rts
 
-
-	lda #9									;reset .count to 9	
+resetcounter:
+	lda #9									;reset .count to 9
 	sta .count
+	rts
 
 Gameloop:
 
@@ -301,7 +311,6 @@ Gameloop:
 .endgl:
 		rts
 
-	rts												;End of program
 
 tile1:
 		ldx #10
@@ -425,3 +434,4 @@ PrintStr:
 
 ;Nine possible moves
 .count !byte 9
+}
