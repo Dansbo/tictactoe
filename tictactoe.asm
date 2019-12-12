@@ -193,8 +193,13 @@ Oses=119
 	ldy	#>.maze4
 	jsr	PrintStr
 
+
+	lda #9									;reset .count to 9	
+	sta .count
+
 Gameloop:
-		jsr GETIN								;Wait for user to press key
+
+		jsr GETIN 							;Wait for user to press key
 
 		cmp #'Q'								;Q for quit
 		bne .is5
