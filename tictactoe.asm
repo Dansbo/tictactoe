@@ -203,7 +203,7 @@ gboard:
 	rts
 
 resetcounter:
-	lda #8									;reset .count to 9
+	lda #9									;reset .count to 9
 	sta .count
 	rts
 
@@ -310,8 +310,11 @@ tile1:
 		jsr GoXY
 		lda .count							;Check turn
 		and #1
-		bne +
-		lda Oses								;choose gamepiece
+		beq +
+		lda Oses
+		jsr CHROUT
+		dec .count
+		rts								;choose gamepiece
 +		lda Xses
 		jsr CHROUT							;Place piece
 		dec .count
