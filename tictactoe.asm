@@ -207,11 +207,6 @@ resetcounter:
 	sta .count
 	rts
 
-turn:
-	lda .count
-	and #1
-	bne
-
 Gameloop:
 
 		jsr GETIN 							;Wait for user to press key
@@ -224,9 +219,6 @@ Gameloop:
 		cmp #53									;Is number 5 pressed
 		bne .is1								;if not check for 1
 		jsr tile5								;place cursor
-		lda #Xses
-		jsr CHROUT							;Place piece
-		dec .count							;decrease number of possible turns
 		bne .is1								;if not 0 then check for 1
 		jmp .endgl
 
@@ -312,15 +304,20 @@ Gameloop:
 		jmp .endgl							;end game
 +		jmp Gameloop						;else re do loop
 
-
 .endgl:
 		rts
-
 
 tile1:
 		ldx #10
 		ldy #15
 		jsr GoXY
+		lda .count							;Check turn
+		and #1
+		bne +
+		lda Oses								;choose gamepiece
++		lda Xses
+		jsr CHROUT							;Place piece
+		dec .count
 		rts
 
 tile2:
@@ -441,7 +438,7 @@ PrintStr:
 .count !byte 9
 
 ;Where are X pieces placed?
-.X_places !byte 0.0.0.0.0.0.0.0.0
+.X_places !byte 0,0,0,0,0,0,0,0,0
 
 ;Where are Y pieces placed?
 .Y_places !byte 0,0,0,0,0,0,0,0,0
