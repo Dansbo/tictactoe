@@ -310,14 +310,14 @@ tile1:
 		jsr GoXY
 		lda .count							;Check turn
 		and #1
-		beq +
-		lda Oses
+		beq +										;Counter even/odd number
+		lda Oses								;If even place O
 		jsr CHROUT
-		dec .count
-		rts								;choose gamepiece
-+		lda Xses
+		dec .count							;decrease counter for next turn
+		rts											;return to gameloop
++		lda Xses								;if odd place X
 		jsr CHROUT							;Place piece
-		dec .count
+		dec .count							;decrease counter for next turn
 		rts
 
 tile2:
