@@ -218,9 +218,9 @@ Gameloop:
 .is5:
 		cmp #53									;Is number 5 pressed
 		bne .is1								;if not check for 1
-		lda .Occ_place +4
-		cmp #1
-		beq .is1
+		lda .Occ_place +4				;Load state of tile 5
+		cmp #1									;if 1 then occupied
+		beq .is1								;continue loop
 		jsr tile5								;place cursor
 		bne .is1								;if .count not 0 then check for 1
 		jmp .endgl
@@ -228,9 +228,9 @@ Gameloop:
 .is1:
 		cmp #49									;Is number 1 pressed?
 		bne .is3								;If not check for 3
-		lda .Occ_place
-		cmp #1
-		beq .is1
+		lda .Occ_place					;load state of tile 1
+		cmp #1									;if 1 then occupied
+		beq .is1								;continue loop
 		jsr tile1								;place cursor
 		bne .is3								;if .count not 0 then check for 3
 		jmp .endgl
