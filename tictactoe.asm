@@ -476,7 +476,11 @@ tile7:
 		rts
 
 tile8:
-		ldx #18
+		lda .Occ_place +7				;load state of tile 8
+		cmp #1									;is it 1?
+		bne +										;if it is not place tile
+		jmp Gameloop						;go back into loop
++		ldx #18
 		ldy #19
 		jsr GoXY
 		lda .count							;load .count to acc
