@@ -203,7 +203,7 @@ gboard:
 	rts
 
 resetcounter:
-	lda #9									;reset .count to 9
+	lda #8									;reset .count to 9
 	sta .count
 	rts
 
@@ -226,9 +226,6 @@ Gameloop:
 		cmp #49									;Is number 1 pressed?
 		bne .is3								;If not check for 3
 		jsr tile1								;place cursor
-		lda #Xses
-		jsr CHROUT							;place piece
-		dec .count							;decrease number of possible turns
 		bne .is3
 		jmp .endgl
 
