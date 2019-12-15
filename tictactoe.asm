@@ -205,14 +205,14 @@ gboard:
 resetcounter:
 	lda #9									;reset .count to 9
 	sta .count
-	ldy #9
-	lda #0
+	ldy #9									;load number 9 into y
+	lda #0									;load accumulator with 0
 clrmem:
-	dey
-	sta .X_place,y
-	sta .O_place,y
-	sta .Occ_place,y
-	bne clrmem
+	dey											;Decrement y
+	sta .X_place,y					;Store 0 in X_place location y
+	sta .O_place,y					;Store 0 in O_place location y
+	sta .Occ_place,y				;Store 0 in Occ_place location y
+	bne clrmem							;if y not 0 go to clrmem
 	rts
 
 Gameloop:
