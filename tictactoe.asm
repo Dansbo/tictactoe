@@ -293,10 +293,18 @@ tile1:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place						;Store 1 at 1st place in variable
+		sta .Occ_place
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place
+		sta .Occ_place
+		lda .count
 		rts
 
 tile2:
@@ -309,10 +317,18 @@ tile2:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +1					;Store 1 at 2nd place in variable
+		sta .Occ_place +1
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +1
+		sta .Occ_place +1
+		lda .count
 		rts
 
 tile3:
@@ -325,10 +341,18 @@ tile3:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +2					;Store 1 at 3rd place in variable
+		sta .Occ_place +2
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +2
+		sta .Occ_place +2
+		lda .count
 		rts
 
 tile4:
@@ -341,10 +365,18 @@ tile4:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +3					;Store 1 at 4th place in variable
+		sta .Occ_place +3
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +3
+		sta .Occ_place +3
+		lda .count
 		rts
 
 tile5:
@@ -357,10 +389,18 @@ tile5:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +4					;Store 1 at 5th place in variable
+		sta .Occ_place +4
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +4
+		sta .Occ_place +4
+		lda .count
 		rts
 
 tile6:
@@ -373,10 +413,18 @@ tile6:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +5					;Store 1 at 6th place in variable
+		sta .Occ_place +5
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +5
+		sta .Occ_place +5
+		lda .count
 		rts
 
 tile7:
@@ -389,10 +437,18 @@ tile7:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +6					;Store 1 at 7th place in variable
+		sta .Occ_place +6
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +6
+		sta .Occ_place +6
+		lda .count
 		rts
 
 tile8:
@@ -405,10 +461,18 @@ tile8:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta .O_place +7					;Store 1 at 8th place in variable
+		sta .Occ_place +7
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta .X_place +7
+		sta .Occ_place +7
+		lda .count
 		rts
 
 tile9:
@@ -422,15 +486,17 @@ tile9:
 		jsr CHROUT
 		dec .count							;next turn
 		lda #1									;Load number 1 into acc
-		sta O_placec+8					;Store 1 at 8th place in variable
-		sta Occ_placec+8
+		sta .O_place +8					;Store 1 at 9th place in variable
+		sta .Occ_place +8
+		lda .count
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
 		lda #1
-		sta X_placec+8
-		sta Occ_place+8
+		sta .X_place +8
+		sta .Occ_place +8
+		lda .count
 		rts
 
 														;Make cursor placement sub
