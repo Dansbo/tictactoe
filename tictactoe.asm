@@ -612,4 +612,14 @@ PrintStr:
 
 ;Occupied placeholders?
 .Occ_place !byte 0,0,0,0,0,0,0,0,0
+
+;Possible states of win
+.Win1 !byte 1,1,1,0,0,0,0,0,0
+.Win2 !byte 0,0,0,1,1,1,0,0,0
+.Win3 !byte 0,0,0,0,0,0,1,1,1
+.Win4 !byte 1,0,0,1,0,0,1,0,0
+.Win5 !byte 0,1,0,0,1,0,0,1,0
+.Win6 !byte 0,0,1,0,0,1,0,0,1
+.Win7 !byte 1,0,0,0,1,0,0,0,1
+.Win8 !byte 0,0,1,0,1,0,1,0,0
 }
