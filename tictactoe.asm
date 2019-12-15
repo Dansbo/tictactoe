@@ -218,6 +218,9 @@ Gameloop:
 .is5:
 		cmp #53									;Is number 5 pressed
 		bne .is1								;if not check for 1
+		lda .Occ_place +4
+		cmp #1
+		beq .is1
 		jsr tile5								;place cursor
 		bne .is1								;if .count not 0 then check for 1
 		jmp .endgl
@@ -225,6 +228,9 @@ Gameloop:
 .is1:
 		cmp #49									;Is number 1 pressed?
 		bne .is3								;If not check for 3
+		lda .Occ_place
+		cmp #1
+		beq .is1
 		jsr tile1								;place cursor
 		bne .is3								;if .count not 0 then check for 3
 		jmp .endgl
@@ -232,6 +238,9 @@ Gameloop:
 .is3:
 		cmp #51
 		bne .is9
+		lda .Occ_place +2
+		cmp #1
+		beq .is1
 		jsr tile3
 		bne .is9
 		jmp .endgl
@@ -239,6 +248,9 @@ Gameloop:
 .is9:
 		cmp #57
 		bne .is7
+		lda .Occ_place +8
+		cmp #1
+		beq .is1
 		jsr tile9
 		bne .is7
 		jmp .endgl
@@ -246,6 +258,9 @@ Gameloop:
 .is7:
 		cmp #55
 		bne .is4
+		lda .Occ_place +6
+		cmp #1
+		beq .is1
 		jsr tile7
 		bne .is4
 		jmp .endgl
@@ -253,6 +268,9 @@ Gameloop:
 .is4:
 		cmp #52
 		bne .is2
+		lda .Occ_place +3
+		cmp #1
+		beq .is1
 		jsr tile4
 		bne .is2
 		jmp .endgl
@@ -260,6 +278,9 @@ Gameloop:
 .is2:
 		cmp #50
 		bne .is6
+		lda .Occ_place +1
+		cmp #1
+		beq .is1
 		jsr tile2
 		bne .is6
 		jmp .endgl
@@ -267,6 +288,9 @@ Gameloop:
 .is6:
 		cmp #54
 		bne .is8
+		lda .Occ_place +5
+		cmp #1
+		beq .is1
 		jsr tile6
 		bne .is8
 		jmp .endgl
