@@ -584,6 +584,9 @@ PrintStr:
 
 
 .title !pet "tictactoe",0
+.X_win !pet "x wins!",0
+.O_win !pet "o wins!",0
+.Draw	 !pet "it is a draw",0
 
 ; Top line of the game board
 
