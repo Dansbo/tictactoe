@@ -421,10 +421,16 @@ tile9:
 		lda #Oses								;Place O piece if even
 		jsr CHROUT
 		dec .count							;next turn
+		lda #1									;Load number 1 into acc
+		sta O_placec+8					;Store 1 at 8th place in variable
+		sta Occ_placec+8
 		rts
 +		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
+		lda #1
+		sta X_placec+8
+		sta Occ_place+8
 		rts
 
 														;Make cursor placement sub
@@ -497,11 +503,11 @@ PrintStr:
 .count !byte 9
 
 ;Where are X pieces placed?
-.X_places !byte 0,0,0,0,0,0,0,0,0
+.X_place !byte 0,0,0,0,0,0,0,0,0
 
 ;Where are Y pieces placed?
-.Y_places !byte 0,0,0,0,0,0,0,0,0
+.O_place !byte 0,0,0,0,0,0,0,0,0
 
-;Empty placeholders?
-.Empty_places !byte 0,0,0,0,0,0,0,0,0
+;Occupied placeholders?
+.Occ_place !byte 0,0,0,0,0,0,0,0,0
 }
