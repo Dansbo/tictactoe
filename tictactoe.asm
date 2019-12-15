@@ -205,6 +205,14 @@ gboard:
 resetcounter:
 	lda #9									;reset .count to 9
 	sta .count
+	ldy #9
+	lda #0
+clrmem:
+	dey
+	sta .X_place,y
+	sta .O_place,y
+	sta .Occ_place,y
+	bne clrmem
 	rts
 
 Gameloop:
