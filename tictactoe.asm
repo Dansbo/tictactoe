@@ -219,23 +219,20 @@ Gameloop:
 		cmp #53									;Is number 5 pressed
 		bne .is1								;if not check for 1
 		jsr tile5								;place cursor
-		bne .is1								;if not 0 then check for 1
+		bne .is1								;if .count not 0 then check for 1
 		jmp .endgl
 
 .is1:
 		cmp #49									;Is number 1 pressed?
 		bne .is3								;If not check for 3
 		jsr tile1								;place cursor
-		bne .is3
+		bne .is3								;if .count not 0 then check for 3
 		jmp .endgl
 
 .is3:
 		cmp #51
 		bne .is9
 		jsr tile3
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne .is9
 		jmp .endgl
 
@@ -243,9 +240,6 @@ Gameloop:
 		cmp #57
 		bne .is7
 		jsr tile9
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne .is7
 		jmp .endgl
 
@@ -253,9 +247,6 @@ Gameloop:
 		cmp #55
 		bne .is4
 		jsr tile7
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne .is4
 		jmp .endgl
 
@@ -263,9 +254,6 @@ Gameloop:
 		cmp #52
 		bne .is2
 		jsr tile4
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne .is2
 		jmp .endgl
 
@@ -273,9 +261,6 @@ Gameloop:
 		cmp #50
 		bne .is6
 		jsr tile2
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne .is6
 		jmp .endgl
 
@@ -283,9 +268,6 @@ Gameloop:
 		cmp #54
 		bne .is8
 		jsr tile6
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne .is8
 		jmp .endgl
 
@@ -294,9 +276,6 @@ Gameloop:
 		beq +
 		jmp Gameloop						;if not 8 goto gameloop
 +		jsr tile8
-		lda #Xses
-		jsr CHROUT
-		dec .count
 		bne +										;if number of possible turns is 0
 		jmp .endgl							;end game
 +		jmp Gameloop						;else re do loop
@@ -308,14 +287,14 @@ tile1:
 		ldx #10
 		ldy #15
 		jsr GoXY
-		lda .count							;Check turn
+		lda .count							;load .count to acc
 		and #1
-		beq +										;Counter even/odd number
-		lda Oses								;If even place O
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
 		jsr CHROUT
-		dec .count							;decrease counter for next turn
-		rts											;return to gameloop
-+		lda Xses								;if odd place X
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
 		jsr CHROUT							;Place piece
 		dec .count							;decrease counter for next turn
 		rts
@@ -324,48 +303,128 @@ tile2:
 		ldx #10
 		ldy #19
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile3:
 		ldx #10
 		ldy #23
 		jsr	GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile4:
 		ldx #14
 		ldy #15
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile5:
 		ldx #14
 		ldy #19
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile6:
 		ldx #14
 		ldy #23
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile7:
 		ldx #18
 		ldy #15
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile8:
 		ldx #18
 		ldy #19
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 tile9:
 		ldx #18
 		ldy #23
 		jsr GoXY
+		lda .count							;load .count to acc
+		and #1
+		bne +										;If odd number
+		lda #Oses								;Place O piece if even
+		jsr CHROUT
+		dec .count							;next turn
+		rts
++		lda #Xses								;if odd place X
+		jsr CHROUT							;Place piece
+		dec .count							;decrease counter for next turn
 		rts
 
 														;Make cursor placement sub
