@@ -214,34 +214,41 @@ clrmem:
 	sta .Occ_place,y				;Store 0 in Occ_place location y
 	bne clrmem							;if y not 0 go to clrmem
 	rts
-	
+
 win_loop:
 .isxwin1
 	ldy #9						;Set y to 0 as we need this a counter
 .win1lp	dey
-	lda .win1,y					;Load .win1 placeholder into a
+	lda .Win1,y					;Load .win1 placeholder into a
 	cmp .X_place,y					;Compare win1 with X_place
 	beq win						;If place compares check for win
 	cpy #0						;Has all bits been checked
 	bne .win1lp					;If not then loop
-	jmp .iswin2					;If yes check next win situation
+	jmp .isxwin2					;If yes check next win situation
 
-.isxwin2	
+.isxwin2
 	ldy #9						;reset y to 9
 	lda #0						;reset .wincnt to 0
 	sta .wincnt
 .win2lp	dey						;decrement y
-	lda .win2,y					;load accumulator with win2
+	lda .Win2,y					;load accumulator with win2
 	cmp .X_place,y					;compare win2 with X_place
 	beq win						;If place compares check for win
 	cpy #0						;Has all bits been checked
 	bne .win2lp					;If not then loop
 	jmp .iswin3					;If yes check next win situation
+
+.iswin3
+	rts
+
 win:
 	inc .wincnt					;Increment wincnt
-	lda #3						;Is wincnt 3
+	lda #9						;Is wincnt 3
 	cmp .wincnt
 	beq winsplash					;If wincnt is 3 go to celebratory screen
+	rts
+
+winsplash:
 	rts
 
 Gameloop:
