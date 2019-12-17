@@ -218,11 +218,60 @@ clrmem:
 	rts
 
 win_loop:
+	sta TMP0								;Store .count temporarily in ZP
+	lda #72									;Load accumulator with 72
+	sta .bitcnt							;Store in .bitcnt
+	lda #0									;Load accumulator with 0
+	sta .wincnt							;Reset .wincnt
+	lda TMP0								;Reload from ZP
+	and #1									;Who just placed the piece?
+	bne chkx								;Check if X won
 
+chko:											;Check if O won
+	lda #9									;Load accumulator with 9
+	sta .count							;Store in .count
+
+loado:
+	dec .count							;Decrement .count
+	lda .count							;Load accumulator with .count
+	cmp #-1									;Is .count -1
+	beq chko								;If .count is -1 then reset
+	dec .bitcnt							;Decrement .bitcnt
+	lda .O_place,.count			;Check O_place
+	cmp .Wins,.bitcnt				;Did bits match
+	bne loado								;Go to loado if they match
+	inc .wincnt							;Increment .wincnt as bits match
+	lda .wincnt							;Load accumulator with .wincnt
+	cmp #9									;Is .wincnt 9?
+	beq winsplash						;Go to winsplash if won
+	lda .bitcnt							;Load accumulator with .bitcnt
+	beq endwl								;If .bitcnt 0 endwl
+	jmp loado								;If .bitcnt not 0 then check next bit
+
+chkx:											;Check if O won
+	lda #9									;Load accumulator with 9
+	sta .count							;Store in .count
+loadx:
+	dec .count							;Decrement .count
+	lda .count							;Load accumulator with .count
+	cmp #-1									;Is .count -1
+	beq chkx								;If .count is -1 then reset
+	dec .bitcnt							;Decrement .bitcnt
+	lda .X_place,.count			;Check O_place
+	cmp .Wins,.bitcnt				;Did bits match
+	bne loadx								;Go to loado if they match
+	lda .bitcnt							;Load accumulator with .bitcnt
+	beq endwl								;If .bitcnt 0 endwl
+	jmp loado								;If .bitcnt not 0 then check next bit
+
+
+endwl:
+	lda TMP0
+	sta .count							;Reload .count with turn number
 	dec .count							;decrement .count for next turn
-	lda .count
-	beq +
-	jmp Gameloop
+	lda .count							;Is count 0
+	beq +										;End game if 0
+	jmp Gameloop						;Redo Gameloop if not 0
 +	jmp .endgl
 
 winsplash:
