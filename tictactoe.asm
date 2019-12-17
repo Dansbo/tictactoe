@@ -231,263 +231,263 @@ winsplash:
 
 Gameloop:
 
-		jsr GETIN 							;Wait for user to press key
+	jsr GETIN 							;Wait for user to press key
 
-		cmp #'Q'								;Q for quit
-		bne .is5								;If Q is not pressed check 5
-		jmp .endgl
+	cmp #'Q'								;Q for quit
+	bne .is5								;If Q is not pressed check 5
+	jmp .endgl
 
 .is5:
-		cmp #53									;Is number 5 pressed
-		bne .is1								;if not check for 1
-		lda .Occ_place +4				;Load state of tile 5
-		cmp #1									;if 1 then occupied
-		beq .is1								;continue loop
-		jmp tile5								;place cursor
-		bne .is1								;if .count not 0 then check for 1
-		jmp .endgl
+	cmp #53									;Is number 5 pressed
+	bne .is1								;if not check for 1
+	lda .Occ_place +4				;Load state of tile 5
+	cmp #1									;if 1 then occupied
+	beq .is1								;continue loop
+	jmp tile5								;place cursor
+	bne .is1								;if .count not 0 then check for 1
+	jmp .endgl
 
 .is1:
-		cmp #49									;Is number 1 pressed?
-		bne .is3								;If not check for 3
-		lda .Occ_place					;load state of tile 1
-		cmp #1									;if 1 then occupied
-		beq .is1								;continue loop
-		jmp tile1								;place cursor
-		bne .is3								;if .count not 0 then check for 3
-		jmp .endgl
+	cmp #49									;Is number 1 pressed?
+	bne .is3								;If not check for 3
+	lda .Occ_place					;load state of tile 1
+	cmp #1									;if 1 then occupied
+	beq .is1								;continue loop
+	jmp tile1								;place cursor
+	bne .is3								;if .count not 0 then check for 3
+	jmp .endgl
 
 .is3:
-		cmp #51
-		bne .is9
-		lda .Occ_place +2
-		cmp #1
-		beq .is9
-		jmp tile3
-		bne .is9
-		jmp .endgl
+	cmp #51
+	bne .is9
+	lda .Occ_place +2
+	cmp #1
+	beq .is9
+	jmp tile3
+	bne .is9
+	jmp .endgl
 
 .is9:
-		cmp #57
-		bne .is7
-		lda .Occ_place +8
-		cmp #1
-		beq .is7
-		jmp tile9
-		bne .is7
-		jmp .endgl
+	cmp #57
+	bne .is7
+	lda .Occ_place +8
+	cmp #1
+	beq .is7
+	jmp tile9
+	bne .is7
+	jmp .endgl
 
 .is7:
-		cmp #55
-		bne .is4
-		lda .Occ_place +6
-		cmp #1
-		beq .is4
-		jmp tile7
-		bne .is4
-		jmp .endgl
+	cmp #55
+	bne .is4
+	lda .Occ_place +6
+	cmp #1
+	beq .is4
+	jmp tile7
+	bne .is4
+	jmp .endgl
 
 .is4:
-		cmp #52
-		bne .is2
-		lda .Occ_place +3
-		cmp #1
-		beq .is2
-		jmp tile4
-		bne .is2
-		jmp .endgl
+	cmp #52
+	bne .is2
+	lda .Occ_place +3
+	cmp #1
+	beq .is2
+	jmp tile4
+	bne .is2
+	jmp .endgl
 
 .is2:
-		cmp #50
-		bne .is6
-		lda .Occ_place +1
-		cmp #1
-		beq .is6
-		jmp tile2
-		bne .is6
-		jmp .endgl
+	cmp #50
+	bne .is6
+	lda .Occ_place +1
+	cmp #1
+	beq .is6
+	jmp tile2
+	bne .is6
+	jmp .endgl
 
 .is6:
-		cmp #54
-		bne .is8
-		lda .Occ_place +5
-		cmp #1
-		beq .is8
-		jmp tile6
-		bne .is8
-		jmp .endgl
+	cmp #54
+	bne .is8
+	lda .Occ_place +5
+	cmp #1
+	beq .is8
+	jmp tile6
+	bne .is8
+	jmp .endgl
 
 .is8:
-		cmp #56
-		beq +
-		jmp Gameloop						;if not 8 goto gameloop
-+		jmp tile8
-		bne +										;if number of possible turns is 0
-		jmp .endgl							;end game
-+		jmp Gameloop						;else re do loop
+	cmp #56
+	beq +
+	jmp Gameloop						;if not 8 goto gameloop
++	jmp tile8
+	bne +										;if number of possible turns is 0
+	jmp .endgl							;end game
++	jmp Gameloop						;else re do loop
 
 .endgl:
-		rts
+	rts
 
 tile1:
-		ldx #10
-		ldy #15
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place						;Store 1 at 1st place in variable
-		sta .Occ_place
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place
-		sta .Occ_place
-		jmp win_loop
+	ldx #10
+	ldy #15
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place						;Store 1 at 1st place in variable
+	sta .Occ_place
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place
+	sta .Occ_place
+	jmp win_loop
 
 tile2:
-		ldx #10
-		ldy #19
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +1					;Store 1 at 9th place in variable
-		sta .Occ_place +1
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +1
-		sta .Occ_place +1
-		jmp win_loop
+	ldx #10
+	ldy #19
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +1					;Store 1 at 9th place in variable
+	sta .Occ_place +1
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +1
+	sta .Occ_place +1
+	jmp win_loop
 
 tile3:
-		ldx #10
-		ldy #23
-		jsr	GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +2					;Store 1 at 9th place in variable
-		sta .Occ_place +2
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +2
-		sta .Occ_place +2
-		jmp win_loop
+	ldx #10
+	ldy #23
+	jsr	GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +2					;Store 1 at 9th place in variable
+	sta .Occ_place +2
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +2
+	sta .Occ_place +2
+	jmp win_loop
 
 tile4:
-		ldx #14
-		ldy #15
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +3					;Store 1 at 9th place in variable
-		sta .Occ_place +3
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +3
-		sta .Occ_place +3
-		jmp win_loop
+	ldx #14
+	ldy #15
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +3					;Store 1 at 9th place in variable
+	sta .Occ_place +3
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +3
+	sta .Occ_place +3
+	jmp win_loop
 
 tile5:
-		ldx #14
-		ldy #19
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +4					;Store 1 at 9th place in variable
-		sta .Occ_place +4
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +4
-		sta .Occ_place +4
-		jmp win_loop
+	ldx #14
+	ldy #19
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +4					;Store 1 at 9th place in variable
+	sta .Occ_place +4
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +4
+	sta .Occ_place +4
+	jmp win_loop
 
 tile6:
-		ldx #14
-		ldy #23
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +5					;Store 1 at 9th place in variable
-		sta .Occ_place +5
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +5
-		sta .Occ_place +5
-		jmp win_loop
+	ldx #14
+	ldy #23
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +5					;Store 1 at 9th place in variable
+	sta .Occ_place +5
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +5
+	sta .Occ_place +5
+	jmp win_loop
 
 tile7:
-		ldx #18
-		ldy #15
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +6					;Store 1 at 9th place in variable
-		sta .Occ_place +6
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +6
-		sta .Occ_place +6
-		jmp win_loop
+	ldx #18
+	ldy #15
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +6					;Store 1 at 9th place in variable
+	sta .Occ_place +6
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +6
+	sta .Occ_place +6
+	jmp win_loop
 
 tile8:
-		lda .Occ_place +7				;load state of tile 8
-		cmp #1									;is it 1?
-		bne +										;if it is not place tile
-		jmp Gameloop						;go back into loop
-+		ldx #18
-		ldy #19
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +7					;Store 1 at 9th place in variable
-		sta .Occ_place +7
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +7
-		sta .Occ_place +7
-		jmp win_loop
+	lda .Occ_place +7				;load state of tile 8
+	cmp #1									;is it 1?
+	bne +										;if it is not place tile
+	jmp Gameloop						;go back into loop
++	ldx #18
+	ldy #19
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +7					;Store 1 at 9th place in variable
+	sta .Occ_place +7
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +7
+	sta .Occ_place +7
+	jmp win_loop
 
 tile9:
-		ldx #18
-		ldy #23
-		jsr GoXY
-		lda .count							;load .count to acc
-		and #1
-		bne +										;If odd number
-		jsr PlaceO							;Place O piece if even
-		sta .O_place +8					;Store 1 at 9th place in variable
-		sta .Occ_place +8
-		jmp win_loop
-+		jsr PlaceX							;if odd place X
-		sta .X_place +8
-		sta .Occ_place +8
-		jmp win_loop
+	ldx #18
+	ldy #23
+	jsr GoXY
+	lda .count							;load .count to acc
+	and #1
+	bne +										;If odd number
+	jsr PlaceO							;Place O piece if even
+	sta .O_place +8					;Store 1 at 9th place in variable
+	sta .Occ_place +8
+	jmp win_loop
++	jsr PlaceX							;if odd place X
+	sta .X_place +8
+	sta .Occ_place +8
+	jmp win_loop
 
 PlaceX:
-		lda #Xses
-		jsr CHROUT
-		lda #1
-		rts
+	lda #Xses
+	jsr CHROUT
+	lda #1
+	rts
 
 PlaceO:
-		lda #Oses
-		jsr CHROUT
-		lda #1
-		rts
+	lda #Oses
+	jsr CHROUT
+	lda #1
+	rts
 														;Make cursor placement sub
 GoXY:
 	clc
