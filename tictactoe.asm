@@ -219,8 +219,7 @@ clrmem:
 
 win_loop:
 	sta TMP0								;Store .count temporarily in ZP
-	lda #72									;Load accumulator with 72
-	sta .bitcnt							;Store in .bitcnt
+	ldx #72									;Load X with 72
 	lda #0									;Load accumulator with 0
 	sta .wincnt							;Reset .wincnt
 	lda TMP0								;Reload from ZP
@@ -228,38 +227,37 @@ win_loop:
 	bne chkx								;Check if X won
 
 chko:											;Check if O won
-	lda #9									;Load accumulator with 9
-	sta .count							;Store in .count
+	ldy #9
 
 loado:
-	dec .count							;Decrement .count
-	lda .count							;Load accumulator with .count
-	cmp #-1									;Is .count -1
-	beq chko								;If .count is -1 then reset
-	dec .bitcnt							;Decrement .bitcnt
-	lda .O_place,.count			;Check O_place
-	cmp .Wins,.bitcnt				;Did bits match
+	dey 										;Decrement Y
+	cpy #-1									;Is Y -1
+	beq chko								;If Y is -1 then reset
+	dex											;Decrement X
+	lda .O_place,y					;Check O_place
+	cmp .Wins,x							;Did bits match
 	bne loado								;Go to loado if they match
 	inc .wincnt							;Increment .wincnt as bits match
 	lda .wincnt							;Load accumulator with .wincnt
 	cmp #9									;Is .wincnt 9?
 	beq winsplash						;Go to winsplash if won
+	sty .bitcnt							;Store Y in .bitcnt
 	lda .bitcnt							;Load accumulator with .bitcnt
 	beq endwl								;If .bitcnt 0 endwl
 	jmp loado								;If .bitcnt not 0 then check next bit
 
 chkx:											;Check if O won
-	lda #9									;Load accumulator with 9
-	sta .count							;Store in .count
+	ldy #9									;Load accumulator with 9
+
 loadx:
-	dec .count							;Decrement .count
-	lda .count							;Load accumulator with .count
-	cmp #-1									;Is .count -1
-	beq chkx								;If .count is -1 then reset
-	dec .bitcnt							;Decrement .bitcnt
-	lda .X_place,.count			;Check O_place
-	cmp .Wins,.bitcnt				;Did bits match
+	dey 										;Decrement Y
+	cpy #-1									;Is Y -1
+	beq chkx								;If Y is -1 then reset
+	dex											;Decrement X
+	lda .X_place,y					;Check O_place
+	cmp .Wins,x							;Did bits match
 	bne loadx								;Go to loado if they match
+	sty .bitcnt							;Store Y in .bitcnt
 	lda .bitcnt							;Load accumulator with .bitcnt
 	beq endwl								;If .bitcnt 0 endwl
 	jmp loado								;If .bitcnt not 0 then check next bit
