@@ -25,6 +25,8 @@ COLPORT=$0286
 TMP0=$00
 TMP1=$01
 TMP2=$02
+TMP3=$03
+TMP4=$04
 ;PETDraw Chars
 Space=" "
 GHLine=96
@@ -216,37 +218,10 @@ clrmem:
 	rts
 
 win_loop:
-.isxwin1
-	ldy #9						;Set y to 0 as we need this a counter
-.win1lp	dey
-	lda .Win1,y					;Load .win1 placeholder into a
-	cmp .X_place,y					;Compare win1 with X_place
-	beq win						;If place compares check for win
-	cpy #0						;Has all bits been checked
-	bne .win1lp					;If not then loop
-	jmp .isxwin2					;If yes check next win situation
 
-.isxwin2
-	ldy #9						;reset y to 9
-	lda #0						;reset .wincnt to 0
-	sta .wincnt
-.win2lp	dey						;decrement y
-	lda .Win2,y					;load accumulator with win2
-	cmp .X_place,y					;compare win2 with X_place
-	beq win						;If place compares check for win
-	cpy #0						;Has all bits been checked
-	bne .win2lp					;If not then loop
-	jmp .iswin3					;If yes check next win situation
-
-.iswin3
-	rts
-
-win:
-	inc .wincnt					;Increment wincnt
-	lda #9						;Is wincnt 3
-	cmp .wincnt
-	beq winsplash					;If wincnt is 3 go to celebratory screen
-	rts
+	dec .count							;decrement .count for next turn
+	lda .count
+	jmp Gameloop
 
 winsplash:
 	!byte $ff
@@ -266,7 +241,7 @@ Gameloop:
 		lda .Occ_place +4				;Load state of tile 5
 		cmp #1									;if 1 then occupied
 		beq .is1								;continue loop
-		jsr tile5								;place cursor
+		jmp tile5								;place cursor
 		bne .is1								;if .count not 0 then check for 1
 		jmp .endgl
 
@@ -276,7 +251,7 @@ Gameloop:
 		lda .Occ_place					;load state of tile 1
 		cmp #1									;if 1 then occupied
 		beq .is1								;continue loop
-		jsr tile1								;place cursor
+		jmp tile1								;place cursor
 		bne .is3								;if .count not 0 then check for 3
 		jmp .endgl
 
@@ -286,7 +261,7 @@ Gameloop:
 		lda .Occ_place +2
 		cmp #1
 		beq .is1
-		jsr tile3
+		jmp tile3
 		bne .is9
 		jmp .endgl
 
@@ -296,7 +271,7 @@ Gameloop:
 		lda .Occ_place +8
 		cmp #1
 		beq .is1
-		jsr tile9
+		jmp tile9
 		bne .is7
 		jmp .endgl
 
@@ -306,7 +281,7 @@ Gameloop:
 		lda .Occ_place +6
 		cmp #1
 		beq .is1
-		jsr tile7
+		jmp tile7
 		bne .is4
 		jmp .endgl
 
@@ -316,7 +291,7 @@ Gameloop:
 		lda .Occ_place +3
 		cmp #1
 		beq .is1
-		jsr tile4
+		jmp tile4
 		bne .is2
 		jmp .endgl
 
@@ -326,7 +301,7 @@ Gameloop:
 		lda .Occ_place +1
 		cmp #1
 		beq .is1
-		jsr tile2
+		jmp tile2
 		bne .is6
 		jmp .endgl
 
@@ -336,7 +311,7 @@ Gameloop:
 		lda .Occ_place +5
 		cmp #1
 		beq .is1
-		jsr tile6
+		jmp tile6
 		bne .is8
 		jmp .endgl
 
@@ -344,7 +319,7 @@ Gameloop:
 		cmp #56
 		beq +
 		jmp Gameloop						;if not 8 goto gameloop
-+		jsr tile8
++		jmp tile8
 		bne +										;if number of possible turns is 0
 		jmp .endgl							;end game
 +		jmp Gameloop						;else re do loop
@@ -359,22 +334,17 @@ tile1:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place						;Store 1 at 1st place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place						;Store 1 at 9th place in variable
 		sta .Occ_place
 		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place
 		sta .Occ_place
-		lda .count
-		rts
+		jmp win_loop
 
 tile2:
 		ldx #10
@@ -383,46 +353,35 @@ tile2:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +1					;Store 1 at 2nd place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +1					;Store 1 at 9th place in variable
 		sta .Occ_place +1
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +1
 		sta .Occ_place +1
-		lda .count
-		rts
+		jmp win_loop
 
 tile3:
+!byte $ff
 		ldx #10
 		ldy #23
 		jsr	GoXY
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +2					;Store 1 at 3rd place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +2					;Store 1 at 9th place in variable
 		sta .Occ_place +2
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +2
 		sta .Occ_place +2
-		lda .count
-		rts
+		jmp win_loop
 
 tile4:
 		ldx #14
@@ -431,22 +390,16 @@ tile4:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +3					;Store 1 at 4th place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +3					;Store 1 at 9th place in variable
 		sta .Occ_place +3
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +3
 		sta .Occ_place +3
-		lda .count
-		rts
+		jmp win_loop
 
 tile5:
 		ldx #14
@@ -455,22 +408,16 @@ tile5:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +4					;Store 1 at 5th place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +4					;Store 1 at 9th place in variable
 		sta .Occ_place +4
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +4
 		sta .Occ_place +4
-		lda .count
-		rts
+		jmp win_loop
 
 tile6:
 		ldx #14
@@ -479,22 +426,16 @@ tile6:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +5					;Store 1 at 6th place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +5					;Store 1 at 9th place in variable
 		sta .Occ_place +5
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +5
 		sta .Occ_place +5
-		lda .count
-		rts
+		jmp win_loop
 
 tile7:
 		ldx #18
@@ -503,22 +444,16 @@ tile7:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +6					;Store 1 at 7th place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +6					;Store 1 at 9th place in variable
 		sta .Occ_place +6
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +6
 		sta .Occ_place +6
-		lda .count
-		rts
+		jmp win_loop
 
 tile8:
 		lda .Occ_place +7				;load state of tile 8
@@ -531,22 +466,16 @@ tile8:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
-		sta .O_place +7					;Store 1 at 8th place in variable
+		jsr PlaceO							;Place O piece if even
+		lda #1
+		sta .O_place +7					;Store 1 at 9th place in variable
 		sta .Occ_place +7
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +7
 		sta .Occ_place +7
-		lda .count
-		rts
+		jmp win_loop
 
 tile9:
 		ldx #18
@@ -555,23 +484,26 @@ tile9:
 		lda .count							;load .count to acc
 		and #1
 		bne +										;If odd number
-		lda #Oses								;Place O piece if even
-		jsr CHROUT
-		dec .count							;next turn
-		lda #1									;Load number 1 into acc
+		jsr PlaceO							;Place O piece if even
+		lda #1
 		sta .O_place +8					;Store 1 at 9th place in variable
 		sta .Occ_place +8
-		lda .count
-		rts
-+		lda #Xses								;if odd place X
-		jsr CHROUT							;Place piece
-		dec .count							;decrease counter for next turn
+		jmp win_loop
++		jsr PlaceX							;if odd place X
 		lda #1
 		sta .X_place +8
 		sta .Occ_place +8
-		lda .count
+		jmp win_loop
+
+PlaceX:
+		lda #Xses
+		jsr CHROUT
 		rts
 
+PlaceO:
+		lda #Oses
+		jsr CHROUT
+		rts
 														;Make cursor placement sub
 GoXY:
 	clc
@@ -653,14 +585,39 @@ PrintStr:
 ;Occupied placeholders?
 .Occ_place !byte 0,0,0,0,0,0,0,0,0
 
-;Possible states of win and wincnt for win loop
-.Win1 !byte 1,1,1,0,0,0,0,0,0
-.Win2 !byte 0,0,0,1,1,1,0,0,0
-.Win3 !byte 0,0,0,0,0,0,1,1,1
-.Win4 !byte 1,0,0,1,0,0,1,0,0
-.Win5 !byte 0,1,0,0,1,0,0,1,0
-.Win6 !byte 0,0,1,0,0,1,0,0,1
-.Win7 !byte 1,0,0,0,1,0,0,0,1
-.Win8 !byte 0,0,1,0,1,0,1,0,0
+;Possible states of win
+.Wins !byte 1,1,1
+			!byte 0,0,0
+			!byte 0,0,0
+
+			!byte 0,0,0
+			!byte 1,1,1
+			!byte 0,0,0
+
+ 			!byte 0,0,0
+			!byte 0,0,0
+			!byte 1,1,1
+
+			!byte 1,0,0
+			!byte 1,0,0
+			!byte 1,0,0
+
+			!byte 0,1,0
+			!byte 0,1,0
+			!byte 0,1,0
+
+			!byte 0,0,1
+			!byte 0,0,1
+			!byte 0,0,1
+
+			!byte 1,0,0
+			!byte 0,1,0
+			!byte 0,0,1
+
+			!byte 0,0,1
+			!byte 0,1,0
+			!byte 1,0,0
+;counter for matching winbits and bitcounter
 .wincnt !byte 0
+.bitcnt !byte 0
 }
