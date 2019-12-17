@@ -362,7 +362,6 @@ tile2:
 		jmp win_loop
 
 tile3:
-!byte $ff
 		ldx #10
 		ldy #23
 		jsr	GoXY
