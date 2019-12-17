@@ -226,7 +226,6 @@ win_loop:
 +	jmp .endgl
 
 winsplash:
-	!byte $ff
 	rts
 
 Gameloop:
