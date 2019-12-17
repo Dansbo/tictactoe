@@ -249,6 +249,7 @@ win:
 	rts
 
 winsplash:
+	!byte $ff
 	rts
 
 Gameloop:
