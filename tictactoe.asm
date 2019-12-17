@@ -221,7 +221,9 @@ win_loop:
 
 	dec .count							;decrement .count for next turn
 	lda .count
+	beq +
 	jmp Gameloop
++	jmp .endgl	
 
 winsplash:
 	!byte $ff
@@ -260,7 +262,7 @@ Gameloop:
 		bne .is9
 		lda .Occ_place +2
 		cmp #1
-		beq .is1
+		beq .is9
 		jmp tile3
 		bne .is9
 		jmp .endgl
@@ -270,7 +272,7 @@ Gameloop:
 		bne .is7
 		lda .Occ_place +8
 		cmp #1
-		beq .is1
+		beq .is7
 		jmp tile9
 		bne .is7
 		jmp .endgl
@@ -280,7 +282,7 @@ Gameloop:
 		bne .is4
 		lda .Occ_place +6
 		cmp #1
-		beq .is1
+		beq .is4
 		jmp tile7
 		bne .is4
 		jmp .endgl
@@ -290,7 +292,7 @@ Gameloop:
 		bne .is2
 		lda .Occ_place +3
 		cmp #1
-		beq .is1
+		beq .is2
 		jmp tile4
 		bne .is2
 		jmp .endgl
@@ -300,7 +302,7 @@ Gameloop:
 		bne .is6
 		lda .Occ_place +1
 		cmp #1
-		beq .is1
+		beq .is6
 		jmp tile2
 		bne .is6
 		jmp .endgl
@@ -310,7 +312,7 @@ Gameloop:
 		bne .is8
 		lda .Occ_place +5
 		cmp #1
-		beq .is1
+		beq .is8
 		jmp tile6
 		bne .is8
 		jmp .endgl
@@ -336,9 +338,8 @@ tile1:
 		bne +										;If odd number
 		jsr PlaceO							;Place O piece if even
 		lda #1
-		sta .O_place						;Store 1 at 9th place in variable
+		sta .O_place						;Store 1 at 1st place in variable
 		sta .Occ_place
-		lda .count
 		jmp win_loop
 +		jsr PlaceX							;if odd place X
 		lda #1
