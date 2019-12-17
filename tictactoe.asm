@@ -217,7 +217,12 @@ clrmem:
 	bne clrmem							;if y not 0 go to clrmem
 	rts
 
-win_loop:
+win:
+	lda #0									;Reset counters to initialize loop
+	sta #.bitcnt						;Reset .bitcnt
+	sta #.wincnt						;Reset .wincnt (Y register to be used as third)
+
+winloop:
 
 	dec .count							;decrement .count for next turn
 	lda .count
@@ -339,11 +344,11 @@ tile1:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place						;Store 1 at 1st place in variable
 	sta .Occ_place
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place
 	sta .Occ_place
-	jmp win_loop
+	jmp win
 
 tile2:
 	ldx #10
@@ -355,11 +360,11 @@ tile2:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +1					;Store 1 at 9th place in variable
 	sta .Occ_place +1
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +1
 	sta .Occ_place +1
-	jmp win_loop
+	jmp win
 
 tile3:
 	ldx #10
@@ -371,11 +376,11 @@ tile3:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +2					;Store 1 at 9th place in variable
 	sta .Occ_place +2
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +2
 	sta .Occ_place +2
-	jmp win_loop
+	jmp win
 
 tile4:
 	ldx #14
@@ -387,11 +392,11 @@ tile4:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +3					;Store 1 at 9th place in variable
 	sta .Occ_place +3
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +3
 	sta .Occ_place +3
-	jmp win_loop
+	jmp win
 
 tile5:
 	ldx #14
@@ -403,11 +408,11 @@ tile5:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +4					;Store 1 at 9th place in variable
 	sta .Occ_place +4
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +4
 	sta .Occ_place +4
-	jmp win_loop
+	jmp win
 
 tile6:
 	ldx #14
@@ -419,11 +424,11 @@ tile6:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +5					;Store 1 at 9th place in variable
 	sta .Occ_place +5
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +5
 	sta .Occ_place +5
-	jmp win_loop
+	jmp win
 
 tile7:
 	ldx #18
@@ -435,11 +440,11 @@ tile7:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +6					;Store 1 at 9th place in variable
 	sta .Occ_place +6
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +6
 	sta .Occ_place +6
-	jmp win_loop
+	jmp win
 
 tile8:
 	lda .Occ_place +7				;load state of tile 8
@@ -455,11 +460,11 @@ tile8:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +7					;Store 1 at 9th place in variable
 	sta .Occ_place +7
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +7
 	sta .Occ_place +7
-	jmp win_loop
+	jmp win
 
 tile9:
 	ldx #18
@@ -471,11 +476,11 @@ tile9:
 	jsr PlaceO							;Place O piece if even
 	sta .O_place +8					;Store 1 at 9th place in variable
 	sta .Occ_place +8
-	jmp win_loop
+	jmp win
 +	jsr PlaceX							;if odd place X
 	sta .X_place +8
 	sta .Occ_place +8
-	jmp win_loop
+	jmp win
 
 PlaceX:
 	lda #Xses
@@ -601,6 +606,7 @@ PrintStr:
 			!byte 0,0,1
 			!byte 0,1,0
 			!byte 1,0,0
+
 ;counter for matching winbits and bitcounter
 .wincnt !byte 0
 .bitcnt !byte 0
