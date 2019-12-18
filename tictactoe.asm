@@ -218,6 +218,62 @@ clrmem:
 	rts
 
 win_loop:
+win1:
+	ldy #9									;load 9 into Y for count
+	lda #0
+	sta .wincnt							;Reset .wincnt
+win1lp:
+	dey											;Decrement Y
+	cpy #1
+	bmi win2								;if negative 1 go to win2
+	lda .count							;Load .count to accumulator
+	and #1									;who just placed the piece?
+	beq +										;If even then branch
+	lda X_place,y						;load X_place
+	cmp Win1,y							;Has X won=
+	bne win1lp							;If no redo loop
+	inc .wincnt							;If yes increment .wincnt
+	lda .wincnt							;Load wincnt into accumulator
+	cmp #9									;If wincnt 9 then win
+	bne win1lp							;If not redo loop
+	jmp winsplash						;if .wincnt 9 then celebratory screen
++	lda O_place,y						;load O_place
+	cmp Win1,y							;Has O won=
+	bne win1lp							;If no redo loop
+	inc .wincnt							;If yes increment .wincnt
+	lda .wincnt							;Load wincnt into accumulator
+	cmp #9									;If wincnt 9 then win
+	bne win1lp							;If not redo loop
+	jmp winsplash						;if .wincnt 9 then celebratory screen
+
+win2:
+	ldy #9									;load 9 into Y for count
+	lda #0
+	sta .wincnt							;Reset .wincnt
+win2lp:
+	dey											;Decrement Y
+	cpy #1
+	bmi win3								;if negative 1 go to win2
+	lda .count							;Load .count to accumulator
+	and #1									;who just placed the piece?
+	beq +										;If even then branch
+	lda X_place,y						;load X_place
+	cmp Win2,y							;Has X won=
+	bne win2lp							;If no redo loop
+	inc .wincnt							;If yes increment .wincnt
+	lda .wincnt							;Load wincnt into accumulator
+	cmp #9									;If wincnt 9 then win
+	bne win2lp							;If not redo loop
+	jmp winsplash						;if .wincnt 9 then celebratory screen
++	lda O_place,y						;load O_place
+	cmp Win2,y							;Has O won=
+	bne win2lp							;If no redo loop
+	inc .wincnt							;If yes increment .wincnt
+	lda .wincnt							;Load wincnt into accumulator
+	cmp #9									;If wincnt 9 then win
+	bne win2lp							;If not redo loop
+	jmp winsplash						;if .wincnt 9 then celebratory screen
+
 
 endwl:
 	dec .count							;decrement .count for next turn
