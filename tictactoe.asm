@@ -218,7 +218,6 @@ clrmem:
 	rts
 
 win_loop:
-!byte $ff
 win1:
 	ldy #9									;load 9 into Y for count
 	lda #0
