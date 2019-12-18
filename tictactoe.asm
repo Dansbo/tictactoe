@@ -218,54 +218,8 @@ clrmem:
 	rts
 
 win_loop:
-	sta TMP0								;Store .count temporarily in ZP
-	ldx #72									;Load X with 72
-	lda #0									;Load accumulator with 0
-	sta .wincnt							;Reset .wincnt
-	lda TMP0								;Reload from ZP
-	and #1									;Who just placed the piece?
-	bne chkx								;Check if X won
-
-chko:											;Check if O won
-	ldy #9
-
-loado:
-	dey 										;Decrement Y
-	cpy #-1									;Is Y -1
-	beq chko								;If Y is -1 then reset
-	dex											;Decrement X
-	lda .O_place,y					;Check O_place
-	cmp .Wins,x							;Did bits match
-	bne loado								;Go to loado if they match
-	inc .wincnt							;Increment .wincnt as bits match
-	lda .wincnt							;Load accumulator with .wincnt
-	cmp #9									;Is .wincnt 9?
-	beq winsplash						;Go to winsplash if won
-	sty .bitcnt							;Store Y in .bitcnt
-	lda .bitcnt							;Load accumulator with .bitcnt
-	beq endwl								;If .bitcnt 0 endwl
-	jmp loado								;If .bitcnt not 0 then check next bit
-
-chkx:											;Check if O won
-	ldy #9									;Load accumulator with 9
-
-loadx:
-	dey 										;Decrement Y
-	cpy #-1									;Is Y -1
-	beq chkx								;If Y is -1 then reset
-	dex											;Decrement X
-	lda .X_place,y					;Check O_place
-	cmp .Wins,x							;Did bits match
-	bne loadx								;Go to loado if they match
-	sty .bitcnt							;Store Y in .bitcnt
-	lda .bitcnt							;Load accumulator with .bitcnt
-	beq endwl								;If .bitcnt 0 endwl
-	jmp loado								;If .bitcnt not 0 then check next bit
-
 
 endwl:
-	lda TMP0
-	sta .count							;Reload .count with turn number
 	dec .count							;decrement .count for next turn
 	lda .count							;Is count 0
 	beq +										;End game if 0
@@ -616,35 +570,35 @@ PrintStr:
 .Occ_place !byte 0,0,0,0,0,0,0,0,0
 
 ;Possible states of win
-.Wins !byte 1,1,1
+.Win1 !byte 1,1,1
 			!byte 0,0,0
 			!byte 0,0,0
 
-			!byte 0,0,0
+.Win2	!byte 0,0,0
 			!byte 1,1,1
 			!byte 0,0,0
 
- 			!byte 0,0,0
+.Win3	!byte 0,0,0
 			!byte 0,0,0
 			!byte 1,1,1
 
-			!byte 1,0,0
+.Win4	!byte 1,0,0
 			!byte 1,0,0
 			!byte 1,0,0
 
-			!byte 0,1,0
+.Win5	!byte 0,1,0
 			!byte 0,1,0
 			!byte 0,1,0
 
-			!byte 0,0,1
+.Win6	!byte 0,0,1
 			!byte 0,0,1
 			!byte 0,0,1
 
-			!byte 1,0,0
+.Win7	!byte 1,0,0
 			!byte 0,1,0
 			!byte 0,0,1
 
-			!byte 0,0,1
+.Win8	!byte 0,0,1
 			!byte 0,1,0
 			!byte 1,0,0
 ;counter for matching winbits and bitcounter
