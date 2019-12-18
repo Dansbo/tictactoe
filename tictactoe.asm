@@ -218,21 +218,25 @@ clrmem:
 	rts
 
 win_loop:
+	lda .count
 	sta TMP0								;Store .count temporarily in ZP
 	ldx #72									;Load X with 72
 	lda #0									;Load accumulator with 0
 	sta .wincnt							;Reset .wincnt
 	lda TMP0								;Reload from ZP
 	and #1									;Who just placed the piece?
-	bne chkx								;Check if X won
+	bne +										;Check if X won
++ jmp chkx
 
 chko:											;Check if O won
 	ldy #9
+	jmp loado
 
 loado:
+	cpy #0									;Is Y -1
+	beq +
++ jmp chko								;If Y is -1 then reset
 	dey 										;Decrement Y
-	cpy #-1									;Is Y -1
-	beq chko								;If Y is -1 then reset
 	dex											;Decrement X
 	lda .O_place,y					;Check O_place
 	cmp .Wins,x							;Did bits match
@@ -248,11 +252,14 @@ loado:
 
 chkx:											;Check if O won
 	ldy #9									;Load accumulator with 9
+	jmp loadx
 
 loadx:
+!byte $ff
+	cpy #0									;Is Y -1
+	beq +
++	jmp chkx								;If Y is -1 then reset
 	dey 										;Decrement Y
-	cpy #-1									;Is Y -1
-	beq chkx								;If Y is -1 then reset
 	dex											;Decrement X
 	lda .X_place,y					;Check O_place
 	cmp .Wins,x							;Did bits match
