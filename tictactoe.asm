@@ -475,7 +475,7 @@ Gameloop:
 	bne .is3								;If not check for 3
 	lda .Occ_place					;load state of tile 1
 	cmp #1									;if 1 then occupied
-	beq .is1								;continue loop
+	beq .is3								;continue loop
 	jmp tile1								;place cursor
 	bne .is3								;if .count not 0 then check for 3
 	jmp .endgl
