@@ -553,22 +553,22 @@ Gameloop:
 	rts
 
 tile1:
-	ldx #10
+	ldx #10									;load tile coordinates
 	ldy #15
-	jsr GoXY
+	jsr GoXY								;go to tile
 	lda .count							;load .count to acc
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1									;Load accumulator with number 1
 	sta .O_place						;Store 1 at 1st place in variable
-	lda #1
 	sta .Occ_place
-	jmp win_loop
+	jmp win_loop						;Go check if this placement gives a win
 +	jsr PlaceX							;if odd place X
-	lda #1
-	sta .X_place
+	lda #1									;Load accumulator with number 1
+	sta .X_place						;Store 1 at 1st place in variable
 	sta .Occ_place
-	jmp win_loop
+	jmp win_loop						;Go check if this plascement gives a win
 
 tile2:
 	ldx #10
