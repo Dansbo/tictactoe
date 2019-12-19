@@ -561,9 +561,11 @@ tile1:
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
 	sta .O_place						;Store 1 at 1st place in variable
+	lda #1
 	sta .Occ_place
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place
 	sta .Occ_place
 	jmp win_loop
@@ -576,10 +578,12 @@ tile2:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +1					;Store 1 at 9th place in variable
 	sta .Occ_place +1
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +1
 	sta .Occ_place +1
 	jmp win_loop
@@ -592,10 +596,12 @@ tile3:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +2					;Store 1 at 9th place in variable
 	sta .Occ_place +2
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +2
 	sta .Occ_place +2
 	jmp win_loop
@@ -608,10 +614,12 @@ tile4:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +3					;Store 1 at 9th place in variable
 	sta .Occ_place +3
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +3
 	sta .Occ_place +3
 	jmp win_loop
@@ -624,10 +632,12 @@ tile5:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +4					;Store 1 at 9th place in variable
 	sta .Occ_place +4
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +4
 	sta .Occ_place +4
 	jmp win_loop
@@ -640,10 +650,12 @@ tile6:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +5					;Store 1 at 9th place in variable
 	sta .Occ_place +5
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +5
 	sta .Occ_place +5
 	jmp win_loop
@@ -656,10 +668,12 @@ tile7:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +6					;Store 1 at 9th place in variable
 	sta .Occ_place +6
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +6
 	sta .Occ_place +6
 	jmp win_loop
@@ -676,10 +690,12 @@ tile8:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +7					;Store 1 at 9th place in variable
 	sta .Occ_place +7
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +7
 	sta .Occ_place +7
 	jmp win_loop
@@ -692,10 +708,12 @@ tile9:
 	and #1
 	bne +										;If odd number
 	jsr PlaceO							;Place O piece if even
+	lda #1
 	sta .O_place +8					;Store 1 at 9th place in variable
 	sta .Occ_place +8
 	jmp win_loop
 +	jsr PlaceX							;if odd place X
+	lda #1
 	sta .X_place +8
 	sta .Occ_place +8
 	jmp win_loop
