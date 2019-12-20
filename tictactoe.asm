@@ -322,7 +322,7 @@ win4lp:
 	inc .wincnt							;If yes increment .wincnt
 	lda .wincnt							;Load wincnt into accumulator
 	cmp #3									;If wincnt 9 then win
-	bne win5lp							;If not redo loop
+	bne win4lp							;If not redo loop
 	jmp winsplash						;if .wincnt 9 then celebratory screen
 +	lda .Win4,y							;load O_place
 	beq win4lp
