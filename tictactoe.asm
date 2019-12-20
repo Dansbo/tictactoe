@@ -43,12 +43,12 @@ BRcorner=189
 Xses=88
 Oses=79
 
-		jsr initscr
-		jsr gboard
-		jsr resetcounter
-		jsr Gameloop
+	jsr initscr
+	jsr gboard
+	jsr resetcounter
+	jsr Gameloop
 
-		rts												;End of program
+	rts												;End of program
 
 
 initscr:
