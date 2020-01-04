@@ -21,7 +21,8 @@ CHROUT=$FFD2
 CHRIN=$FFCF
 GETIN=$FFE4
 SWITCH=$FF5F
-COLPORT=$0286
+COLPORT=$0376
+COLUMNS=$0386
 TMP0=$00
 TMP1=$01
 TMP2=$02
@@ -52,7 +53,7 @@ Oses=79
 
 
 initscr:
-	lda $02AE
+	lda COLUMNS
 	cmp	#80
 	beq	.Switch
 	jmp	.NoSet
