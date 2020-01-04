@@ -260,7 +260,7 @@ win2lp:
 	beq +										;If even then branch
 	lda .Win2,y							;load X_place
 	beq	win2lp							;Inore 0 in win2
-	cmp .X_place,y					;Has X won=
+	cmp .X_place,y					;Has X won?
 	bne win2lp							;If no redo loop
 	inc .wincnt							;If yes increment .wincnt
 	lda .wincnt							;Load wincnt into accumulator
