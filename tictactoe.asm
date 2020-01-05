@@ -274,12 +274,13 @@ win_loop:
 	lda #0
 	sta .wincnt
 chkx:
+!byte $ff
 	dey
 	bmi startover
 	lda .count
 	and #1
 	beq chko
-	lda TMP0,y
+	lda (TMP0),y
 	beq chkx
 	cmp .X_place,y
 	bne chkx
@@ -290,7 +291,7 @@ chkx:
 	jmp winsplash
 
 chko:
-	lda TMP0,y
+	lda (TMP0),y
 	beq chkx
 	cmp .O_place,y
 	bne chkx
