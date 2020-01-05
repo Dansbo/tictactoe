@@ -311,7 +311,7 @@ endwl:
 +	jmp .endgl
 
 winsplash:
-	rts
+	jmp .endgl
 
 Gameloop:
 
@@ -411,6 +411,7 @@ Gameloop:
 +	jmp Gameloop						;else re do loop
 
 .endgl:
+!byte $FF
 	rts
 
 tile1:
