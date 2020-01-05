@@ -219,238 +219,89 @@ clrmem:
 	rts
 
 win_loop:
-win1:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win1lp:
-	dey											;Decrement Y
-	bmi win2								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win1,y							;load X_place
-	beq win1lp							;ignore 0 in win scenario
-	cmp .X_place,y					;Has X won?
-	bne win1lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win1lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win1,y							;load O_place
-	beq win1lp
-	cmp .O_place,y						;Has O won?
-	bne win1lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win1lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+win_loop:
+	lda #<.Win1
+	sta TMP0
+	lda #>.Win1
+	sta TMP1
+	jsr .win
 
-win2:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win2lp:
-	dey											;Decrement Y
-	bmi win3								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win2,y							;load X_place
-	beq	win2lp							;Inore 0 in win2
-	cmp .X_place,y					;Has X won?
-	bne win2lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 3 then win
-	bne win2lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win2,y							;load O_place
-	beq win2lp
-	cmp .O_place,y					;Has O won?
-	bne win2lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 3 then win
-	bne win2lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	lda #<.Win2
+	sta TMP0
+	lda #>.Win2
+	sta TMP1
+	jsr .win
 
-win3:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win3lp:
-	dey											;Decrement Y
-	bmi win4								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win3,y							;load X_place
-	beq win3lp							;Ignore 0 in scenario
-	cmp .X_place,y					;Has X won?
-	bne win3lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win3lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win3,y							;load O_place
-	beq win3lp
-	cmp .O_place,y					;Has O won=
-	bne win3lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win3lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	lda #<.Win3
+	sta TMP0
+	lda #>.Win3
+	sta TMP1
+	jsr .win
 
-win4:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win4lp:
-	dey											;Decrement Y
-	bmi win5								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win4,y							;load X_place
-	beq win4lp
-	cmp .X_place,y					;Has X won=
-	bne win4lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win4lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win4,y							;load O_place
-	beq win4lp
-	cmp .O_place,y					;Has O won=
-	bne win4lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win4lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	lda #<.Win4
+	sta TMP0
+	lda #>.Win4
+	sta TMP1
+	jsr .win
 
-win5:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win5lp:
-	dey											;Decrement Y
-	bmi win6								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win5,y							;load X_place
-	beq win5lp
-	cmp .X_place,y							;Has X won=
-	bne win5lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win5lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win5,y						;load O_place
-	beq	win5lp
-	cmp .O_place,y							;Has O won=
-	bne win5lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win5lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	lda #<.Win5
+	sta TMP0
+	lda #>.Win5
+	sta TMP1
+	jsr .win
 
-win6:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win6lp:
-	dey											;Decrement Y
-	bmi win7								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win6,y						;load X_place
-	beq win6lp
-	cmp .X_place,y							;Has X won=
-	bne win6lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win6lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win6,y						;load O_place
-	beq win6lp
-	cmp .O_place,y							;Has O won=
-	bne win6lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win6lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	lda #<.Win6
+	sta TMP0
+	lda #>.Win6
+	sta TMP1
+	jsr .win
 
-win7:
-	ldy #9									;load 9 into Y for count
-	lda #0
-	sta .wincnt							;Reset .wincnt
-win7lp:
-	dey											;Decrement Y
-	bmi win8								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win7,y							;load X_place
-	beq win7lp
-	cmp .X_place,y					;Has X won=
-	bne win7lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win7lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win7,y						;load O_place
-	beq win7lp
-	cmp .O_place,y							;Has O won=
-	bne win7lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win7lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	lda #<.Win7
+	sta TMP0
+	lda #>.Win7
+	sta TMP1
+	jsr .win
 
-win8:
-	ldy #9									;load 9 into Y for count
+	lda #<.Win8
+	sta TMP0
+	lda #>.Win8
+	sta TMP1
+	jsr .win
+	jmp endwl
+
+.win:
+	ldy #9
 	lda #0
-	sta .wincnt							;Reset .wincnt
-win8lp:
-	dey											;Decrement Y
-	cpy #0
-	bmi endwl								;if negative 1 go to win2
-	lda .count							;Load .count to accumulator
-	and #1									;who just placed the piece?
-	beq +										;If even then branch
-	lda .Win8,y							;load X_place
-	beq win8lp
-	cmp .X_place,y					;Has X won=
-	bne win8lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win8lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
-+	lda .Win8,y							;load O_place
-	beq win8lp
-	cmp .O_place,y							;Has O won=
-	bne win8lp							;If no redo loop
-	inc .wincnt							;If yes increment .wincnt
-	lda .wincnt							;Load wincnt into accumulator
-	cmp #3									;If wincnt 9 then win
-	bne win8lp							;If not redo loop
-	jmp winsplash						;if .wincnt 9 then celebratory screen
+	sta .wincnt
+chkx:
+	dey
+	bmi startover
+	lda .count
+	and #1
+	beq chko
+	lda TMP0,y
+	beq chkx
+	cmp .X_place,y
+	bne chkx
+	inc .wincnt
+	lda .wincnt
+	cmp #3
+	bne chkx
+	jmp winsplash
+
+chko:
+	lda TMP0,y
+	beq chkx
+	cmp .O_place,y
+	bne chkx
+	inc .wincnt
+	lda .wincnt
+	cmp #3
+	bne chkx
+	jmp winsplash
+
+startover:
+	rts
 
 endwl:
 	dec .count							;decrement .count for next turn
