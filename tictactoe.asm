@@ -219,7 +219,6 @@ clrmem:
 	rts
 
 win_loop:
-win_loop:
 	lda #<.Win1
 	sta TMP0
 	lda #>.Win1
@@ -273,8 +272,8 @@ win_loop:
 	ldy #9
 	lda #0
 	sta .wincnt
+
 chkx:
-!byte $ff
 	dey
 	bmi startover
 	lda .count
