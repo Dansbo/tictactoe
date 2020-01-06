@@ -228,11 +228,11 @@ gameloop:
 	lda .count						;Check count
 	and #1								;Is .count odd or even number
 	bne +									;If odd number place X
-	jsr PlaceO						;Do PlaceO (A has been loaded with #1)
-	sta .O_place,y					;Remember where O is placed
+	jsr PlaceO						;PlaceO (A has been loaded with #1 + dec .count)
+	sta .O_place,y				;Remember where O is placed
 	rts										;Jump back into gameloop
-+	jsr PlaceX						;Do PlaceX (A has been loaded with #1)
-	sta .X_place,y					;Remember where X is placed
++	jsr PlaceX						;PlaceX (A has been loaded with #1+ dec .count)
+	sta .X_place,y				;Remember where X is placed
 	rts										;Jump back into gameloop
 
 .endgl:
