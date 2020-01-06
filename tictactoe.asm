@@ -57,16 +57,26 @@ Oses=79
 	rts											;End of program
 
 gameloop:
+
+;******************************************************************************
+;*I want to check if anyone has won Here																			*
+;******************************************************************************
 	lda .wincnt						;Load A with .wincnt
 	cmp #3								;Is .wincnt 3?
 	bne .chkcnt						;If not check if counter has run out
 	jmp .winsplash				;Go show winsplash
 
+;******************************************************************************
+;*Check if .count has reached 0 if so the game is a drawsplash								*
+;******************************************************************************
 .chkcnt:
 	lda .count						;Check if count is 0
 	bne .doloop						;If .count not 0 go doloop
  	jmp .drawsplash				;If .count is 0 go show drawsplash
 
+;******************************************************************************
+;*Do the actual loop from Here																								*
+;******************************************************************************
 .doloop:
 	jsr GETIN
 	cmp #'Q'							;Press Q for quit
@@ -78,8 +88,6 @@ gameloop:
 	bne .is2							;If not check for 2
 	lda .Occ_place				;Check if tile is occupied
 	bne .is2							;if it is check for next number
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place				;Mark tile as occupied
 	lda #0
 	sta TMP0							;Store byte number in zeropage 0
 	lda #10
@@ -94,8 +102,6 @@ gameloop:
 	bne .is3
 	lda .Occ_place+1			;check if tile is occupied
 	bne .is3							;If it is check for next number
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+1			;Mark tile as occupied
 	lda #1
 	sta TMP0							;Store byte number in zeropage 0
 	lda #10
@@ -111,8 +117,6 @@ gameloop:
 	bne .is4
 	lda .Occ_place+2
 	bne .is4
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+2			;Mark tile as occupied
 	lda #2
 	sta TMP0							;Store byte number in zeropage 0
 	lda #10
@@ -128,8 +132,6 @@ gameloop:
 	bne .is5
 	lda .Occ_place+3
 	bne .is5
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+3			;Mark tile as occupied
 	lda #3
 	sta TMP0							;Store byte number in zeropage 0
 	lda #14
@@ -145,8 +147,6 @@ gameloop:
 	bne .is6
 	lda .Occ_place+4
 	bne .is6
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+4			;Mark tile as occupied
 	lda #4
 	sta TMP0							;Store byte number in zeropage 0
 	lda #14
@@ -162,8 +162,6 @@ gameloop:
 	bne .is7
 	lda .Occ_place+5
 	bne .is7
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+5			;Mark tile as occupied
 	lda #5
 	sta TMP0							;Store byte number in zeropage 0
 	lda #14
@@ -179,8 +177,6 @@ gameloop:
 	bne .is8
 	lda .Occ_place+6
 	bne .is8
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+6			;Mark tile as occupied
 	lda #6
 	sta TMP0							;Store byte number in zeropage 0
 	lda #18
@@ -196,8 +192,6 @@ gameloop:
 	bne .is9
 	lda .Occ_place+7
 	bne .is9
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+7			;Mark tile as occupied
 	lda #7
 	sta TMP0							;Store byte number in zeropage 0
 	lda #18
@@ -215,8 +209,7 @@ gameloop:
 
 .do9:
 	lda .Occ_place+8
-	lda #1								;So we can mark tile as occupied
-	sta .Occ_place+8			;Mark tile as occupied
+	bne +
 	lda #8
 	sta TMP0							;Store byte number in zeropage 0
 	lda #18
@@ -224,7 +217,7 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
++	jmp gameloop					;placeholder for to check for winner
 
 .tile
 	ldx TMP1							;Load X coordinate for tile
@@ -233,17 +226,22 @@ gameloop:
 	ldy TMP0							;Load placeholder into y
 	lda .count						;Check count
 	and #1								;Is .count odd or even number
-	bne .plaX									;If odd number place X
+	bne .plaX							;If odd number place X
 	jsr PlaceO						;PlaceO (A has been loaded with #1 + dec .count)
 	sta .O_place,y				;Remember where O is placed
+	sta .Occ_place,y			;Remember this tile is not empty
 	rts										;Jump back into gameloop
 .plaX:
 	jsr PlaceX						;PlaceX (A has been loaded with #1+ dec .count)
 	sta .X_place,y				;Remember where X is placed
+	sta .Occ_place,y			;Remember this tile is not empty
 	rts										;Jump back into gameloop
 
 .endgl:
 	rts
+
+.chkwin
+
 
 ;******************************************************************************
 ;*Routine placeholders for splashscreens																			*
@@ -253,6 +251,9 @@ gameloop:
 
 .drawsplash:
 		rts
+;******************************************************************************
+;*Initialize gamescreen																												*
+;******************************************************************************
 
 initscr:
 	lda COLUMNS
@@ -315,6 +316,10 @@ initscr:
 	ldx	#26
 	jsr	VLine								;Draw vertical
 	rts
+
+;******************************************************************************
+;*Draw the gameloop																														*
+;******************************************************************************
 
 gboard:
 	lda	#$01
@@ -406,6 +411,10 @@ gboard:
 	jsr	PrintStr
 	rts
 
+;******************************************************************************
+;*Reset various counters so program can run nicely when run again							*
+;******************************************************************************
+
 resetcounter:
 	lda #9									;reset .count to 9
 	sta .count
@@ -419,6 +428,10 @@ clrmem:
 	sta .Occ_place,y				;Store 0 in Occ_place location y
 	bne clrmem							;if y not 0 go to clrmem
 	rts
+
+;******************************************************************************
+;*Various functions																														*
+;******************************************************************************
 
 PlaceX:
 	lda #Xses
