@@ -28,6 +28,12 @@ TMP1=$01
 TMP2=$02
 TMP3=$03
 TMP4=$04
+TMP5=$05
+TMP6=$06
+TMP7=$07
+TMP8=$08
+TMP9=$09
+
 ;PETDraw Chars
 Space=" "
 GHLine=96
@@ -47,10 +53,187 @@ Oses=79
 	jsr initscr
 	jsr gboard
 	jsr resetcounter
-	jsr Gameloop
+	jsr gameloop
+	rts											;End of program
 
-	rts												;End of program
+gameloop:
+	lda .count						;Check if count is 0
+	bne +									;If count is 0 then endgl
+ 	jmp .endgl
++	jsr GETIN
+!byte $FF
+	cmp #'Q'							;Press Q for quit
+	bne .is1							;If not Q then check 1
+	jmp .endgl						;If Q then endgl
 
+.is1:
+	cmp #49								;Has 1 been pressed?
+	bne .is2							;If not check for 2
+	lda .Occ_place				;Check if tile is occupied
+	bne .is2							;if it is check for next number
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place				;Mark tile as occupied
+	lda #0
+	sta TMP0							;Store byte number in zeropage 0
+	lda #10
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #15
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+.is2:
+	cmp #50
+	bne .is3
+	lda .Occ_place+1
+	bne .is3
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+1			;Mark tile as occupied
+	lda #1
+	sta TMP0							;Store byte number in zeropage 0
+	lda #10
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #19
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is3:
+	cmp #51
+	bne .is4
+	lda .Occ_place+2
+	bne .is4
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+2			;Mark tile as occupied
+	lda #2
+	sta TMP0							;Store byte number in zeropage 0
+	lda #10
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #23
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is4:
+	cmp #52
+	bne .is5
+	lda .Occ_place+3
+	bne .is5
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+3			;Mark tile as occupied
+	lda #3
+	sta TMP0							;Store byte number in zeropage 0
+	lda #14
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #15
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is5:
+	cmp #53
+	bne .is6
+	lda .Occ_place+4
+	bne .is6
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+4			;Mark tile as occupied
+	lda #4
+	sta TMP0							;Store byte number in zeropage 0
+	lda #14
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #19
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is6:
+	cmp #54
+	bne .is7
+	lda .Occ_place+5
+	bne .is7
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+5			;Mark tile as occupied
+	lda #5
+	sta TMP0							;Store byte number in zeropage 0
+	lda #14
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #23
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is7:
+	cmp #55
+	bne .is8
+	lda .Occ_place+6
+	bne .is8
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+6			;Mark tile as occupied
+	lda #6
+	sta TMP0							;Store byte number in zeropage 0
+	lda #18
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #15
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is8:
+	cmp #56
+	bne .is9
+	lda .Occ_place+7
+	bne .is9
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+7			;Mark tile as occupied
+	lda #7
+	sta TMP0							;Store byte number in zeropage 0
+	lda #18
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #19
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+
+.is9:
+	cmp #57
+	beq +
+ 	jmp gameloop
++	lda .Occ_place+8
+	lda #1								;So we can mark tile as occupied
+	sta .Occ_place+8			;Mark tile as occupied
+	lda #8
+	sta TMP0							;Store byte number in zeropage 0
+	lda #18
+	sta TMP1							;Store X coordiante in zeropage 1
+	lda #23
+	sta TMP2							;Store Y coordinate in zeropage 2
+	jsr .tile							;Go place relevant piece at tile
+	jmp gameloop					;placeholder for to check for winner
+
+.tile
+	ldx TMP1							;Load X coordinate for tile
+	ldy TMP2							;Load Y coordinate for tile
+	jsr GoXY							;Place cursor at coordinates
+	ldy TMP0							;Load placeholder into y
+	lda .count						;Check count
+	and #1								;Is .count odd or even number
+	bne +									;If odd number place X
+	jsr PlaceO						;Do PlaceO (A has been loaded with #1)
+	sta .O_place,y					;Remember where O is placed
+	rts										;Jump back into gameloop
++	jsr PlaceX						;Do PlaceX (A has been loaded with #1)
+	sta .X_place,y					;Remember where X is placed
+	rts										;Jump back into gameloop
+
+.endgl:
+	rts
 
 initscr:
 	lda COLUMNS
@@ -115,7 +298,6 @@ initscr:
 	rts
 
 gboard:
-
 	lda	#$01
 	sta	COLPORT						;Change color to black background
 
@@ -210,6 +392,7 @@ resetcounter:
 	sta .count
 	tay 										;load number 9 into y
 	lda #0									;load accumulator with 0
+	sta TMP0
 clrmem:
 	dey											;Decrement y
 	sta .X_place,y					;Store 0 in X_place location y
@@ -218,359 +401,17 @@ clrmem:
 	bne clrmem							;if y not 0 go to clrmem
 	rts
 
-win_loop:
-	lda #<.Win1
-	sta TMP0
-	lda #>.Win1
-	sta TMP1
-	jsr .win
-
-	lda #<.Win2
-	sta TMP0
-	lda #>.Win2
-	sta TMP1
-	jsr .win
-
-	lda #<.Win3
-	sta TMP0
-	lda #>.Win3
-	sta TMP1
-	jsr .win
-
-	lda #<.Win4
-	sta TMP0
-	lda #>.Win4
-	sta TMP1
-	jsr .win
-
-	lda #<.Win5
-	sta TMP0
-	lda #>.Win5
-	sta TMP1
-	jsr .win
-
-	lda #<.Win6
-	sta TMP0
-	lda #>.Win6
-	sta TMP1
-	jsr .win
-
-	lda #<.Win7
-	sta TMP0
-	lda #>.Win7
-	sta TMP1
-	jsr .win
-
-	lda #<.Win8
-	sta TMP0
-	lda #>.Win8
-	sta TMP1
-	jsr .win
-	jmp endwl
-
-.win:
-	ldy #9
-	lda #0
-	sta .wincnt
-
-chkx:
-	dey
-	bmi startover
-	lda .count
-	and #1
-	beq chko
-	lda (TMP0),y
-	beq chkx
-	cmp .X_place,y
-	bne chkx
-	inc .wincnt
-	lda .wincnt
-	cmp #3
-	bne chkx
-	jmp winsplash
-
-chko:
-	lda (TMP0),y
-	beq chkx
-	cmp .O_place,y
-	bne chkx
-	inc .wincnt
-	lda .wincnt
-	cmp #3
-	bne chkx
-	jmp winsplash
-
-startover:
-	rts
-
-endwl:
-	dec .count							;decrement .count for next turn
-	lda .count							;Is count 0
-	beq +										;End game if 0
-	jmp Gameloop						;Redo Gameloop if not 0
-+	jmp .endgl
-
-winsplash:
-	jmp .endgl
-
-Gameloop:
-
-	jsr GETIN 							;Wait for user to press key
-
-	cmp #'Q'								;Q for quit
-	bne .is5								;If Q is not pressed check 5
-	jmp .endgl
-
-.is5:
-	cmp #53									;Is number 5 pressed
-	bne .is1								;if not check for 1
-	lda .Occ_place +4				;Load state of tile 5
-	cmp #1									;if 1 then occupied
-	beq .is1								;continue loop
-	jmp tile5								;place cursor
-	bne .is1								;if .count not 0 then check for 1
-	jmp .endgl
-
-.is1:
-	cmp #49									;Is number 1 pressed?
-	bne .is3								;If not check for 3
-	lda .Occ_place					;load state of tile 1
-	cmp #1									;if 1 then occupied
-	beq .is3								;continue loop
-	jmp tile1								;place cursor
-	bne .is3								;if .count not 0 then check for 3
-	jmp .endgl
-
-.is3:
-	cmp #51
-	bne .is9
-	lda .Occ_place +2
-	cmp #1
-	beq .is9
-	jmp tile3
-	bne .is9
-	jmp .endgl
-
-.is9:
-	cmp #57
-	bne .is7
-	lda .Occ_place +8
-	cmp #1
-	beq .is7
-	jmp tile9
-	bne .is7
-	jmp .endgl
-
-.is7:
-	cmp #55
-	bne .is4
-	lda .Occ_place +6
-	cmp #1
-	beq .is4
-	jmp tile7
-	bne .is4
-	jmp .endgl
-
-.is4:
-	cmp #52
-	bne .is2
-	lda .Occ_place +3
-	cmp #1
-	beq .is2
-	jmp tile4
-	bne .is2
-	jmp .endgl
-
-.is2:
-	cmp #50
-	bne .is6
-	lda .Occ_place +1
-	cmp #1
-	beq .is6
-	jmp tile2
-	bne .is6
-	jmp .endgl
-
-.is6:
-	cmp #54
-	bne .is8
-	lda .Occ_place +5
-	cmp #1
-	beq .is8
-	jmp tile6
-	bne .is8
-	jmp .endgl
-
-.is8:
-	cmp #56
-	beq +
-	jmp Gameloop						;if not 8 goto gameloop
-+	jmp tile8
-	bne +										;if number of possible turns is 0
-	jmp .endgl							;end game
-+	jmp Gameloop						;else re do loop
-
-.endgl:
-!byte $FF
-	rts
-
-tile1:
-	ldx #10									;load tile coordinates
-	ldy #15
-	jsr GoXY								;go to tile
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place						;Store 1 at 1st place in variable
-	sta .Occ_place
-	jmp win_loop						;Go check if this placement gives a win
-+	jsr PlaceX							;if odd place X
-	sta .X_place						;Store 1 at 1st place in variable
-	sta .Occ_place
-	jmp win_loop						;Go check if this plascement gives a win
-
-tile2:
-	ldx #10
-	ldy #19
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +1					;Store 1 at 9th place in variable
-	sta .Occ_place +1
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +1
-	sta .Occ_place +1
-	jmp win_loop
-
-tile3:
-	ldx #10
-	ldy #23
-	jsr	GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +2					;Store 1 at 9th place in variable
-	sta .Occ_place +2
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +2
-	sta .Occ_place +2
-	jmp win_loop
-
-tile4:
-	ldx #14
-	ldy #15
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +3					;Store 1 at 9th place in variable
-	sta .Occ_place +3
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +3
-	sta .Occ_place +3
-	jmp win_loop
-
-tile5:
-	ldx #14
-	ldy #19
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +4					;Store 1 at 9th place in variable
-	sta .Occ_place +4
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +4
-	sta .Occ_place +4
-	jmp win_loop
-
-tile6:
-	ldx #14
-	ldy #23
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +5					;Store 1 at 9th place in variable
-	sta .Occ_place +5
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +5
-	sta .Occ_place +5
-	jmp win_loop
-
-tile7:
-	ldx #18
-	ldy #15
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +6					;Store 1 at 9th place in variable
-	sta .Occ_place +6
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +6
-	sta .Occ_place +6
-	jmp win_loop
-
-tile8:
-	lda .Occ_place +7				;load state of tile 8
-	cmp #1									;is it 1?
-	bne +										;if it is not place tile
-	jmp Gameloop						;go back into loop
-+	ldx #18
-	ldy #19
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +7					;Store 1 at 9th place in variable
-	sta .Occ_place +7
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +7
-	sta .Occ_place +7
-	jmp win_loop
-
-tile9:
-	ldx #18
-	ldy #23
-	jsr GoXY
-	lda .count							;load .count to acc
-	and #1
-	bne +										;If odd number
-	jsr PlaceO							;Place O piece if even
-	sta .O_place +8					;Store 1 at 9th place in variable
-	sta .Occ_place +8
-	jmp win_loop
-+	jsr PlaceX							;if odd place X
-	sta .X_place +8
-	sta .Occ_place +8
-	jmp win_loop
-
 PlaceX:
 	lda #Xses
 	jsr CHROUT
+	dec .count
 	lda #1
 	rts
 
 PlaceO:
 	lda #Oses
 	jsr CHROUT
+	dec .count
 	lda #1
 	rts
 														;Make cursor placement sub
@@ -620,6 +461,9 @@ PrintStr:
 .printdone
 	rts
 
+;******************************************************************************
+; List of predefined constants used for text, maze and win scenarios
+;******************************************************************************
 
 .title !pet "tictactoe",0
 .X_win !pet "x wins!",0
