@@ -221,11 +221,13 @@ gameloop:
 	jsr PlaceO						;PlaceO (A has been loaded with #1 + dec .count)
 	sta .O_place,y				;Remember where O is placed
 	sta .Occ_place,y			;Remember this tile is not empty
+	jsr chkwin
 	rts										;Jump back into gameloop
 .plaX:
 	jsr PlaceX						;PlaceX (A has been loaded with #1+ dec .count)
 	sta .X_place,y				;Remember where X is placed
 	sta .Occ_place,y			;Remember this tile is not empty
+	jsr chkwin
 	rts										;Jump back into gameloop
 
 
