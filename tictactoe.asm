@@ -58,9 +58,11 @@ Oses=79
 
 gameloop:
 	lda .count						;Check if count is 0
-	bne +									;If count is 0 then endgl
+	bne .doloop						;If count is 0 then endgl
  	jmp .endgl
-+	jsr GETIN
+
+.doloop:
+	jsr GETIN
 	cmp #'Q'							;Press Q for quit
 	bne .is1							;If not Q then check 1
 	jmp .endgl						;If Q then endgl
@@ -202,9 +204,11 @@ gameloop:
 
 .is9:
 	cmp #57
-	beq +
+	beq .do9
  	jmp gameloop
-+	lda .Occ_place+8
+
+.do9:
+	lda .Occ_place+8
 	lda #1								;So we can mark tile as occupied
 	sta .Occ_place+8			;Mark tile as occupied
 	lda #8
