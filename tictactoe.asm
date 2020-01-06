@@ -95,8 +95,6 @@ gameloop:
 	lda #15
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
 
 .is2:
 	cmp #50
@@ -110,9 +108,6 @@ gameloop:
 	lda #19
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is3:
 	cmp #51
@@ -126,9 +121,6 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is4:
 	cmp #52
@@ -142,9 +134,6 @@ gameloop:
 	lda #15
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is5:
 	cmp #53
@@ -158,9 +147,6 @@ gameloop:
 	lda #19
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is6:
 	cmp #54
@@ -174,9 +160,6 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is7:
 	cmp #55
@@ -190,9 +173,6 @@ gameloop:
 	lda #15
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is8:
 	cmp #56
@@ -206,9 +186,6 @@ gameloop:
 	lda #19
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
-	jmp gameloop
-
 
 .is9:
 	cmp #57
@@ -225,7 +202,6 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jsr .chkwin						;Go update wincnt
 +	jmp gameloop					;placeholder for to check for winner
 
 .tile
@@ -247,73 +223,6 @@ gameloop:
 	rts										;Jump back into gameloop
 
 .endgl:
-	rts
-
-.chkwin
-	ldy #9								;Prepare Y to count bytes
-
-	lda #<.Win1
-	sta TMP0
-	lda #>.Win1
-	sta TMP1
-	jsr .updwincnt
-
-	lda #<.Win2
-	sta TMP0
-	lda #>.Win2
-	sta TMP1
-	jsr .updwincnt
-
-	lda #<.Win3
-	sta TMP0
-	lda #>.Win3
-	sta TMP1
-	jsr .updwincnt
-
-	lda #<.Win4
-	sta TMP0
-	lda #>.Win4
-	sta TMP1
-	jsr .updwincnt
-
-.ending:
-	rts
-
-	lda #<.Win5
-	sta TMP0
-	lda #>.Win5
-	sta TMP1
-	jsr .updwincnt
-
-	lda #<.Win6
-	sta TMP0
-	lda #>.Win6
-	sta TMP1
-	jsr .updwincnt
-
-	lda #0
-	sta TMP9
-	lda #<.Win7
-	sta TMP0
-	lda #>.Win7
-	sta TMP1
-	jsr .updwincnt
-	lda TMP9
-	bne .ending
-
-	lda #0
-	sta TMP9
-	lda #<.Win8
-	sta TMP0
-	lda #>.Win8
-	sta TMP1
-	jsr .updwincnt
-	rts
-
-.updwincnt:
-
-.endwin:
-!byte $FF
 	rts
 
 ;******************************************************************************
