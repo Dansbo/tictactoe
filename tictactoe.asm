@@ -57,9 +57,15 @@ Oses=79
 	rts											;End of program
 
 gameloop:
+	lda .wincnt						;Load A with .wincnt
+	cmp #3
+	bne .chkcnt
+	jmp .winsplash
+
+.chkcnt:
 	lda .count						;Check if count is 0
 	bne .doloop						;If count is 0 then endgl
- 	jmp .endgl
+ 	jmp .drawsplash
 
 .doloop:
 	jsr GETIN
@@ -86,8 +92,8 @@ gameloop:
 .is2:
 	cmp #50
 	bne .is3
-	lda .Occ_place+1
-	bne .is3
+	lda .Occ_place+1			;check if tile is occupied
+	bne .is3							;If it is check for next number
 	lda #1								;So we can mark tile as occupied
 	sta .Occ_place+1			;Mark tile as occupied
 	lda #1
@@ -204,8 +210,8 @@ gameloop:
 
 .is9:
 	cmp #57
-	beq .do9
- 	jmp gameloop
+	beq .do9							;If 9 is pressed go to do9
+ 	jmp gameloop					;If not redo gameloop
 
 .do9:
 	lda .Occ_place+8
@@ -238,6 +244,15 @@ gameloop:
 
 .endgl:
 	rts
+
+;******************************************************************************
+;*Routine placeholders for splashscreens																			*
+;******************************************************************************
+.winsplash:
+		rts
+
+.drawsplash:
+		rts
 
 initscr:
 	lda COLUMNS
@@ -536,5 +551,4 @@ PrintStr:
 			!byte 1,0,0
 ;counter for matching winbits and bitcounter
 .wincnt !byte 0
-.bitcnt !byte 0
 }
