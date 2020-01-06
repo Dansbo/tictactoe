@@ -227,11 +227,12 @@ gameloop:
 	ldy TMP0							;Load placeholder into y
 	lda .count						;Check count
 	and #1								;Is .count odd or even number
-	bne +									;If odd number place X
+	bne .plaX									;If odd number place X
 	jsr PlaceO						;PlaceO (A has been loaded with #1 + dec .count)
 	sta .O_place,y				;Remember where O is placed
 	rts										;Jump back into gameloop
-+	jsr PlaceX						;PlaceX (A has been loaded with #1+ dec .count)
+.plaX:
+	jsr PlaceX						;PlaceX (A has been loaded with #1+ dec .count)
 	sta .X_place,y				;Remember where X is placed
 	rts										;Jump back into gameloop
 
