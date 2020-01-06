@@ -65,6 +65,7 @@ gameloop:
 	cmp #3								;Is .wincnt 3?
 	bne .chkcnt						;If not check if counter has run out
 	jsr .winsplash				;Go show winsplash
+	jsr .chkcnt
 	jmp .endgl
 
 ;******************************************************************************
@@ -74,7 +75,7 @@ gameloop:
 	lda .count						;Check if count is 0
 	bne .doloop						;If .count not 0 go doloop
  	jsr .drawsplash				;If .count is 0 go show drawsplash
-	jmp .endgl
+	rts
 
 ;******************************************************************************
 ;*Do the actual loop from Here																								*
