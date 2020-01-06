@@ -95,7 +95,8 @@ gameloop:
 	lda #15
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 .is2:
 	cmp #50
@@ -109,7 +110,8 @@ gameloop:
 	lda #19
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is3:
@@ -124,7 +126,8 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is4:
@@ -139,7 +142,8 @@ gameloop:
 	lda #15
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is5:
@@ -154,7 +158,8 @@ gameloop:
 	lda #19
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is6:
@@ -169,7 +174,8 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is7:
@@ -184,7 +190,8 @@ gameloop:
 	lda #15
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is8:
@@ -199,7 +206,8 @@ gameloop:
 	lda #19
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-	jmp gameloop					;placeholder for to check for winner
+	jsr .chkwin						;Go update wincnt
+	jmp gameloop					;Back to loop
 
 
 .is9:
@@ -217,6 +225,7 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
+	jsr .chkwin						;Go update wincnt
 +	jmp gameloop					;placeholder for to check for winner
 
 .tile
@@ -241,7 +250,90 @@ gameloop:
 	rts
 
 .chkwin
+	ldy #9								;Prepare Y to count bytes
 
+	lda #<.Win1
+	sta TMP0
+	lda #>.Win1
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win2
+	sta TMP0
+	lda #>.Win2
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win3
+	sta TMP0
+	lda #>.Win3
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win4
+	sta TMP0
+	lda #>.Win4
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win5
+	sta TMP0
+	lda #>.Win5
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win6
+	sta TMP0
+	lda #>.Win6
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win7
+	sta TMP0
+	lda #>.Win7
+	sta TMP1
+	jsr .updwincnt
+
+	lda #<.Win8
+	sta TMP0
+	lda #>.Win8
+	sta TMP1
+	jsr .updwincnt
+	rts
+
+.updwincnt:
+	dey
+	bmi .nxtwin
+	lda .count
+	and #1
+	bne .chko
+	lda (TMP0),y
+	beq .updwincnt
+	cmp .X_place,y
+	bne .updwincnt
+	inc .wincnt
+	cmp #3
+	bne .updwincnt
+  jmp .endwin
+
+.chko:
+	lda (TMP0),y
+	beq .updwincnt
+	cmp .O_place,y
+	bne .updwincnt
+	inc .wincnt
+	cmp #3
+	bne .nxtwin
+	jmp .endwin
+
+.nxtwin:
+	ldy #9
+	lda #0
+	sta .wincnt
+	rts
+
+.endwin:
+	rts
 
 ;******************************************************************************
 ;*Routine placeholders for splashscreens																			*
