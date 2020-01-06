@@ -207,7 +207,7 @@ gameloop:
 	jsr .tile							;Go place relevant piece at tile
 +	jsr gameloop					;placeholder for to check for winner
 
-.endgl
+.endgl:
 	rts
 
 .tile
