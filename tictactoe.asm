@@ -58,14 +58,14 @@ Oses=79
 
 gameloop:
 	lda .wincnt						;Load A with .wincnt
-	cmp #3
-	bne .chkcnt
-	jmp .winsplash
+	cmp #3								;Is .wincnt 3?
+	bne .chkcnt						;If not check if counter has run out
+	jmp .winsplash				;Go show winsplash
 
 .chkcnt:
 	lda .count						;Check if count is 0
-	bne .doloop						;If count is 0 then endgl
- 	jmp .drawsplash
+	bne .doloop						;If .count not 0 go doloop
+ 	jmp .drawsplash				;If .count is 0 go show drawsplash
 
 .doloop:
 	jsr GETIN
