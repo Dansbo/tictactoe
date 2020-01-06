@@ -75,7 +75,7 @@ gameloop:
 	lda .count						;Check if count is 0
 	bne .doloop						;If .count not 0 go doloop
  	jsr .drawsplash				;If .count is 0 go show drawsplash
-	jmp gameloop
+	jmp .endgl
 
 ;******************************************************************************
 ;*Do the actual loop from Here																								*
