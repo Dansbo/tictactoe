@@ -96,7 +96,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 .is2:
 	cmp #50
@@ -111,7 +111,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is3:
@@ -127,7 +127,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is4:
@@ -143,7 +143,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is5:
@@ -159,7 +159,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is6:
@@ -175,7 +175,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is7:
@@ -191,7 +191,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is8:
@@ -207,7 +207,7 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 	jsr .chkwin						;Go update wincnt
-	jmp gameloop					;Back to loop
+	jmp gameloop
 
 
 .is9:
@@ -256,75 +256,69 @@ gameloop:
 	sta TMP0
 	lda #>.Win1
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win2
 	sta TMP0
 	lda #>.Win2
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win3
 	sta TMP0
 	lda #>.Win3
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win4
 	sta TMP0
 	lda #>.Win4
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win5
 	sta TMP0
 	lda #>.Win5
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win6
 	sta TMP0
 	lda #>.Win6
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win7
 	sta TMP0
 	lda #>.Win7
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 
 	lda #<.Win8
 	sta TMP0
 	lda #>.Win8
 	sta TMP1
-	jsr .updwincnt
+	;jsr .updwincnt
 	rts
 
 .updwincnt:
 	dey
 	bmi .nxtwin
-	lda .count
-	and #1
-	bne .chko
 	lda (TMP0),y
 	beq .updwincnt
 	cmp .X_place,y
 	bne .updwincnt
 	inc .wincnt
 	cmp #3
-	bne .updwincnt
-  jmp .endwin
-
-.chko:
+	beq .endwin
+	dec .wincnt
 	lda (TMP0),y
-	beq .updwincnt
 	cmp .O_place,y
 	bne .updwincnt
 	inc .wincnt
 	cmp #3
-	bne .nxtwin
-	jmp .endwin
+	beq .endwin
+	jmp .nxtwin
 
 .nxtwin:
 	ldy #9
@@ -333,7 +327,7 @@ gameloop:
 	rts
 
 .endwin:
-	rts
+	jmp gameloop
 
 ;******************************************************************************
 ;*Routine placeholders for splashscreens																			*
