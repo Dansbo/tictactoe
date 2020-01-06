@@ -64,7 +64,8 @@ gameloop:
 	lda .wincnt						;Load A with .wincnt
 	cmp #3								;Is .wincnt 3?
 	bne .chkcnt						;If not check if counter has run out
-	jmp .winsplash				;Go show winsplash
+	jsr .winsplash				;Go show winsplash
+	jmp .endgl
 
 ;******************************************************************************
 ;*Check if .count has reached 0 if so the game is a drawsplash								*
@@ -72,7 +73,8 @@ gameloop:
 .chkcnt:
 	lda .count						;Check if count is 0
 	bne .doloop						;If .count not 0 go doloop
- 	jmp .drawsplash				;If .count is 0 go show drawsplash
+ 	jsr .drawsplash				;If .count is 0 go show drawsplash
+	jmp .endgl
 
 ;******************************************************************************
 ;*Do the actual loop from Here																								*
@@ -222,8 +224,6 @@ gameloop:
 	sta .Occ_place,y			;Remember this tile is not empty
 	rts										;Jump back into gameloop
 
-.endgl:
-	rts
 
 ;******************************************************************************
 ;*Routine placeholders for splashscreens																			*
