@@ -61,7 +61,6 @@ gameloop:
 	bne +									;If count is 0 then endgl
  	jmp .endgl
 +	jsr GETIN
-!byte $FF
 	cmp #'Q'							;Press Q for quit
 	bne .is1							;If not Q then check 1
 	jmp .endgl						;If Q then endgl
