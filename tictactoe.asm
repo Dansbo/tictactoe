@@ -75,7 +75,7 @@ gameloop:
 	lda .count						;Check if count is 0
 	bne .doloop						;If .count not 0 go doloop
  	jsr .drawsplash				;If .count is 0 go show drawsplash
-	rts
+	jmp gameloop
 
 ;******************************************************************************
 ;*Do the actual loop from Here																								*
@@ -206,6 +206,8 @@ gameloop:
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
 +	jsr gameloop					;placeholder for to check for winner
+
+.endgl
 	rts
 
 .tile
