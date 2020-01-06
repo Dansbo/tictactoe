@@ -256,78 +256,65 @@ gameloop:
 	sta TMP0
 	lda #>.Win1
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
 
 	lda #<.Win2
 	sta TMP0
 	lda #>.Win2
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
 
 	lda #<.Win3
 	sta TMP0
 	lda #>.Win3
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
 
 	lda #<.Win4
 	sta TMP0
 	lda #>.Win4
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
+
+.ending:
+	rts
 
 	lda #<.Win5
 	sta TMP0
 	lda #>.Win5
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
 
 	lda #<.Win6
 	sta TMP0
 	lda #>.Win6
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
 
+	lda #0
+	sta TMP9
 	lda #<.Win7
 	sta TMP0
 	lda #>.Win7
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
+	lda TMP9
+	bne .ending
 
+	lda #0
+	sta TMP9
 	lda #<.Win8
 	sta TMP0
 	lda #>.Win8
 	sta TMP1
-	;jsr .updwincnt
+	jsr .updwincnt
 	rts
 
 .updwincnt:
-	dey
-	bmi .nxtwin
-	lda (TMP0),y
-	beq .updwincnt
-	cmp .X_place,y
-	bne .updwincnt
-	inc .wincnt
-	cmp #3
-	beq .endwin
-	dec .wincnt
-	lda (TMP0),y
-	cmp .O_place,y
-	bne .updwincnt
-	inc .wincnt
-	cmp #3
-	beq .endwin
-	jmp .nxtwin
-
-.nxtwin:
-	ldy #9
-	lda #0
-	sta .wincnt
-	rts
 
 .endwin:
-	jmp gameloop
+!byte $FF
+	rts
 
 ;******************************************************************************
 ;*Routine placeholders for splashscreens																			*
