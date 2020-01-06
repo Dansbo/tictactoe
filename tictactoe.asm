@@ -205,7 +205,8 @@ gameloop:
 	lda #23
 	sta TMP2							;Store Y coordinate in zeropage 2
 	jsr .tile							;Go place relevant piece at tile
-+	jmp gameloop					;placeholder for to check for winner
++	jsr gameloop					;placeholder for to check for winner
+	rts
 
 .tile
 	ldx TMP1							;Load X coordinate for tile
