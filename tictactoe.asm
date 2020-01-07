@@ -66,7 +66,6 @@ gameloop:
 	cmp #3								;Is .wincnt 3?
 	bne .chkcnt						;If not check if counter has run out
 	jsr .winsplash				;Go show winsplash
-	jsr .chkcnt
 	jmp .endgl
 
 ;******************************************************************************
