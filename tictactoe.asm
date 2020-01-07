@@ -394,10 +394,150 @@ chkwin:
 ;************************************************************************
 
 .winsplash:
-		rts
+	jsr .NoSet
+	lda #$01
+	sta COLPORT
+	rts
 
 .drawsplash:
-		rts
+	jsr .NoSet
+	lda #$01
+	sta COLPORT
+	ldx #3
+	stx TMP8
+	ldy #3
+	sty TMP9
+	jsr GoXY
+
+	ldx #<.dr1
+	ldy #>.dr1
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr2
+	ldy #>.dr2
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #4
+	ldy #3
+	ldx #<.dr3
+	ldy #>.dr3
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr4
+	ldy #>.dr4
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr5
+	ldy #>.dr5
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr6
+	ldy #>.dr6
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr7
+	ldy #>.dr7
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr8
+	ldy #>.dr8
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr9
+	ldy #>.dr9
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr10
+	ldy #>.dr10
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr11
+	ldy #>.dr11
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr12
+	ldy #>.dr12
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr13
+	ldy #>.dr13
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr14
+	ldy #>.dr14
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr15
+	ldy #>.dr15
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr16
+	ldy #>.dr16
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr17
+	ldy #>.dr17
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr18
+	ldy #>.dr18
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr19
+	ldy #>.dr19
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr20
+	ldy #>.dr20
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr21
+	ldy #>.dr21
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr22
+	ldy #>.dr22
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr23
+	ldy #>.dr23
+	jsr PrintStr
+
+	jsr .nxtline
+	ldx #<.dr24
+	ldy #>.dr24
+	jsr PrintStr
+
+	rts
+
+.nxtline:
+	inc TMP8
+	ldx TMP8
+	ldy TMP9
+	jsr GoXY
+	rts
 ;************************************************************************
 ;*Initialize gamescreen							*
 ;************************************************************************
