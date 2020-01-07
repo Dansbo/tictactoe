@@ -397,6 +397,67 @@ chkwin:
 	jsr .NoSet
 	lda #$01
 	sta COLPORT
+	ldx #16
+	sta TMP8
+	ldy #3
+	sty TMP9
+	jsr GoXY
+
+	ldx #<.wdr1
+	ldy #>.wdr1
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr2
+	ldy #>.wdr2
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr3
+	ldy #>.wdr3
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr4
+	ldy #>.wdr4
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr5
+	ldy #>.wdr5
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr6
+	ldy #>.wdr6
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr7
+	ldy #>.wdr7
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr8
+	ldy #>.wdr8
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr9
+	ldy #>.wdr9
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr10
+	ldy #>.wdr10
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.wdr11
+	ldy #>.wdr11
+	jsr PrintStr
+	jsr .nxtline
+
 	rts
 
 .drawsplash:
@@ -531,6 +592,10 @@ chkwin:
 	jsr PrintStr
 
 	rts
+
+;************************************************************************
+;*Routine to go to next line when drawing				*
+;************************************************************************
 
 .nxtline:
 	inc TMP8
@@ -904,17 +969,17 @@ PrintStr:
 .ow11 !pet	"  ******  ",0
 .ow12 !pet	"   ****   ",0
 
-.wdr1 !pet	"**    **   **   **    **    ****** ",0
-.wdr2 !pet	"**    **   **   ***   **    ****** ",0
-.wdr3 !pet	"**    **   **   ****  **   **      ",0
-.wdr4 !pet	"**    **   **   ** ** **   **      ",0
-.wdr5 !pet	"**    **   **   ** ** **    ****   ",0
-.wdr6 !pet	"**    **   **   ** ** **      ***  ",0
-.wdr7 !pet	"** ** **   **   ** ** **        ***",0
-.wdr8 !pet	"** ** **   **   **  * **         **",0
-.wdr9 !pet	"***  ***   **   **  ****        ** ",0
-.wdr10 !pet	"***  ***   **   **   ***   ******  ",0
-.wdr11 !pet	"**    **   **   **    **   *****   ",0
+.wdr1 !pet	"**    **   **   **    **   ****** ",0
+.wdr2 !pet	"**    **   **   ***   **   ****** ",0
+.wdr3 !pet	"**    **   **   ****  **  **      ",0
+.wdr4 !pet	"**    **   **   ** ** **  **      ",0
+.wdr5 !pet	"**    **   **   ** ** **   ****   ",0
+.wdr6 !pet	"**    **   **   ** ** **     ***  ",0
+.wdr7 !pet	"** ** **   **   ** ** **       ***",0
+.wdr8 !pet	"** ** **   **   **  * **        **",0
+.wdr9 !pet	"***  ***   **   **  ****       ** ",0
+.wdr10 !pet	"***  ***   **   **   ***  ******  ",0
+.wdr11 !pet	"**    **   **   **    **  *****   ",0
 
 
 }
