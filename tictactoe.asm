@@ -230,6 +230,143 @@ gameloop:
 	jsr chkwin
 	rts										;Jump back into gameloop
 
+chkwin:
+	ldy #9								;Prepare Y as byte counter
+	lda #0
+	sta .wincnt
+	lda #<.Win1						;load Win1 into ZP
+	sta TMP0
+	lda #>.Win1
+	sta TMP1
+	jsr .chkplaces				;Go see if we can get .wincnt =3
+	cmp #3								;Did we really find a winner?
+	bne .iswin2						;Not 3 matches check next .Win
+	jmp .endchk						;Winner Winner Chicken Dinner
+
+.iswin2
+	lda #0								;We need to reset .wincnt before next byte
+	sta .wincnt
+	lda #<.Win2						;Load .Win2 into ZP
+	sta TMP0
+	lda #>.Win2
+	sta TMP1
+	jsr .chkplaces				;Go see if we can get .wincnt=3
+	cmp #3								;Did we find 3 matches?
+	bne .iswin3						;Not 3 matches check .Win3
+	jmp .endchk						;endchk when 3 matches were found
+
+.iswin3
+	lda #0
+	sta .wincnt
+	lda #<.Win3
+	sta TMP0
+	lda #>.Win3
+	sta TMP1
+	jsr .chkplaces
+	cmp #3
+	bne .iswin4
+	jmp .endchk
+
+.iswin4
+	lda #0
+	sta .wincnt
+	lda #<.Win4
+	sta TMP0
+	lda #>.Win4
+	sta TMP1
+	jsr .chkplaces
+	cmp #3
+	bne .iswin5
+	jmp .endchk
+
+.iswin5
+	lda #0
+	sta .wincnt
+	lda #<.Win5
+	sta TMP0
+	lda #>.Win5
+	sta TMP1
+	jsr .chkplaces
+	cmp #3
+	bne .iswin6
+	jmp .endchk
+
+.iswin6
+	lda #0
+	sta .wincnt
+	lda #<.Win6
+	sta TMP0
+	lda #>.Win6
+	sta TMP1
+	jsr .chkplaces
+	cmp #3
+	bne .iswin7
+	jmp .endchk
+
+.iswin7
+	lda #0
+	sta .wincnt
+	lda #<.Win7
+	sta TMP0
+	lda #>.Win7
+	sta TMP1
+	jsr .chkplaces
+	cmp #3
+	bne .iswin8
+	jmp .endchk
+
+.iswin8
+	lda #0
+	sta .wincnt
+	lda #<.Win8
+	sta TMP0
+	lda #>.Win8
+	sta TMP1
+	jsr .chkplaces
+	jmp .endchk						;No need to check for 3 matches gameloop does that
+
+.endchk:
+	rts
+
+.chkplaces:
+	lda .count						;What is the .count
+	and #1								;Is it even
+	bne .loado
+	lda #<.X_place
+	sta TMP2
+	lda #>.X_place
+	sta TMP3
+	jsr .chks
+	jmp .endchkpl
+
+.loado:
+	lda #<.O_place
+	sta TMP2
+	lda #>.O_place
+	sta TMP3
+	jsr .chks
+	jmp .endchkpl
+
+.endchkpl:
+	ldy #9								;Reset Y register for next .Win
+	rts
+
+.chks:
+	dey
+	bmi +
+	lda (TMP0),y
+	beq .chks
+	cmp (TMP2),y
+	bne .chks
+	jsr .matching
+	bne .chks
++	rts
+
+.matching:
+	inc .wincnt						;Increase .wincnt
+	lda .wincnt
+	cmp #3								;If .wincnt=3 we have a winner!
+	rts
 
 ;******************************************************************************
 ;*Routine placeholders for splashscreens																			*
@@ -409,6 +546,7 @@ resetcounter:
 	tay 										;load number 9 into y
 	lda #0									;load accumulator with 0
 	sta TMP0
+	sta .wincnt
 clrmem:
 	dey											;Decrement y
 	sta .X_place,y					;Store 0 in X_place location y
