@@ -625,7 +625,7 @@ VLine:
 	bne .loopVL
 	rts
 
-															;Print string sub
+				;Print string sub
 PrintStr:
 	stx TMP0
 	sty TMP1
