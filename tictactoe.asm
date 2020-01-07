@@ -209,7 +209,9 @@ gameloop:
 
 .endgl:
 	rts
-
+;******************************************************************************
+;*Tile function to place gamepieces																						*
+;******************************************************************************
 .tile
 	ldx TMP1							;Load X coordinate for tile
 	ldy TMP2							;Load Y coordinate for tile
@@ -230,6 +232,9 @@ gameloop:
 	jsr chkwin
 	rts										;Jump back into gameloop
 
+;******************************************************************************
+;*chkwin function to find 3 matching places in possible win scenarios					*
+;******************************************************************************
 chkwin:
 	ldy #9								;Prepare Y as byte counter
 	lda #0
@@ -328,6 +333,9 @@ chkwin:
 .endchk:
 	rts
 
+;******************************************************************************
+;*Load placeholders into ZP																										*
+;******************************************************************************
 .chkplaces:
 	lda .count						;What is the .count
 	and #1								;Is it even
@@ -351,6 +359,9 @@ chkwin:
 	ldy #9								;Reset Y register for next .Win
 	rts
 
+;******************************************************************************
+;*Do the actual matching																											*
+;******************************************************************************
 .chks:
 	dey
 	bmi +
@@ -362,6 +373,9 @@ chkwin:
 	bne .chks
 +	rts
 
+;******************************************************************************
+;*Increase .wincnt when matches found																					*
+;******************************************************************************
 .matching:
 	inc .wincnt						;Increase .wincnt
 	lda .wincnt
