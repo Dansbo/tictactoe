@@ -394,10 +394,145 @@ chkwin:
 ;************************************************************************
 
 .winsplash:
+!byte $FF
 	jsr .NoSet
 	lda #$01
 	sta COLPORT
-	ldx #16
+	ldx #3
+	stx TMP8
+	ldy #15
+	sty TMP9
+	jsr GoXY
+
+	lda .count
+	and #1
+	beq +
+	jmp .drawo
++	ldx #<.xw1
+	ldy #>.xw1
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw2
+	ldy #>.xw2
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw3
+	ldy #>.xw3
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw4
+	ldy #>.xw4
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw5
+	ldy #>.xw5
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw6
+	ldy #>.xw6
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw7
+	ldy #>.xw7
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw8
+	ldy #>.xw8
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw9
+	ldy #>.xw9
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw10
+	ldy #>.xw10
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw11
+	ldy #>.xw11
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.xw12
+	ldy #>.xw12
+	jsr PrintStr
+	jsr .nxtline
+	jmp .winner
+
+.drawo
+	ldx #<.ow1
+	ldy #>.ow1
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow2
+	ldy #>.ow2
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow3
+	ldy #>.ow3
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow4
+	ldy #>.ow4
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow5
+	ldy #>.ow5
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow6
+	ldy #>.ow6
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow7
+	ldy #>.ow7
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow8
+	ldy #>.ow8
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow9
+	ldy #>.ow9
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow10
+	ldy #>.ow10
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow11
+	ldy #>.ow11
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ow12
+	ldy #>.ow12
+	jsr PrintStr
+	jsr .nxtline
+	jmp .winner
+
+.winner
+	ldx #15
 	sta TMP8
 	ldy #3
 	sty TMP9
