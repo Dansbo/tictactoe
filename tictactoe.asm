@@ -55,7 +55,22 @@ startagain:
 	jsr gboard
 	jsr resetcounter
 	jsr gameloop
+	jsr endloop
 	rts			;End of program
+
+endloop
+	jsr GETIN
+	cmp #'Q'
+	bne .isspace
+	jmp .endloop
+
+.isspace
+	cmp #' '
+	bne endloop
+	jmp startagain
+
+.endloop
+	rts
 
 gameloop:
 
@@ -86,13 +101,8 @@ gameloop:
 .doloop:
 	jsr GETIN
 	cmp #'Q'		;Press Q for quit
-	bne .isspace		;If not Q then check 1
+	bne .is1		;If not Q then check 1
 	jmp .endgl		;If Q then endgl
-
-.isspace:
-	cmp #' '
-	bne .is1
-	jmp startagain
 
 .is1:
 	cmp #49			;Has 1 been pressed?
@@ -535,8 +545,7 @@ chkwin:
 	ldy #>.ow12
 	jsr PrintStr
 	jsr .nxtline
-
-	rts
+	jmp .drawwins
 
 .drawwins
 	ldx #16
