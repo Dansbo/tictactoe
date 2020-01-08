@@ -410,8 +410,16 @@ chkwin:
 ;************************************************************************
 
 .winsplash:
-!byte $FF
 	jsr .NoSet
+	lda #$10
+	sta COLPORT
+	ldx #1
+	ldy #15
+	jsr GoXY
+	ldx #<.gameover
+	ldy #>.gameover
+	jsr PrintStr
+
 	lda #$01
 	sta COLPORT
 	ldx #3
@@ -1002,6 +1010,7 @@ PrintStr:
 ;************************************************************************
 
 .title !pet "tictactoe",0
+.gameover !pet "game over",0
 
 ; Top line of the game board
 
