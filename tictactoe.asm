@@ -410,26 +410,7 @@ chkwin:
 ;************************************************************************
 
 .winsplash:
-	jsr .NoSet		;Calling .Noset to remove gameboard
-	lda #$10		;Black txt white background
-	sta COLPORT
-
-	ldx #1			;Change title on ending splashscrrens
-	ldy #15
-	jsr GoXY
-	ldx #<.gameover
-	ldy #>.gameover
-	jsr PrintStr
-
-	ldx #28			;Add help text on bottom of screen
-	ldy #2
-	jsr GoXY
-	ldx #<.endhelp
-	ldy #>.endhelp
-	jsr PrintStr
-
-	lda #$01		;White text on black background
-	sta COLPORT
+	jsr .ttlchg		;Go remove board and such
 	ldx #3
 	stx TMP8
 	ldy #15
@@ -628,9 +609,8 @@ chkwin:
 	rts
 
 .drawsplash:
-	jsr .NoSet
-	lda #$01
-	sta COLPORT
+	jsr .ttlchg		;Go remove board and such
+
 	ldx #3
 	stx TMP8
 	ldy #3
@@ -758,6 +738,33 @@ chkwin:
 	ldy #>.dr24
 	jsr PrintStr
 
+	rts
+
+;************************************************************************
+;*Function that removes gameboard and changes title			*
+;************************************************************************
+
+.ttlchg
+	jsr .NoSet		;Calling .Noset to remove gameboard
+	lda #$10		;Black txt white background
+	sta COLPORT
+
+	ldx #1			;Change title on ending splashscrrens
+	ldy #15
+	jsr GoXY
+	ldx #<.gameover
+	ldy #>.gameover
+	jsr PrintStr
+
+	ldx #28			;Add help text on bottom of screen
+	ldy #2
+	jsr GoXY
+	ldx #<.endhelp
+	ldy #>.endhelp
+	jsr PrintStr
+
+	lda #$01		;White text on black background
+	sta COLPORT
 	rts
 
 ;************************************************************************
