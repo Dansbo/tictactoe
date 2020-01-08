@@ -419,6 +419,12 @@ chkwin:
 	ldx #<.gameover
 	ldy #>.gameover
 	jsr PrintStr
+	ldx #28
+	ldy #2
+	jsr GoXY
+	ldx #<.endhelp
+	ldy #>.endhelp
+	jsr PrintStr
 
 	lda #$01
 	sta COLPORT
@@ -1011,6 +1017,7 @@ PrintStr:
 
 .title !pet "tictactoe",0
 .gameover !pet "game over",0
+.endhelp !pet "press space to new game or q to quit",0
 
 ; Top line of the game board
 
