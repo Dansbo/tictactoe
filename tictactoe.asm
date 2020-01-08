@@ -50,6 +50,7 @@ BRcorner=189
 Xses=88
 Oses=79
 
+startagain:
 	jsr initscr
 	jsr gboard
 	jsr resetcounter
@@ -85,8 +86,13 @@ gameloop:
 .doloop:
 	jsr GETIN
 	cmp #'Q'		;Press Q for quit
-	bne .is1		;If not Q then check 1
+	bne .isspace		;If not Q then check 1
 	jmp .endgl		;If Q then endgl
+
+.isspace:
+	cmp #' '
+	bne .is1
+	jmp startagain
 
 .is1:
 	cmp #49			;Has 1 been pressed?
@@ -529,11 +535,12 @@ chkwin:
 	ldy #>.ow12
 	jsr PrintStr
 	jsr .nxtline
-	jmp .drawwins
+
+	rts
 
 .drawwins
-	ldx #15
-	sta TMP8
+	ldx #16
+	stx TMP8
 	ldy #3
 	sty TMP9
 	jsr GoXY
