@@ -467,7 +467,7 @@ chkwin:
 	ldy #>.xw12
 	jsr PrintStr
 	jsr .nxtline
-	jmp .winner
+	jmp .drawwins
 
 .drawo
 	ldx #<.ow1
@@ -529,9 +529,9 @@ chkwin:
 	ldy #>.ow12
 	jsr PrintStr
 	jsr .nxtline
-	jmp .winner
+	jmp .drawwins
 
-.winner
+.drawwins
 	ldx #15
 	sta TMP8
 	ldy #3
