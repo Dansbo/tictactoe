@@ -410,23 +410,25 @@ chkwin:
 ;************************************************************************
 
 .winsplash:
-	jsr .NoSet
-	lda #$10
+	jsr .NoSet		;Calling .Noset to remove gameboard
+	lda #$10		;Black txt white background
 	sta COLPORT
-	ldx #1
+
+	ldx #1			;Change title on ending splashscrrens
 	ldy #15
 	jsr GoXY
 	ldx #<.gameover
 	ldy #>.gameover
 	jsr PrintStr
-	ldx #28
+
+	ldx #28			;Add help text on bottom of screen
 	ldy #2
 	jsr GoXY
 	ldx #<.endhelp
 	ldy #>.endhelp
 	jsr PrintStr
 
-	lda #$01
+	lda #$01		;White text on black background
 	sta COLPORT
 	ldx #3
 	stx TMP8
@@ -436,7 +438,7 @@ chkwin:
 
 	lda .count
 	and #1
-	beq +
+	beq +			;If .count is even the O won
 	jmp .drawo
 +	ldx #<.xw1
 	ldy #>.xw1
