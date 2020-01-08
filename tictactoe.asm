@@ -58,6 +58,9 @@ startagain:
 	jsr endloop
 	rts			;End of program
 
+;************************************************************************
+;Find out if user wants to quit og start new gameloop			*
+;************************************************************************
 endloop
 	jsr GETIN
 	cmp #'Q'
