@@ -31,5 +31,5 @@ As I figure there are only 8 different scenarios that give a win:
 Each of the scenarios should 'catch' when the play has achieved any one of them
 regardless if other tiles are occupied or not.
 
-After a lot o rewriting I have finally ended up with a working version.
+After a lot of rewriting I have finally ended up with a working version.
 My next goal is to write some form of computer opponent.
