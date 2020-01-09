@@ -68,6 +68,40 @@ startagain:
 	rts			;End of program
 
 ;************************************************************************
+;*Make A.I. functions							*
+;************************************************************************
+ai_move:
+	dec .count		;Decrement as AI counts as a move
+	lda .count
+	cmp #9
+	bne .cnt8
+.cntr_tl:
+	lda .key_press ,4	;Load keypress number into A
+	jsr .jmp_table,4	;local label in gameloop
+	jmp .ai_end
+
+.cnt8:	lda .count
+	cmp #8
+	bne .last_cnts
+	lda #.Occ_place,4
+	beq .cntr_tl
+	inc .rndnum		;Choose new random number
+	lda .rndnum		;Load random number
+	and #$0F		;Make number between 0-15
+	cmp #8
+	bcs .cnt8		;Choose new number if number >8
+	tay			;Transfer random number into Y
+	lda .Occ_place,y	;Is the tile available?
+	beq .cnt8		;If not choose another tile
+	lda .key_press,y	;Load keypress number into A
+	jsr .jmp_table,y
+	jmp .ai_end
+
+.last_cnts:
+
+.ai_end						;corresponds to placeholders
+	rts
+;************************************************************************
 ;Make welcome screen							*
 ;************************************************************************
 
@@ -169,6 +203,7 @@ welcome:
 	rts
 
 .players
+	inc .rndnum		;Increment .rndnum in loop
 	jsr GETIN
 	cmp #'Q'
 	bne .one
@@ -239,6 +274,7 @@ gameloop:
 ;************************************************************************
 
 .doloop:
+	inc .rndnum		;Increment .rndnum in loop
 	jsr GETIN
 	cmp #'Q'		;Press Q for quit
 	bne .is1		;If not Q then check 1
@@ -1379,5 +1415,11 @@ PrintStr:
 .nw16	!byte 0,0,0
 	!byte 0,0,1
 	!byte 0,0,1
+
+.rndnum !byte 0
+
+.jmp_table !word .is1, .is2, .is3, .is4, .is5, .is6, .is7, .is8, .is9
+
+.keypress !byte 49,50,51,52,53,54,55,56,57
 
 }
