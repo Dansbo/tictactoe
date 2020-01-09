@@ -179,14 +179,14 @@ welcome:
 .one
 	cmp #'1'
 	bne .two
-	lda #1
+	lda #0
 	sta TMP5
 	jmp .endplay
 
 .two
 	cmp #'2'
 	bne .players
-	lda #2
+	lda #1
 	sta TMP5
 	jmp .endplay
 
