@@ -55,14 +55,14 @@ startagain:
 	jsr resetcounter
 	jsr welcome
 	lda TMP6
-	beq .endgame
+	bne .endgame
 	jsr gboard
 	jsr gameloop
 	lda TMP6
-	beq .endgame
+	bne .endgame
 	jsr endloop
 	lda TMP6
-	beq .endgame
+	bne .endgame
 
 .endgame
 	rts			;End of program
@@ -197,10 +197,7 @@ welcome:
 ;************************************************************************
 
 endloop
-	lda TMP6
-	bne +
-	jmp .endloop
-+	jsr GETIN
+	jsr GETIN
 	cmp #'Q'
 	bne .isspace
 	lda #1
@@ -242,13 +239,11 @@ gameloop:
 ;************************************************************************
 
 .doloop:
-	lda TMP6
-	bne +
-	jmp .endgl
-
-+	jsr GETIN
+	jsr GETIN
 	cmp #'Q'		;Press Q for quit
 	bne .is1		;If not Q then check 1
+	lda #1
+	sta TMP6
 	jmp .endgl		;If Q then endgl
 
 .is1:
