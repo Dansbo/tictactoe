@@ -54,9 +54,17 @@ startagain:
 	jsr initscr
 	jsr resetcounter
 	jsr welcome
+	lda TMP6
+	beq .endgame
 	jsr gboard
 	jsr gameloop
+	lda TMP6
+	beq .endgame
 	jsr endloop
+	lda TMP6
+	beq .endgame
+
+.endgame
 	rts			;End of program
 
 ;************************************************************************
@@ -164,6 +172,8 @@ welcome:
 	jsr GETIN
 	cmp #'Q'
 	bne .one
+	lda #1
+	sta TMP6
 	jmp .endplay
 
 .one
@@ -187,9 +197,14 @@ welcome:
 ;************************************************************************
 
 endloop
-	jsr GETIN
+	lda TMP6
+	bne +
+	jmp .endloop
++	jsr GETIN
 	cmp #'Q'
 	bne .isspace
+	lda #1
+	sta TMP6
 	jmp .endloop
 
 .isspace
@@ -227,7 +242,11 @@ gameloop:
 ;************************************************************************
 
 .doloop:
-	jsr GETIN
+	lda TMP6
+	bne +
+	jmp .endgl
+
++	jsr GETIN
 	cmp #'Q'		;Press Q for quit
 	bne .is1		;If not Q then check 1
 	jmp .endgl		;If Q then endgl
@@ -1075,6 +1094,7 @@ resetcounter:
 	tay 			;load number 9 into y
 	lda #0			;load accumulator with 0
 	sta TMP0
+	sta TMP6
 	sta .wincnt
 clrmem:
 	dey			;Decrement y
