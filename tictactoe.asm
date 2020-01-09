@@ -1316,4 +1316,68 @@ PrintStr:
 .grt8 !pet "press 2 for two player game",0
 .grt9 !pet "good luck!",0
 
+.nw1 	!byte 0,0,1
+	!byte 0,1,0
+	!byte 0,0,0
+
+.nw2	!byte 1,0,0
+	!byte 0,1,0
+	!byte 0,0,0
+
+.nw3	!byte 0,0,0
+	!byte 0,1,0
+	!byte 1,0,0
+
+.nw4	!byte 0,0,0
+	!byte 0,1,0
+	!byte 0,0,1
+
+.nw5	!byte 1,0,0
+	!byte 1,0,0
+	!byte 0,0,0
+
+.nw6	!byte 0,1,0
+	!byte 0,1,0
+	!byte 0,0,0
+
+.nw7	!byte 0,0,1
+	!byte 0,0,1
+	!byte 0,0,0
+
+.nw8	!byte 1,1,0
+	!byte 0,0,0
+	!byte 0,0,0
+
+.nw9	!byte 0,0,0
+	!byte 1,1,0
+	!byte 0,0,0
+
+.nw10	!byte 0,0,0
+	!byte 0,0,0
+	!byte 1,1,0
+
+.nw11	!byte 0,1,1
+	!byte 0,0,0
+	!byte 0,0,0
+
+.nw12	!byte 0,0,0
+	!byte 0,1,1
+	!byte 0,0,0
+
+.nw13	!byte 0,0,0
+	!byte 0,0,0
+	!byte 0,1,1
+
+.nw14	!byte 0,0,0
+	!byte 1,0,0
+	!byte 1,0,0
+
+.nw15	!byte 0,0,0
+	!byte 0,1,0
+	!byte 0,1,0
+
+.nw16	!byte 0,0,0
+	!byte 0,0,1
+	!byte 0,0,1
+
 }
