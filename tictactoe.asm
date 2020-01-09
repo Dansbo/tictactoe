@@ -1,3 +1,4 @@
+!to "tictactoe.prg", cbm
 !zone main{
 *=$0801				;Assembled code should start at $0801
 				; (where BASIC programs start)
@@ -33,6 +34,8 @@ TMP6=$06
 TMP7=$07
 TMP8=$08
 TMP9=$09
+QUIT=$0A
+PLYR?$0B
 
 ;PETDraw Chars
 Space=" "
@@ -54,14 +57,14 @@ startagain:
 	jsr initscr
 	jsr resetcounter
 	jsr welcome
-	lda TMP6
+	lda QUIT
 	bne .endgame
 	jsr gboard
 	jsr gameloop
-	lda TMP6
+	lda QUIT
 	bne .endgame
 	jsr endloop
-	lda TMP6
+	lda QUIT
 	bne .endgame
 
 .endgame
@@ -71,35 +74,47 @@ startagain:
 ;*Make A.I. functions							*
 ;************************************************************************
 ai_move:
-	dec .count		;Decrement as AI counts as a move
+	tax			;Transfer A (GETIN) to X
+	lda PLYR		;We need to check if AI may move
+	cmp #0
+	bcs +			;If PLYR>0 AI may move
+	jmp @ai_no_move
++	cmp #1			;If PLYR=1 AI is O else AI is X
+	beq @cnt8		;If PLYR=2 then no need to check .count = 9
 	lda .count
-	cmp #9
-	bne .cnt8
-.cntr_tl:
-	lda .key_press ,4	;Load keypress number into A
-	jsr .jmp_table,4	;local label in gameloop
-	jmp .ai_end
+	cmp #9			;If count is 9 then take center tile
+	bne @cnt8
+@cntr_tl
+	lda .key_press +4	;Load keypress number into A
+	jmp .end_ai
 
-.cnt8:	lda .count
-	cmp #8
-	bne .last_cnts
-	lda #.Occ_place,4
-	beq .cntr_tl
+@cnt8	cmp #8			;If count is not 8 then
+	bne @chk_nw		;count<8
+	lda .Occ_place +4
+	beq @cntr_tl
 	inc .rndnum		;Choose new random number
 	lda .rndnum		;Load random number
 	and #$0F		;Make number between 0-15
 	cmp #8
-	bcs .cnt8		;Choose new number if number >8
-	tay			;Transfer random number into Y
-	lda .Occ_place,y	;Is the tile available?
-	beq .cnt8		;If not choose another tile
-	lda .key_press,y	;Load keypress number into A
-	jsr .jmp_table,y
-	jmp .ai_end
+	bcs @cnt8		;Choose new rndnum if rndnum>8
+	tax			;Transfer random number into X
+	lda .Occ_place,x	;Is the tile available?
+	beq @cnt8		;If not choose another tile
+	lda .key_press,x	;Load keypress number into A
+	jmp @end_ai
 
-.last_cnts:
+@chk_nw
+	lda #<.nw1
+	sta TMP0
+	lda #>.nw1
+	sta TMP1
 
-.ai_end						;corresponds to placeholders
+
+@end_ai				;Return to gameloop with AI move
+	rts
+
+@ai_no_move			;Return to gameloop with no change to A
+	txa			;Transfer X back to A (GETIN)
 	rts
 ;************************************************************************
 ;Make welcome screen							*
@@ -208,21 +223,21 @@ welcome:
 	cmp #'Q'
 	bne .one
 	lda #1
-	sta TMP6
+	sta QUIT
 	jmp .endplay
 
 .one
 	cmp #'1'
 	bne .two
-	lda #0
-	sta TMP5
+	lda #1
+	sta PLYR
 	jmp .endplay
 
 .two
 	cmp #'2'
 	bne .players
-	lda #1
-	sta TMP5
+	lda #0
+	sta PLYR
 	jmp .endplay
 
 .endplay
@@ -236,7 +251,7 @@ endloop
 	cmp #'Q'
 	bne .isspace
 	lda #1
-	sta TMP6
+	sta QUIT
 	jmp .endloop
 
 .isspace
@@ -279,7 +294,7 @@ gameloop:
 	cmp #'Q'		;Press Q for quit
 	bne .is1		;If not Q then check 1
 	lda #1
-	sta TMP6
+	sta QUIT
 	jmp .endgl		;If Q then endgl
 
 .is1:
@@ -1125,7 +1140,7 @@ resetcounter:
 	tay 			;load number 9 into y
 	lda #0			;load accumulator with 0
 	sta TMP0
-	sta TMP6
+	sta QUIT
 	sta .wincnt
 clrmem:
 	dey			;Decrement y
