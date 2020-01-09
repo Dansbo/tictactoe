@@ -52,9 +52,9 @@ Oses=79
 
 startagain:
 	jsr initscr
+	jsr resetcounter
 	jsr welcome
 	jsr gboard
-	jsr resetcounter
 	jsr gameloop
 	jsr endloop
 	rts			;End of program
@@ -120,6 +120,7 @@ welcome:
 	jsr PrintStr
 	jsr .nxtline
 	jsr .nxtline
+	jsr .nxtline
 
 	ldx #<.grt5
 	ldy #>.grt5
@@ -138,6 +139,7 @@ welcome:
 	ldx #<.grt7
 	ldy #>.grt7
 	jsr PrintStr
+	jsr .nxtline
 	jsr .nxtline
 
 	ldx #<.grt8
