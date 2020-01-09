@@ -52,6 +52,7 @@ Oses=79
 
 startagain:
 	jsr initscr
+	jsr welcome
 	jsr gboard
 	jsr resetcounter
 	jsr gameloop
@@ -59,8 +60,130 @@ startagain:
 	rts			;End of program
 
 ;************************************************************************
+;Make welcome screen							*
+;************************************************************************
+
+welcome:
+	lda #$01
+	sta COLPORT
+
+	ldx #3
+	stx TMP8
+	ldy #2
+	sty TMP9
+	jsr GoXY
+
+	ldx #<.ttt1
+	ldy #>.ttt1
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt2
+	ldy #>.ttt2
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt3
+	ldy #>.ttt3
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt4
+	ldy #>.ttt4
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt5
+	ldy #>.ttt5
+	jsr PrintStr
+	inc TMP9
+	jsr .nxtline
+	jsr .nxtline
+
+	ldx #<.grt1
+	ldy #>.grt1
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.grt2
+	ldy #>.grt2
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.grt3
+	ldy #>.grt3
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.grt4
+	ldy #>.grt4
+	jsr PrintStr
+	jsr .nxtline
+	jsr .nxtline
+
+	ldx #<.grt5
+	ldy #>.grt5
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.grt6
+	ldy #>.grt6
+	jsr PrintStr
+	jsr .nxtline
+
+	jsr .nxtline
+	jsr .nxtline
+	jsr .nxtline
+
+	ldx #<.grt7
+	ldy #>.grt7
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.grt8
+	ldy #>.grt8
+	jsr PrintStr
+	jsr .nxtline
+
+	jsr .nxtline
+	jsr .nxtline
+
+	ldx #<.grt9
+	ldy #>.grt9
+	jsr PrintStr
+	jsr .nxtline
+	jsr .players
+
+	jsr initscr
+
+	rts
+
+.players
+	jsr GETIN
+	cmp #'Q'
+	bne .one
+	jmp .endplay
+
+.one
+	cmp #'1'
+	bne .two
+	lda #1
+	sta TMP5
+	jmp .endplay
+
+.two
+	cmp #'2'
+	bne .players
+	lda #2
+	sta TMP5
+	jmp .endplay
+
+.endplay
+	rts
+;************************************************************************
 ;Find out if user wants to quit og start new gameloop			*
 ;************************************************************************
+
 endloop
 	jsr GETIN
 	cmp #'Q'
@@ -1160,5 +1283,20 @@ PrintStr:
 .wdr10 !pet	"***  ***   **   **   ***  ******  ",0
 .wdr11 !pet	"**    **   **   **    **  *****   ",0
 
+.ttt1 !pet	"*** *  ** ***  **   ** ***  **  ****",0
+.ttt2 !pet	" *  * *    *  *  * *    *  *  * *   ",0
+.ttt3 !pet	" *  * *    *  **** *    *  *  * **  ",0
+.ttt4 !pet	" *  * *    *  *  * *    *  *  * *   ",0
+.ttt5 !pet	" *  *  **  *  *  *  **  *   **  ****",0
+
+.grt1 !pet "welcome to tictactoe",0
+.grt2 !pet "to place a gamepiece press numbers",0
+.grt3 !pet "1 to 9. 1 being top left tile and",0
+.grt4 !pet "9 being bottom right tile.",0
+.grt5 !pet "quit game at any time by pressing",0
+.grt6 !pet "q.",0
+.grt7 !pet "press 1 for one player game",0
+.grt8 !pet "press 2 for two player game",0
+.grt9 !pet "good luck!",0
 
 }
