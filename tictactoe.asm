@@ -73,6 +73,10 @@ startagain:
 ;************************************************************************
 ;*Make A.I. functions							*
 ;************************************************************************
+;INPUT: PLYR and .count
+;************************************************************************
+;OUTPUT: A
+;************************************************************************
 ai_move:
 	tax			;Transfer A (GETIN) to X
 	lda PLYR		;We need to check if AI may move
@@ -84,10 +88,32 @@ ai_move:
 	lda .count
 	cmp #9			;If count is 9 then take center tile
 	bne @cnt8
+
 @cntr_tl
 	lda .keypress +4	;Load keypress number into A
 	jmp .end_ai
 
+;************************************************************************
+; This function chooses an available tile randmly
+;************************************************************************
+;INPUTS: .rndnum and .Occ_place
+;************************************************************************
+;MODIFIES: .rndnum, A and Y
+;************************************************************************
+;OUTPUT: Y
+;************************************************************************
+@rnd_tl
+	inc .rndnum		;Increment .rndnum
+	lda .rndnum		;Load random number into A
+	and #$0F		;Make the rndnum between 0-15
+	tay			;Transfer A into Y to keep with previous std
+	lda .Occ_place,y	;Load Occ_place into A
+	bne @rnd_tl		;If not available (1) then choose another
+	rts
+
+;************************************************************************
+;Ending the AI functions
+;************************************************************************	
 @end_ai				;Return to gameloop with AI move
 	rts
 
