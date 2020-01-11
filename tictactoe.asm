@@ -35,7 +35,7 @@ TMP7=$07
 TMP8=$08
 TMP9=$09
 QUIT=$0A
-PLYR?$0B
+PLYR=$0B
 
 ;PETDraw Chars
 Space=" "
@@ -71,7 +71,7 @@ startagain:
 	rts			;End of program
 
 ;************************************************************************
-;*Make A.I. functions							*
+;*Make A.I. functions				jmp @check_nw			*
 ;************************************************************************
 ;INPUT: PLYR and .count
 ;************************************************************************
@@ -91,7 +91,7 @@ ai_move:
 
 @cntr_tl
 	lda .keypress +4	;Load keypress number into A
-	jmp .end_ai
+	jmp @end_ai
 
 ;************************************************************************
 ;If AI moves second then its first objective is to get center tile
@@ -112,7 +112,7 @@ ai_move:
 ;************************************************************************
 ;Function that defines how AI should move, if not one of the first two moves
 ;************************************************************************
-;INPLUT: .count, .rndnum and A
+;INPLUT: .rndnum and A
 ;************************************************************************
 ;OUTPUT: A loaded with relevant keypress
 ;************************************************************************
@@ -121,12 +121,199 @@ ai_move:
 	lda .rndnum		;If rndnum is over 13
 	and #$0F		;Then choose random tile
 	cmp #13			;Otherwise AI always wins
-	bcc +			;AI chooses wront 12% of the time
+	bcc @nw1		;AI chooses random approx. 12% of the moves
 	jmp @rnd_tl
-+	lda #<.nw1		;Load .nw1 scenario into TMP0
+
+@nw1	lda #<.nw1		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw1
 	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +6	;Can AI win?
+	bne @nw2		;If not check next scenario
+	lda .keypress +6	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw2		;if not then check next scenario
+	lda .Occ_place +6	;Can we block human from winning?
+	bne @nw2		;If not check next scenario
+	lda .keypress +6	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw2	lda #<.nw2		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw2
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +8	;Can AI win?
+	bne @nw3		;If not check next scenario
+	lda .keypress +8	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw3		;if not then check next scenario
+	lda .Occ_place +8	;Can we block human from winning?
+	bne @nw3		;If not check next scenario
+	lda .keypress +8	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw3	lda #<.nw3		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw3
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +2	;Can AI win?
+	bne @nw4		;If not check next scenario
+	lda .keypress +2	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw4		;if not then check next scenario
+	lda .Occ_place +2	;Can we block human from winning?
+	bne @nw3		;If not check next scenario
+	lda .keypress +2	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw4	lda #<.nw4		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw4
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +0	;Can AI win?
+	bne @nw5		;If not check next scenario
+	lda .keypress +0	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw5		;if not then check next scenario
+	lda .Occ_place +0	;Can we block human from winning?
+	bne @nw5		;If not check next scenario
+	lda .keypress +0	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw5	lda #<.nw5		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw5
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +6	;Can AI win?
+	bne @nw6		;If not check next scenario
+	lda .keypress +6	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw6		;if not then check next scenario
+	lda .Occ_place +6	;Can we block human from winning?
+	bne @nw6		;If not check next scenario
+	lda .keypress +6	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw6	jmp @rnd_tl
+;************************************************************************
+;This function checks if AI is close to winning if so, then do
+;If not then check if human is winning if so, then block
+;************************************************************************
+;INPUT: TMP0 with near win scenarios and Y
+;************************************************************************
+;OUTPUT: @human_score and @ai_score
+;************************************************************************
+@check_nw
+	dey			;Decrement byte counter (Y)
+	bmi @end_check_nw
+	lda (TMP0),y
+	beq @check_nw		;If nw is 0 then next byte
+	jsr @load_plays		;load placements into HUMAN and AI
+	cmp (TMP2),y		;check if AI has a match
+	bne @check_human	;If not then check human
+	jsr @ai_match		;Go keep track of near win
+	bne @check_nw		;If ai_score not 2 check next byte
+	jmp @end_check_nw
+
+
+@check_human
+	cmp (TMP4),y		;Check if human has a match
+	bne @check_nw		;If not check next byte
+	jsr @human_match	;Go keep track of near win
+	bne @check_nw		;If human_score not 2 check next byte
+	jmp @end_check_nw
+
+@end_check_nw
+	rts
+
+;************************************************************************
+;AI has a match. Increment @ai_score and compare with 2
+;************************************************************************
+;MODIFIES: @ai_score
+;************************************************************************
+;OUTPUT: A compared with 2
+;************************************************************************
+@ai_match
+	inc @ai_score
+	lda @ai_score
+	cmp #2
+	rts
+
+;************************************************************************
+;human has a match. Increment @human_score and compare with 2
+;************************************************************************
+;MODIFIES: @human_score
+;************************************************************************
+;OUTPUT: A compared with 2
+;************************************************************************
+@human_match
+	inc @human_score
+	lda @human_score
+	cmp #2
+	rts
+
+;************************************************************************
+;Loads X_place and O_place into HUMAN and AI
+;************************************************************************
+;OUTPUT: HUMAN and AI
+;************************************************************************
+@load_plays
+	lda .count		;Is AI playing as X or O
+	and #1			;Is .count odd or even?
+	bne @ai_is_o		;If .count is even then AI is O
+	lda #<.X_place
+	sta TMP2
+	lda #>.X_place
+	sta TMP3
+	lda #<.O_place
+	sta TMP4
+	lda #>.O_place
+	sta TMP5
+	jmp @end_load_plays
+
+@ai_is_o
+	lda #<.O_place
+	sta TMP2
+	lda #>.O_place
+	sta TMP3
+	lda #<.X_place
+	sta TMP4
+	lda #>.X_place
+	sta TMP5
+	jmp @end_load_plays
+
+@end_load_plays
+	rts
 
 ;************************************************************************
 ; This function chooses an available tile randmly
@@ -141,13 +328,13 @@ ai_move:
 	inc .rndnum		;Increment .rndnum
 	lda .rndnum		;Load random number into A
 	and #$0F		;Make the rndnum between 0-15
-	cmp #9			;Compare .rndnum with 9
-	bcs @rnd_tl		;Choose new rndnum if larger than 9
+	cmp #8			;Compare .rndnum with 8
+	bcs @rnd_tl		;Choose new rndnum if larger than 8
 	tay			;Transfer A into Y to keep with previous std
 	lda .Occ_place,y	;Load Occ_place into A
 	bne @rnd_tl		;If not available (1) then choose another
 	lda .keypress,y		;Load A with relevant keypress number
-	jmp end_ai
+	jmp @end_ai
 
 ;************************************************************************
 ;Ending the AI functions
@@ -158,6 +345,12 @@ ai_move:
 @ai_no_move			;Return to gameloop with no change to A
 	txa			;Transfer X back to A (GETIN)
 	rts
+
+;************************************************************************
+;Local variables
+;************************************************************************
+@ai_score !byte 0
+@human_score !byte 0
 
 ;************************************************************************
 ;Make welcome screen							*
@@ -333,6 +526,7 @@ gameloop:
 .doloop:
 	inc .rndnum		;Increment .rndnum in loop
 	jsr GETIN
+	jsr ai_move
 	cmp #'Q'		;Press Q for quit
 	bne .is1		;If not Q then check 1
 	lda #1
