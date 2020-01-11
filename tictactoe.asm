@@ -81,7 +81,7 @@ startagain:
 ai_move:
 	tax			;Transfer A (GETIN) to X
 	lda PLYR		;We need to check if AI may move
-	cmp #0
+	cmp #1
 	bcs +			;If PLYR>0 AI may move
 	jmp @ai_no_move
 +	cmp #1			;If PLYR=1 AI is O else AI is X
@@ -369,8 +369,8 @@ ai_move:
 	inc .rndnum		;Increment .rndnum
 	lda .rndnum		;Load random number into A
 	and #$0F		;Make the rndnum between 0-15
-	cmp #8			;Compare .rndnum with 8
-	bcs @rnd_tl		;Choose new rndnum if larger than 8
+	cmp #9			;Compare .rndnum with 9
+	bcs @rnd_tl		;Choose new rndnum if rndnum>=0
 	tay			;Transfer A into Y to keep with previous std
 	lda .Occ_place,y	;Load Occ_place into A
 	bne @rnd_tl		;If not available (1) then choose another
@@ -492,7 +492,13 @@ welcome:
 	jsr initscr
 
 	rts
-
+;************************************************************************
+;Get input from user on how many players there are
+;************************************************************************
+;INPUT: GETIN
+;************************************************************************
+;OUTPUT: PLYR
+;************************************************************************
 .players
 	inc .rndnum		;Increment .rndnum in loop
 	jsr GETIN
