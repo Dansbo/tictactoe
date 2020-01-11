@@ -84,6 +84,9 @@ ai_move:
 	cmp #1
 	bcs +			;If PLYR>0 AI may move
 	jmp @ai_no_move
++	lda TURN		;If TURN is 0 then we wait for human
+	bne +
+	jmp @ai_no_move
 +	cmp #1			;If PLYR=1 AI is O else AI is X
 	beq @cnt8		;If PLYR=2 then no need to check .count = 9
 	lda .count
@@ -265,7 +268,186 @@ ai_move:
 	lda .keypress +8	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw8	jmp @rnd_tl
+@nw8	lda #<.nw8		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw8
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +2	;Can AI win?
+	bne @nw9		;If not check next scenario
+	lda .keypress +2	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw9		;if not then check next scenario
+	lda .Occ_place +2	;Can we block human from winning?
+	bne @nw9		;If not check next scenario
+	lda .keypress +2	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw9	lda #<.nw9		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw9
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +5	;Can AI win?
+	bne @nw10		;If not check next scenario
+	lda .keypress +5	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw10		;if not then check next scenario
+	lda .Occ_place +5	;Can we block human from winning?
+	bne @nw10		;If not check next scenario
+	lda .keypress +5	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw10	lda #<.nw10		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw10
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +8	;Can AI win?
+	bne @nw11		;If not check next scenario
+	lda .keypress +8	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw11		;if not then check next scenario
+	lda .Occ_place +8	;Can we block human from winning?
+	bne @nw11		;If not check next scenario
+	lda .keypress +8	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw11	lda #<.nw11		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw11
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +0	;Can AI win?
+	bne @nw12		;If not check next scenario
+	lda .keypress +0	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw12		;if not then check next scenario
+	lda .Occ_place +0	;Can we block human from winning?
+	bne @nw12		;If not check next scenario
+	lda .keypress +0	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw12	lda #<.nw12		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw12
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +3	;Can AI win?
+	bne @nw13		;If not check next scenario
+	lda .keypress +3	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw13		;if not then check next scenario
+	lda .Occ_place +3	;Can we block human from winning?
+	bne @nw13		;If not check next scenario
+	lda .keypress +3	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw13	lda #<.nw13		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw13
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +6	;Can AI win?
+	bne @nw14		;If not check next scenario
+	lda .keypress +6	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw14		;if not then check next scenario
+	lda .Occ_place +6	;Can we block human from winning?
+	bne @nw14		;If not check next scenario
+	lda .keypress +6	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw14	lda #<.nw14		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw14
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +0	;Can AI win?
+	bne @nw15		;If not check next scenario
+	lda .keypress +0	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw15		;if not then check next scenario
+	lda .Occ_place +0	;Can we block human from winning?
+	bne @nw15		;If not check next scenario
+	lda .keypress +0	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw15	lda #<.nw15		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw15
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +1	;Can AI win?
+	bne @nw16		;If not check next scenario
+	lda .keypress +1	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw16		;if not then check next scenario
+	lda .Occ_place +1	;Can we block human from winning?
+	bne @nw16		;If not check next scenario
+	lda .keypress +1	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw16	lda #<.nw16		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw16
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +2	;Can AI win?
+	bne @rnd_tl		;If not check next scenario
+	lda .keypress +2	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @rnd_tl		;if not then check next scenario
+	lda .Occ_place +2	;Can we block human from winning?
+	bne @rnd_tl		;If not check next scenario
+	lda .keypress +2	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
 ;************************************************************************
 ;This function checks if AI is close to winning if so, then do
 ;If not then check if human is winning if so, then block
@@ -381,6 +563,7 @@ ai_move:
 ;Ending the AI functions
 ;************************************************************************
 @end_ai				;Return to gameloop with AI move
+	dec TURN		;switch turn to user
 	rts
 
 @ai_no_move			;Return to gameloop with no change to A
