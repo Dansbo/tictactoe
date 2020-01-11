@@ -563,7 +563,6 @@ ai_move:
 ;Ending the AI functions
 ;************************************************************************
 @end_ai				;Return to gameloop with AI move
-	dec TURN		;switch turn to user
 	rts
 
 @ai_no_move			;Return to gameloop with no change to A
@@ -902,12 +901,18 @@ gameloop:
 	sta .O_place,y		;Remember where O is placed
 	sta .Occ_place,y	;Remember this tile is not empty
 	jsr chkwin
+	lda TURN
+	eor #1
+	sta TURN
 	rts			;Jump back into gameloop
 .plaX:
 	jsr PlaceX		;PlaceX (A has been loaded with #1+ dec .count)
 	sta .X_place,y		;Remember where X is placed
 	sta .Occ_place,y	;Remember this tile is not empty
 	jsr chkwin
+	lda TURN
+	eor #1
+	sta TURN
 	rts			;Jump back into gameloop
 
 ;************************************************************************
