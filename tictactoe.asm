@@ -75,7 +75,7 @@ startagain:
 ;************************************************************************
 ;INPUT: PLYR and .count
 ;************************************************************************
-;OUTPUT: A
+;OUTPUT: A loaded with "keypress"
 ;************************************************************************
 ai_move:
 	tax			;Transfer A (GETIN) to X
@@ -94,13 +94,29 @@ ai_move:
 	jmp .end_ai
 
 ;************************************************************************
+;If AI moves second then its first objective is to get center tile
+;if it is not available then just choose a random tile
+;************************************************************************
+;INPUT: .Occ_place, .count and A
+;************************************************************************
+;OUTPUT: A loaded with keypress
+;************************************************************************
+@cnt8
+	cmp #8			;Is .count 8
+	bne @remaining_moves	;If not then continue on
+	lda .Occ_place +4	;Load state of center tile
+	beq +			;If not available choose random tile
+	jmp @rnd_tl
++	jmp @cntr_tl		;If available then choose it
+
+;************************************************************************
 ; This function chooses an available tile randmly
 ;************************************************************************
 ;INPUTS: .rndnum and .Occ_place
 ;************************************************************************
 ;MODIFIES: .rndnum, A and Y
 ;************************************************************************
-;OUTPUT: Y
+;OUTPUT: A loaded with relevant keypress
 ;************************************************************************
 @rnd_tl
 	inc .rndnum		;Increment .rndnum
@@ -109,21 +125,22 @@ ai_move:
 	tay			;Transfer A into Y to keep with previous std
 	lda .Occ_place,y	;Load Occ_place into A
 	bne @rnd_tl		;If not available (1) then choose another
-	rts
+	lda .keypress,y		;Load A with relevant keypress number
+	jmp end_ai
 
 ;************************************************************************
 ;Ending the AI functions
-;************************************************************************	
+;************************************************************************
 @end_ai				;Return to gameloop with AI move
 	rts
 
 @ai_no_move			;Return to gameloop with no change to A
 	txa			;Transfer X back to A (GETIN)
 	rts
+
 ;************************************************************************
 ;Make welcome screen							*
 ;************************************************************************
-
 welcome:
 	lda #$01
 	sta COLPORT
