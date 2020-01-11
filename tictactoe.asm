@@ -36,6 +36,7 @@ TMP8=$08
 TMP9=$09
 QUIT=$0A
 PLYR=$0B
+TURN=$0C
 
 ;PETDraw Chars
 Space=" "
@@ -224,7 +225,47 @@ ai_move:
 	lda .keypress +6	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw6	jmp @rnd_tl
+@nw6	lda #<.nw6		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw6
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +7	;Can AI win?
+	bne @nw7		;If not check next scenario
+	lda .keypress +7	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw7		;if not then check next scenario
+	lda .Occ_place +7	;Can we block human from winning?
+	bne @nw7		;If not check next scenario
+	lda .keypress +7	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw7	lda #<.nw7		;Load near win scenario into TMP0
+	sta TMP0
+	lda #>.nw7
+	sta TMP1
+	jsr @check_nw		;Go check for matches
+	lda @ai_score
+	cmp #2			;Is AI close to a win?
+	bne +			;If not then check if human is
+	lda .Occ_place +8	;Can AI win?
+	bne @nw8		;If not check next scenario
+	lda .keypress +8	;Load A with the correct keypress
+	jmp @end_ai		;Go win
++	lda @human_score
+	cmp #2			;Is human close to a win?
+	bne @nw8		;if not then check next scenario
+	lda .Occ_place +8	;Can we block human from winning?
+	bne @nw8		;If not check next scenario
+	lda .keypress +8	;Load A with correct keypress
+	jmp @end_ai		;Go block puny human from winning
+
+@nw8
 ;************************************************************************
 ;This function checks if AI is close to winning if so, then do
 ;If not then check if human is winning if so, then block
@@ -1377,6 +1418,8 @@ resetcounter:
 	lda #0			;load accumulator with 0
 	sta TMP0
 	sta QUIT
+	sta PLYR
+	sta TURN
 	sta .wincnt
 clrmem:
 	dey			;Decrement y
