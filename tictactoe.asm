@@ -265,7 +265,7 @@ ai_move:
 	lda .keypress +8	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw8
+@nw8	jmp @rnd_tl
 ;************************************************************************
 ;This function checks if AI is close to winning if so, then do
 ;If not then check if human is winning if so, then block
