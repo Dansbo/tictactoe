@@ -110,6 +110,16 @@ ai_move:
 +	jmp @cntr_tl		;If available then choose it
 
 ;************************************************************************
+;Function that defines how AI should move, if not one of the first two moves
+;************************************************************************
+;INPLUT: .count and A
+;************************************************************************
+;OUTPUT: A loaded with relevant keypress
+;************************************************************************
+@remaining_moves
+	ldy #9			;Prepare Y as byte counter
+
+;************************************************************************
 ; This function chooses an available tile randmly
 ;************************************************************************
 ;INPUTS: .rndnum and .Occ_place
@@ -122,6 +132,8 @@ ai_move:
 	inc .rndnum		;Increment .rndnum
 	lda .rndnum		;Load random number into A
 	and #$0F		;Make the rndnum between 0-15
+	cmp #9			;Compare .rndnum with 9
+	bcs @rnd_tl		;Choose new rndnum if larger than 9
 	tay			;Transfer A into Y to keep with previous std
 	lda .Occ_place,y	;Load Occ_place into A
 	bne @rnd_tl		;If not available (1) then choose another
