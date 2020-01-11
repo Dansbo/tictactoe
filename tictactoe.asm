@@ -112,12 +112,21 @@ ai_move:
 ;************************************************************************
 ;Function that defines how AI should move, if not one of the first two moves
 ;************************************************************************
-;INPLUT: .count and A
+;INPLUT: .count, .rndnum and A
 ;************************************************************************
 ;OUTPUT: A loaded with relevant keypress
 ;************************************************************************
 @remaining_moves
 	ldy #9			;Prepare Y as byte counter
+	lda .rndnum		;If rndnum is over 13
+	and #$0F		;Then choose random tile
+	cmp #13			;Otherwise AI always wins
+	bcc +			;AI chooses wront 12% of the time
+	jmp @rnd_tl
++	lda #<.nw1		;Load .nw1 scenario into TMP0
+	sta TMP0
+	lda #>.nw1
+	sta TMP1
 
 ;************************************************************************
 ; This function chooses an available tile randmly
