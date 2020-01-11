@@ -87,7 +87,8 @@ ai_move:
 +	lda TURN		;If TURN is 0 then we wait for human
 	bne +
 	jmp @ai_no_move
-+	cmp #1			;If PLYR=1 AI is O else AI is X
++	lda PLYR
+	cmp #1			;If PLYR=1 AI is O else AI is X
 	beq @cnt8		;If PLYR=2 then no need to check .count = 9
 	lda .count
 	cmp #9			;If count is 9 then take center tile
@@ -106,6 +107,7 @@ ai_move:
 ;OUTPUT: A loaded with keypress
 ;************************************************************************
 @cnt8
+	lda .count
 	cmp #8			;Is .count 8
 	bne @remaining_moves	;If not then continue on
 	lda .Occ_place +4	;Load state of center tile
@@ -121,14 +123,15 @@ ai_move:
 ;OUTPUT: A loaded with relevant keypress
 ;************************************************************************
 @remaining_moves
-	ldy #9			;Prepare Y as byte counter
-	lda .rndnum		;If rndnum is over 13
-	and #$0F		;Then choose random tile
-	cmp #13			;Otherwise AI always wins
-	bcc @nw1		;AI chooses random approx. 12% of the moves
-	jmp @rnd_tl
+;	lda .rndnum		;If rndnum is over 13
+;	and #$0F		;Then choose random tile
+;	cmp #15			;Otherwise AI always wins
+;	bcc @nw1		;AI chooses random approx. 12% of the moves
+;	jmp @rnd_tl
 
-@nw1	lda #<.nw1		;Load near win scenario into TMP0
+@nw1	!byte $FF
+	ldy #9
+	lda #<.nw1		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw1
 	sta TMP1
@@ -148,7 +151,8 @@ ai_move:
 	lda .keypress +6	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw2	lda #<.nw2		;Load near win scenario into TMP0
+@nw2	ldy #9
+	lda #<.nw2		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw2
 	sta TMP1
@@ -168,7 +172,8 @@ ai_move:
 	lda .keypress +8	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw3	lda #<.nw3		;Load near win scenario into TMP0
+@nw3	ldy #9
+	lda #<.nw3		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw3
 	sta TMP1
@@ -188,7 +193,8 @@ ai_move:
 	lda .keypress +2	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw4	lda #<.nw4		;Load near win scenario into TMP0
+@nw4	ldy #9
+	lda #<.nw4		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw4
 	sta TMP1
@@ -208,7 +214,8 @@ ai_move:
 	lda .keypress +0	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw5	lda #<.nw5		;Load near win scenario into TMP0
+@nw5	ldy #9
+	lda #<.nw5		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw5
 	sta TMP1
@@ -228,7 +235,8 @@ ai_move:
 	lda .keypress +6	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw6	lda #<.nw6		;Load near win scenario into TMP0
+@nw6	ldy #9
+	lda #<.nw6		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw6
 	sta TMP1
@@ -248,7 +256,8 @@ ai_move:
 	lda .keypress +7	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw7	lda #<.nw7		;Load near win scenario into TMP0
+@nw7	ldy #9
+	lda #<.nw7		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw7
 	sta TMP1
@@ -268,7 +277,8 @@ ai_move:
 	lda .keypress +8	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw8	lda #<.nw8		;Load near win scenario into TMP0
+@nw8	ldy #9
+	lda #<.nw8		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw8
 	sta TMP1
@@ -288,7 +298,8 @@ ai_move:
 	lda .keypress +2	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw9	lda #<.nw9		;Load near win scenario into TMP0
+@nw9	ldy #9
+	lda #<.nw9		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw9
 	sta TMP1
@@ -308,7 +319,8 @@ ai_move:
 	lda .keypress +5	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw10	lda #<.nw10		;Load near win scenario into TMP0
+@nw10	ldy #9
+	lda #<.nw10		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw10
 	sta TMP1
@@ -328,7 +340,8 @@ ai_move:
 	lda .keypress +8	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw11	lda #<.nw11		;Load near win scenario into TMP0
+@nw11	ldy #9
+	lda #<.nw11		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw11
 	sta TMP1
@@ -348,7 +361,8 @@ ai_move:
 	lda .keypress +0	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw12	lda #<.nw12		;Load near win scenario into TMP0
+@nw12	ldy #9
+	lda #<.nw12		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw12
 	sta TMP1
@@ -368,7 +382,8 @@ ai_move:
 	lda .keypress +3	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw13	lda #<.nw13		;Load near win scenario into TMP0
+@nw13	ldy #9
+	lda #<.nw13		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw13
 	sta TMP1
@@ -388,7 +403,8 @@ ai_move:
 	lda .keypress +6	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw14	lda #<.nw14		;Load near win scenario into TMP0
+@nw14	ldy #9
+	lda #<.nw14		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw14
 	sta TMP1
@@ -408,7 +424,8 @@ ai_move:
 	lda .keypress +0	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw15	lda #<.nw15		;Load near win scenario into TMP0
+@nw15	ldy #9
+	lda #<.nw15		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw15
 	sta TMP1
@@ -428,7 +445,8 @@ ai_move:
 	lda .keypress +1	;Load A with correct keypress
 	jmp @end_ai		;Go block puny human from winning
 
-@nw16	lda #<.nw16		;Load near win scenario into TMP0
+@nw16	ldy #9
+	lda #<.nw16		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw16
 	sta TMP1
@@ -462,6 +480,7 @@ ai_move:
 	lda (TMP0),y
 	beq @check_nw		;If nw is 0 then next byte
 	jsr @load_plays		;load placements into HUMAN and AI
+!byte $ff
 	cmp (TMP2),y		;check if AI has a match
 	bne @check_human	;If not then check human
 	jsr @ai_match		;Go keep track of near win
@@ -508,12 +527,12 @@ ai_move:
 ;************************************************************************
 ;Loads X_place and O_place into HUMAN and AI
 ;************************************************************************
-;OUTPUT: HUMAN and AI
+;OUTPUT: TMP2 and TMP4
 ;************************************************************************
 @load_plays
-	lda .count		;Is AI playing as X or O
-	and #1			;Is .count odd or even?
-	bne @ai_is_o		;If .count is even then AI is O
+	lda PLYR		;Is AI playing as X or O
+	cmp #2			;Is .count odd or even?
+	beq @ai_is_o		;If .count is even then AI is O
 	lda #<.X_place
 	sta TMP2
 	lda #>.X_place
