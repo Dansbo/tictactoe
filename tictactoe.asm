@@ -129,8 +129,7 @@ ai_move:
 ;	bcc @nw1		;AI chooses random approx. 12% of the moves
 ;	jmp @rnd_tl
 
-@nw1	!byte $FF
-	ldy #9
+@nw1	ldy #9
 	lda #<.nw1		;Load near win scenario into TMP0
 	sta TMP0
 	lda #>.nw1
@@ -480,7 +479,7 @@ ai_move:
 	lda (TMP0),y
 	beq @check_nw		;If nw is 0 then next byte
 	jsr @load_plays		;load placements into HUMAN and AI
-!byte $ff
+	lda (TMP0),y
 	cmp (TMP2),y		;check if AI has a match
 	bne @check_human	;If not then check human
 	jsr @ai_match		;Go keep track of near win
@@ -530,8 +529,8 @@ ai_move:
 ;OUTPUT: TMP2 and TMP4
 ;************************************************************************
 @load_plays
-	lda PLYR		;Is AI playing as X or O
-	cmp #2			;Is .count odd or even?
+	lda .count		;Is AI playing as X or O
+	and #1			;Is .count odd or even?
 	beq @ai_is_o		;If .count is even then AI is O
 	lda #<.X_place
 	sta TMP2
