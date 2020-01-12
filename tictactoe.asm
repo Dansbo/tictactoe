@@ -142,7 +142,7 @@ ai_move:
 	bne @nw2		;If not check next scenario
 	lda .keypress +6	;Load A with the correct keypress
 	jmp @end_ai		;Go win
-+	lda @human_score
+	lda @human_score
 	cmp #2			;Is human close to a win?
 	bne @nw2		;if not then check next scenario
 	lda .Occ_place +6	;Can we block human from winning?
