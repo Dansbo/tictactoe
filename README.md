@@ -51,9 +51,9 @@ Again I figure there is a set number of near wins:
         000     000     011     000     000     000     000     000
         110     000     000     011     000     100     010     001
         000     110     000     000     011     100     010     001
+	
+	100	101	001	000	010	000
+	000	000	000	000	000	101
+	100	000	001	101	010	000
         
-        100	010	001	000	101	000
-	000	000	000	101	000	000
-	100	010	001	000	000	101
-
 So the AI has to be able to spot these scenarios both for itself and for the human player.
