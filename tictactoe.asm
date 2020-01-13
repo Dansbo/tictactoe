@@ -1969,6 +1969,30 @@ PrintStr:
 .nw16	!byte 0,0,0
 	!byte 0,0,1
 	!byte 0,0,1
+	
+.nw17	!byte 1,0,0
+	!byte 0,0,0
+	!byte 1,0,0
+
+.nw18	!byte 1,0,1
+	!byte 0,0,0
+	!byte 0,0,0
+	
+.nw19	!byte 0,0,1
+	!byte 0,0,0
+	!byte 0,0,1
+
+.nw20	!byte 0,0,0
+	!byte 0,0,0
+	!byte 1,0,1
+
+.nw21	!byte 0,0,0
+	!byte 1,0,1
+	!byte 0,0,0
+
+.nw22	!byte 0,1,0
+	!byte 0,0,0
+	!byte 0,1,0
 
 .rndnum !byte 0
 
