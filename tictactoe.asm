@@ -123,11 +123,13 @@ ai_move:
 ;OUTPUT: A loaded with relevant keypress
 ;************************************************************************
 @remaining_moves
-;	lda .rndnum		;If rndnum is over 13
-;	and #$0F		;Then choose random tile
-;	cmp #15			;Otherwise AI always wins
-;	bcc @nw1		;AI chooses random approx. 12% of the moves
-;	jmp Rnd_tl
+	lda .rndnum		;If rndnum is over 13
+	and #$0F		;Then choose random tile
+	cmp #12			;Otherwise AI always wins
+	bcc @chk_nw_1		;AI chooses random approx. 12% of the moves
+	jmp Rnd_tl
+
+@chk_nw_1
 	jsr Reset_scores
 	ldx #1
 	jsr Load_near_wins
