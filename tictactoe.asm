@@ -60,6 +60,10 @@ startagain:
 	jsr welcome
 	lda QUIT
 	bne .endgame
+	jsr initscr
+	jsr Welcome_2
+	lda QUIT
+	bne .endgame
 	jsr gboard
 	jsr gameloop
 	lda QUIT
@@ -70,6 +74,86 @@ startagain:
 
 .endgame
 	rts			;End of program
+
+;************************************************************************
+;Make Welcome screen 2, where user can choose to play as X or O
+;************************************************************************
+Welcome_2:
+	lda #$01
+	sta COLPORT
+
+	ldx #3
+	stx TMP8
+	ldy #2
+	sty TMP9
+	jsr GoXY
+
+	ldx #<.ttt1
+	ldy #>.ttt1
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt2
+	ldy #>.ttt2
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt3
+	ldy #>.ttt3
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt4
+	ldy #>.ttt4
+	jsr PrintStr
+	jsr .nxtline
+
+	ldx #<.ttt5
+	ldy #>.ttt5
+	jsr PrintStr
+	inc TMP9
+	jsr .nxtline
+	jsr .nxtline
+
+	ldx #<.grt10
+	ldy #>.grt10
+	jsr PrintStr
+	jsr .nxtline
+	jsr .nxtline
+
+	ldx #<.grt11
+	ldy #>.grt11
+	jsr PrintStr
+	jsr .nxtline
+
+	jsr X_or_O
+	jsr initscr
+	rts
+
+;************************************************************************
+;Find out if user wants to play as X or O
+;************************************************************************
+X_or_O
+	inc .rndnum
+	jsr GETIN
+	cmp #'Q'
+	bne @x
+	lda #1
+	sta QUIT
+	jmp @end_x_or_o
+
+@x	cmp #'1'
+	bne @o
+	jmp @end_x_or_o
+
+@o	cmp#'2'
+	bne X_or_O
+	lda #1
+	sta TURN
+	inc PLYR
+
+@end_x_or_o
+	rts
 
 ;************************************************************************
 ;*Make A.I. functions							*
@@ -2275,6 +2359,8 @@ PrintStr:
 .grt7 !pet "press 1 for one player game",0
 .grt8 !pet "press 2 for two player game",0
 .grt9 !pet "good luck!",0
+.grt10 !pet "press 1 to play as x",0
+.grt11 !pet "press 2 to play as o",0
 
 .nw1 	!byte 0,0,1
 	!byte 0,1,0
