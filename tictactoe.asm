@@ -60,11 +60,13 @@ startagain:
 	jsr welcome
 	lda QUIT
 	bne .endgame
+	lda PLYR
+	beq +
 	jsr initscr
 	jsr Welcome_2
 	lda QUIT
 	bne .endgame
-	jsr gboard
++	jsr gboard
 	jsr gameloop
 	lda QUIT
 	bne .endgame
@@ -1594,6 +1596,25 @@ chkwin:
 ;************************************************************************
 
 .winsplash:
+	ldx #22
+	ldy #11
+	jsr GoXY
+	ldx #<.win_1
+	ldy #>.win_1
+	jsr PrintStr
+
+	ldx #23
+	ldy #14
+	jsr GoXY
+	ldx #<.win_2
+	ldy #>.win_2
+	jsr PrintStr
+	
+	jsr .nxtline
+	jsr GETIN
+	cmp #' '
+	bne .winsplash
+
 	jsr .ttlchg		;Go remove board and such
 	ldx #3
 	stx TMP8
@@ -2214,6 +2235,8 @@ PrintStr:
 .title !pet "tictactoe",0
 .gameover !pet "game over",0
 .endhelp !pet "press space to new game or q to quit",0
+.win_1 !pet "we have a winner",0
+.win_2 !pet "press space",0
 
 ; Top line of the game board
 
