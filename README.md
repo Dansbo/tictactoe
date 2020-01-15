@@ -59,3 +59,7 @@ Again I figure there is a set number of near wins:
 So the AI has to be able to spot these scenarios both for itself and for the human player.
 
 First time I wrote the AI routine I tried to incorporate the check for each near win scenario. But I realized that the routine chose the 1 routine that fit either AI or Human near win. And that is not what I wanted. I wanted the AI to jump to a win first and if no win is apparrent then block the human from winning.
+
+I finally finished my very first game in assembler.
+The game needs some testing, but I'm confident that the game is working as is.
+I worked in for the "AI" to make a mistake once in a while, so the player is able to win.
