@@ -134,13 +134,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +6
-	bne @chk_nw_2
-	lda .keypress +6
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_2
 	lda .Occ_place +6
 	bne @chk_nw_2
@@ -153,13 +146,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +8
-	bne @chk_nw_3
-	lda .keypress +8
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_3
 	lda .Occ_place +8
@@ -174,13 +160,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +2
-	bne @chk_nw_4
-	lda .keypress +2
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_4
 	lda .Occ_place +2
 	bne @chk_nw_4
@@ -193,13 +172,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +0
-	bne @chk_nw_5
-	lda .keypress +0
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_5
 	lda .Occ_place +0
@@ -214,13 +186,7 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +6
 	bne @chk_nw_6
-	lda .keypress +6
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	lda .Occ_place +6
 	bne @chk_nw_6
 	lda .keypress +6
@@ -232,13 +198,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +7
-	bne @chk_nw_7
-	lda .keypress +7
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_7
 	lda .Occ_place +7
@@ -253,13 +212,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +8
-	bne @chk_nw_8
-	lda .keypress +8
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_8
 	lda .Occ_place +8
 	bne @chk_nw_8
@@ -272,13 +224,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +2
-	bne @chk_nw_9
-	lda .keypress +2
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_9
 	lda .Occ_place +2
@@ -293,13 +238,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +5
-	bne @chk_nw_10
-	lda .keypress +5
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_10
 	lda .Occ_place +5
 	bne @chk_nw_10
@@ -313,14 +251,7 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +8
-	bne @chk_nw_11
-	lda .keypress +8
-	jmp End_ai
-+	lda Human_score
-	cmp #2
-	bne @chk_nw_11
+	bne @chk_nw_12
 	lda .Occ_place +8
 	bne @chk_nw_11
 	lda .keypress +8
@@ -332,13 +263,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +0
-	bne @chk_nw_12
-	lda .keypress +0
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_12
 	lda .Occ_place +0
@@ -353,13 +277,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +3
-	bne @chk_nw_13
-	lda .keypress +3
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_13
 	lda .Occ_place +3
 	bne @chk_nw_13
@@ -372,13 +289,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +6
-	bne @chk_nw_14
-	lda .keypress +6
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_14
 	lda .Occ_place +6
@@ -393,13 +303,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +0
-	bne @chk_nw_15
-	lda .keypress +0
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_15
 	lda .Occ_place +0
 	bne @chk_nw_15
@@ -412,13 +315,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +1
-	bne @chk_nw_16
-	lda .keypress +1
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_16
 	lda .Occ_place +1
@@ -433,13 +329,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +2
-	bne @chk_nw_17
-	lda .keypress +2
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_17
 	lda .Occ_place +2
 	bne @chk_nw_17
@@ -452,13 +341,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +3
-	bne @chk_nw_18
-	lda .keypress +3
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_18
 	lda .Occ_place +3
@@ -473,13 +355,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +1
-	bne @chk_nw_19
-	lda .keypress +1
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_19
 	lda .Occ_place +1
 	bne @chk_nw_19
@@ -492,13 +367,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +5
-	bne @chk_nw_20
-	lda .keypress +5
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_20
 	lda .Occ_place +5
@@ -513,13 +381,6 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
-	lda .Occ_place +7
-	bne @chk_nw_21
-	lda .keypress +7
-	jmp End_ai
-+	lda Human_score
-	cmp #2
 	bne @chk_nw_21
 	lda .Occ_place +7
 	bne @chk_nw_21
@@ -532,13 +393,6 @@ ai_move:
 	jsr Load_near_wins
 	jsr Check_nw
 	lda Ai_score
-	cmp #2
-	bne +
-	lda .Occ_place +4
-	bne @chk_nw_22
-	lda .keypress +4
-	jmp End_ai
-+	lda Human_score
 	cmp #2
 	bne @chk_nw_22
 	lda .Occ_place +4
@@ -553,21 +407,298 @@ ai_move:
 	jsr Check_nw
 	lda Ai_score
 	cmp #2
-	bne +
+	bne @chk_human_1
 	lda .Occ_place +3
-	beq ++
-	jmp Rnd_tl
-++	lda .keypress +3
+	bne @chk_human_1
+	lda .keypress +3
 	jmp End_ai
-+	lda Human_score
+
+@chk_human_1
+	jsr Reset_scores
+	ldx #1
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_2
+	lda .Occ_place +6
+	bne @chk_human_2
+	lda .keypress +6
+	jmp End_ai
+
+@chk_human_2
+	jsr Reset_scores
+	ldx #2
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_3
+	lda .Occ_place	+8
+	bne @chk_human_3
+	lda .keypress +8
+	jmp End_ai
+
+@chk_human_3
+	jsr Reset_scores
+	ldx #3
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_4
+	lda .Occ_place +2
+	bne @chk_human_4
+	lda .keypress +2
+	jmp End_ai
+
+@chk_human_4
+	jsr Reset_scores
+	ldx #4
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_5
+	lda .Occ_place +0
+	bne @chk_human_5
+	lda .keypress +0
+	jmp End_ai
+
+@chk_human_5
+	jsr Reset_scores
+	ldx #5
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_6
+	lda .Occ_place +6
+	bne @chk_human_6
+	lda .keypress +6
+	jmp End_ai
+
+@chk_human_6
+	jsr Reset_scores
+	ldx #6
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_7
+	lda .Occ_place +7
+	bne @chk_human_7
+	lda .keypress +7
+	jmp End_ai
+
+@chk_human_7
+	jsr Reset_scores
+	ldx #7
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_8
+	lda .Occ_place +8
+	bne @chk_human_8
+	lda .keypress +8
+	jmp End_ai
+
+@chk_human_8
+	jsr Reset_scores
+	ldx #8
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_9
+	lda .Occ_place +2
+	bne @chk_human_9
+	lda .keypress +2
+	jmp End_ai
+
+@chk_human_9
+	jsr Reset_scores
+	ldx #9
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_10
+	lda .Occ_place +5
+	bne @chk_human_10
+	lda .keypress +5
+	jmp End_ai
+
+@chk_human_10
+	jsr Reset_scores
+	ldx #10
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_11
+	lda .Occ_place +8
+	bne @chk_human_11
+	lda .keypress +8
+	jmp End_ai
+
+@chk_human_11
+	jsr Reset_scores
+	ldx #11
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_12
+	lda .Occ_place +0
+	bne @chk_human_12
+	lda .keypress +0
+	jmp End_ai
+
+@chk_human_12
+	jsr Reset_scores
+	ldx #12
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_13
+	lda .Occ_place +3
+	bne @chk_human_13
+	lda .keypress +3
+	jmp End_ai
+
+@chk_human_13
+	jsr Reset_scores
+	ldx #13
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_14
+	lda .Occ_place +6
+	bne @chk_human_14
+	lda .keypress +6
+	jmp End_ai
+
+@chk_human_14
+	jsr Reset_scores
+	ldx #14
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_15
+	lda .Occ_place +0
+	bne @chk_human_15
+	lda .keypress +0
+	jmp End_ai
+
+@chk_human_15
+	jsr Reset_scores
+	ldx #15
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_16
+	lda .Occ_place +1
+	bne @chk_human_16
+	lda .keypress +1
+	jmp End_ai
+
+@chk_human_16
+	jsr Reset_scores
+	ldx #16
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_17
+	lda .Occ_place +2
+	bne @chk_human_17
+	lda .keypress +2
+	jmp End_ai
+
+@chk_human_17
+	jsr Reset_scores
+	ldx #17
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_18
+	lda .Occ_place +3
+	bne @chk_human_18
+	lda .keypress +3
+	jmp End_ai
+
+@chk_human_18
+	jsr Reset_scores
+	ldx #18
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_19
+	lda .Occ_place +1
+	bne @chk_human_19
+	lda .keypress +1
+	jmp End_ai
+
+@chk_human_19
+	jsr Reset_scores
+	ldx #19
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_20
+	lda .Occ_place +5
+	bne @chk_human_20
+	lda .keypress +5
+	jmp End_ai
+
+@chk_human_20
+	jsr Reset_scores
+	ldx #20
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_21
+	lda .Occ_place	+7
+	bne @chk_human_21
+	lda .keypress +7
+	jmp End_ai
+
+@chk_human_21
+	jsr Reset_scores
+	ldx #21
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
+	cmp #2
+	bne @chk_human_22
+	lda .Occ_place +4
+	bne @chk_human_22
+	lda .keypress +4
+	jmp End_ai
+
+@chk_human_22
+	jsr Reset_scores
+	ldx #22
+	jsr Load_near_wins
+	jsr Check_nw
+	lda Human_score
 	cmp #2
 	beq +
 -	jmp Rnd_tl
 +	lda .Occ_place +3
-	beq -
+	bne -
 	lda .keypress +3
 	jmp End_ai
-
 
 ;************************************************************************
 ;Load near win scenarios into TMP0 og TMP1
@@ -745,7 +876,6 @@ Load_near_wins
 	sta TMP0
 	lda #>.nw22
 	sta TMP1
-	jmp @end_load_nw
 
 @end_load_nw
 	rts
@@ -828,7 +958,6 @@ Load_plays
 	sta TMP4
 	lda #>.X_place
 	sta TMP5
-	jmp @end_load_plays
 
 @end_load_plays
 	lda (TMP0),y
@@ -1008,7 +1137,6 @@ welcome:
 	bne .players
 	lda #0
 	sta PLYR
-	jmp .endplay
 
 .endplay
 	rts
