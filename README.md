@@ -57,3 +57,5 @@ Again I figure there is a set number of near wins:
         100     000     001     101     010     000
 
 So the AI has to be able to spot these scenarios both for itself and for the human player.
+
+First time I wrote the AI routine I tried to incorporate the check for each near win scenario. But I realized that the routine chose the 1 routine that fit either AI or Human near win. And that is not what I wanted. I wanted the AI to jump to a win first and if no win is apparrent then block the human from winning.
