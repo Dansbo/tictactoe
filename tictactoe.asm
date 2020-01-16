@@ -1173,11 +1173,6 @@ welcome:
 	jsr PrintStr
 	jsr .nxtline
 
-	ldx #<.grt6
-	ldy #>.grt6
-	jsr PrintStr
-	jsr .nxtline
-
 	jsr .nxtline
 	jsr .nxtline
 	jsr .nxtline
@@ -2386,10 +2381,9 @@ PrintStr:
 .grt2 !pet "to place a gamepiece press numbers",0
 .grt3 !pet "1 to 9. 1 being top left tile and",0
 .grt4 !pet "9 being bottom right tile.",0
-.grt5 !pet "quit game at any time by pressing",0
-.grt6 !pet "q.",0
-.grt7 !pet "press 1 for one player game",0
-.grt8 !pet "press 2 for two player game",0
+.grt5 !pet "quit game any time by pressing q:",0
+.grt7 !pet "press 1 for one player game:",0
+.grt8 !pet "press 2 for two player game:",0
 .grt9 !pet "good luck!",0
 .grt10 !pet "press 1 to play as x",0
 .grt11 !pet "press 2 to play as o",0
