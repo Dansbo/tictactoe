@@ -211,7 +211,7 @@ ai_move:
 @remaining_moves
 	lda .rndnum		;If rndnum is over 13
 	and #$0F		;Then choose random tile
-	cmp #12			;Otherwise AI always wins
+	cmp #13			;Otherwise AI always wins
 	bcc @chk_nw_1		;AI chooses random approx. 12% of the moves
 	jmp Rnd_tl
 
@@ -1609,7 +1609,7 @@ chkwin:
 	ldx #<.win_2
 	ldy #>.win_2
 	jsr PrintStr
-	
+
 	jsr .nxtline
 	jsr GETIN
 	cmp #' '
