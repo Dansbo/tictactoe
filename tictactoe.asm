@@ -74,7 +74,10 @@ startagain:
 	lda QUIT
 	bne .endgame
 
-.endgame
+.endgame			;End program by doing a reset
+	lda	#0		; Set ROM page to 0
+	sta	$9F60
+	jmp	($FFFC)		; Jump to address stored at $FFFC
 	rts			;End of program
 
 ;************************************************************************
@@ -212,21 +215,24 @@ ai_move:
 	lda .rndnum		;If rndnum is over 13
 	and #$0F		;Then choose random tile
 	cmp #13			;Otherwise AI always wins
-	bcc @chk_nw_1		;AI chooses random approx. 12% of the moves
-	jmp Rnd_tl
+	bcc @chk_nw_1		;AI chooses random approx. 20% of the moves
+	jmp Rnd_tl		;Gives a win ratio of approx. 60/40
 
+;************************************************************************
+;Check if AI is close to a win
+;************************************************************************
 @chk_nw_1
-	jsr Reset_scores
-	ldx #1
-	jsr Load_near_wins
-	jsr Check_nw
+	jsr Reset_scores	;Reset Human_score and Ai_score
+	ldx #1			;Load X with number 1 so that we can load
+	jsr Load_near_wins	;the right scenario
+	jsr Check_nw		;Check if AI has two matches of scenario
 	lda Ai_score
 	cmp #2
-	bne @chk_nw_2
-	lda .Occ_place +6
-	bne @chk_nw_2
-	lda .keypress +6
-	jmp End_ai
+	bne @chk_nw_2		;If scenario 1 is not matched then check next
+	lda .Occ_place +6	;Is the tile available so we can win?
+	bne @chk_nw_2		;If we cannot then check next scenario
+	lda .keypress +6	;Load A with the number for matching keypress
+	jmp End_ai		;Go back to gameloop with keypress loaded
 
 @chk_nw_2
 	jsr Reset_scores
@@ -501,18 +507,21 @@ ai_move:
 	lda .keypress +3
 	jmp End_ai
 
+;************************************************************************
+;Check if human is close to a win
+;************************************************************************
 @chk_human_1
-	jsr Reset_scores
-	ldx #1
-	jsr Load_near_wins
-	jsr Check_nw
-	lda Human_score
+	jsr Reset_scores	;Reset human and ai score
+	ldx #1			;Load X with 1 so we can load 1st scenario
+	jsr Load_near_wins	;Go load near win scenario into ZP
+	jsr Check_nw		;Check for matches
+	lda Human_score		;Is human close to this win?
 	cmp #2
-	bne @chk_human_2
-	lda .Occ_place +6
-	bne @chk_human_2
-	lda .keypress +6
-	jmp End_ai
+	bne @chk_human_2	;If not then check next scenario
+	lda .Occ_place +6	;Is the tile available so we can block the win
+	bne @chk_human_2	;If not then check next scenario
+	lda .keypress +6	;Load A with the relevant keypress number
+	jmp End_ai		;Go back to gameloop and block the win
 
 @chk_human_2
 	jsr Reset_scores
@@ -792,13 +801,13 @@ ai_move:
 ;Load near win scenarios into TMP0 og TMP1
 ;************************************************************************
 Load_near_wins
-	cpx #1
-	bne @nw2
-	lda #<.nw1
-	sta TMP0
+	cpx #1			;Check X for requested newar win scenario
+	bne @nw2		;If X not 1 then check the next
+	lda #<.nw1		;Loading near win scenario
+	sta TMP0		;into zeropage
 	lda #>.nw1
 	sta TMP1
-	jmp @end_load_nw
+	jmp @end_load_nw	;Go return to the ai function
 
 @nw2	cpx #2
 	bne @nw3
@@ -972,7 +981,7 @@ Load_near_wins
 ;************************************************************************
 Reset_scores
 	ldy #9			;We need Y as byte counter
-	lda #0
+	lda #0			;Reset Human_score and Ai_score
 	sta Human_score
 	sta Ai_score
 	rts
@@ -1021,10 +1030,9 @@ Check_nw
 ;Load .X_place and .O_place intor TMP2, and TMP4
 ;************************************************************************
 Load_plays
-	lda .count
-	and #1
-	beq @ai_is_o
-	jmp @ai_is_x
+	lda .count		;Load .count into A
+	and #1			;Check if .count is odd or even
+	beq @ai_is_o		;if .count is even then ai is playing as O
 
 @ai_is_x
 	lda #<.X_place
@@ -1048,7 +1056,7 @@ Load_plays
 	sta TMP5
 
 @end_load_plays
-	lda (TMP0),y
+	lda (TMP0),y		;Loading A with near win state again
 	rts
 
 ;************************************************************************
@@ -1059,10 +1067,10 @@ Load_plays
 ;OUTPUT: A compared with 2
 ;************************************************************************
 Ai_match
-	inc Ai_score
-	lda Ai_score
-	cmp #2
-	rts
+	inc Ai_score		;Add one to Ai_score
+	lda Ai_score		;Load Ai_score into A
+	cmp #2			;Do we have two matches
+	rts			;Go back to Check_nw function
 
 ;************************************************************************
 ;human has a match. Increment Human_score and compare with 2
@@ -1072,10 +1080,10 @@ Ai_match
 ;OUTPUT: A compared with 2
 ;************************************************************************
 Human_match
-	inc Human_score
-	lda Human_score
-	cmp #2
-	rts
+	inc Human_score		;Add one to Human_score
+	lda Human_score		;Load Human_score into A
+	cmp #2			;Do we have two matches
+	rts			;Go back to Check_nw function
 
 ;************************************************************************
 ; This function chooses an available tile randmly
@@ -1233,6 +1241,7 @@ welcome:
 ;************************************************************************
 
 endloop
+	inc .rndnum
 	jsr GETIN
 	cmp #'Q'
 	bne .isspace
