@@ -1,4 +1,4 @@
-!to "tictactoe.prg", cbm
+!to "TICTACTOE.PRG", cbm
 !zone main{
 *=$0801				;Assembled code should start at $0801
 				; (where BASIC programs start)
